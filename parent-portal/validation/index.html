@@ -169,12 +169,102 @@ svg.s{width:18px;height:18px}
 @media (max-width:440px){.phone{height:760px;border-radius:0;padding:0;background:none;box-shadow:none}.screen{border-radius:20px;border:1px solid var(--line)}}
 
 .scenario{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:11px;background:var(--node);border:1px solid transparent;cursor:pointer;width:100%;text-align:left;color:var(--fg);font:inherit}.scenario:hover{border-color:var(--line)}.scenario .av{margin-top:1px}.scenario b{display:block;font-size:14px}.scenario small{display:block;color:var(--muted);font-size:12px;line-height:1.35;margin-top:2px}.scenarios{display:flex;flex-direction:column;gap:7px}.count{min-width:20px;height:20px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;background:#C2410C;color:#fff;font-size:11px;font-weight:700}.subtle{background:#FAF9F6}.locked{opacity:.62}.amountgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.amountchoice{border:1px solid #D6D3CC;background:#fff;border-radius:11px;padding:10px 8px;text-align:center;cursor:pointer}.amountchoice.on{border-color:#16161A;box-shadow:inset 0 0 0 1px #16161A}.amountchoice b{display:block;font-family:var(--display);font-size:18px}.amountchoice span{display:block;font-size:11px;color:#5B5B63;margin-top:2px}.minihero{padding:14px 16px;background:#FAF9F6;border-bottom:1px solid #EFEDE8}.statusline{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}.callout{padding:14px 16px;border-radius:14px;background:#FFF6EF;border:1px solid #F4D8C8;display:flex;gap:10px;align-items:flex-start}.callout.blue{background:#F2F6FD;border-color:#C7D7F5}.callout.green{background:#F1F8F3;border-color:#CBE7D1}.methodrow{display:flex;gap:10px;align-items:center}.mutedbtn{opacity:.55;pointer-events:none}.sectionnote{padding:10px 12px;border-radius:10px;background:#F5F4F0;color:#5B5B63;font-size:12px;line-height:1.4}.tiny{font-size:11px;color:#77777F}.dangerlink{color:#991B1B!important}.pillnum{font-family:var(--display);font-size:18px;font-weight:700}.taskdot{width:9px;height:9px;border-radius:50%;background:#C2410C;flex:none}.heroStats{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid #EFEDE8}.heroStats div{text-align:center;padding:10px}.heroStats div+div{border-left:1px solid #EFEDE8}.heroStats b{display:block;font-family:var(--display);font-size:19px}.heroStats span{display:block;font-size:10px;color:#77777F;text-transform:uppercase;font-weight:700;letter-spacing:.7px;margin-top:2px}.row[aria-disabled="true"]{opacity:.55;cursor:default}.row[aria-disabled="true"]:hover{background:#fff}
+
+/* ---------- Prototype theme switch ---------- */
+:root[data-theme="dark"] .screen{background:#141416;color:#F4F4F5}
+:root[data-theme="dark"] .screen .h2{color:#B7B7C0}
+:root[data-theme="dark"] .screen .m,
+:root[data-theme="dark"] .screen .quiet,
+:root[data-theme="dark"] .screen .tiny,
+:root[data-theme="dark"] .screen .playerteam,
+:root[data-theme="dark"] .screen .date span,
+:root[data-theme="dark"] .screen .playerfact span,
+:root[data-theme="dark"] .screen .pricecompare span,
+:root[data-theme="dark"] .screen .amountchoice span,
+:root[data-theme="dark"] .screen .sectionnote{color:#AAAAB4}
+:root[data-theme="dark"] .screen .card,
+:root[data-theme="dark"] .screen .row,
+:root[data-theme="dark"] .screen .sheet,
+:root[data-theme="dark"] .screen .tabs,
+:root[data-theme="dark"] .screen .dest,
+:root[data-theme="dark"] .screen .playercard,
+:root[data-theme="dark"] .screen .playerfacts,
+:root[data-theme="dark"] .screen .athactions,
+:root[data-theme="dark"] .screen .athaction,
+:root[data-theme="dark"] .screen .pricecompare,
+:root[data-theme="dark"] .screen .amountchoice{background:#202024;border-color:#36363D}
+:root[data-theme="dark"] .screen button.row:hover,
+:root[data-theme="dark"] .screen .athaction:hover,
+:root[data-theme="dark"] .screen .dest:hover{background:#29292E}
+:root[data-theme="dark"] .screen .row + .row,
+:root[data-theme="dark"] .screen .dayhead + .row,
+:root[data-theme="dark"] .screen .row + .dayhead,
+:root[data-theme="dark"] .screen .playerfacts,
+:root[data-theme="dark"] .screen .playerfact + .playerfact,
+:root[data-theme="dark"] .screen .athactions,
+:root[data-theme="dark"] .screen .athaction,
+:root[data-theme="dark"] .screen .heroStats,
+:root[data-theme="dark"] .screen .heroStats div+div,
+:root[data-theme="dark"] .screen .minihero{border-color:#36363D}
+:root[data-theme="dark"] .screen .dayhead,
+:root[data-theme="dark"] .screen .minihero,
+:root[data-theme="dark"] .screen .subtle,
+:root[data-theme="dark"] .screen .sectionnote,
+:root[data-theme="dark"] .screen .date,
+:root[data-theme="dark"] .screen .athactionicon,
+:root[data-theme="dark"] .screen .desticon,
+:root[data-theme="dark"] .screen .flowfoot{background:#19191D}
+:root[data-theme="dark"] .screen .playerhero{background:linear-gradient(135deg,color-mix(in srgb,var(--player) 18%,#202024),#202024 72%)}
+:root[data-theme="dark"] .screen .playeridentity .av{box-shadow:0 0 0 3px #202024,0 8px 24px -14px rgba(0,0,0,.85)}
+:root[data-theme="dark"] .screen .av.hasph{box-shadow:0 0 0 2px #202024,0 0 0 4px var(--ring)}
+:root[data-theme="dark"] .screen .stack .av{border-color:#202024}
+:root[data-theme="dark"] .screen .playerphotoedit .cam,
+:root[data-theme="dark"] .screen .avedit .cam{border-color:#202024}
+:root[data-theme="dark"] .screen .gho,
+:root[data-theme="dark"] .screen .fchip{background:#202024;border-color:#414148;color:#F4F4F5}
+:root[data-theme="dark"] .screen .fchip.on{background:#F4F4F5;color:#17171B!important;border-color:#F4F4F5}
+:root[data-theme="dark"] .screen .fld label{color:#D4D4D8}
+:root[data-theme="dark"] .screen .fld input{background:#19191D;color:#F4F4F5;border-color:#45454D}
+:root[data-theme="dark"] .screen .fld .hint{color:#A3A3AC}
+:root[data-theme="dark"] .screen .radio,
+:root[data-theme="dark"] .screen .check{border-color:#73737E}
+:root[data-theme="dark"] .screen .neutral{background:#303036;color:#D4D4D8}
+:root[data-theme="dark"] .screen .ok{background:#153522;color:#86EFAC}
+:root[data-theme="dark"] .screen .warn{background:#4A2A14;color:#FDBA74}
+:root[data-theme="dark"] .screen .bad{background:#4B1F24;color:#FCA5A5}
+:root[data-theme="dark"] .screen .info{background:#172D4D;color:#93C5FD}
+:root[data-theme="dark"] .screen .dark{background:#F4F4F5;color:#17171B}
+:root[data-theme="dark"] .screen .jersey{background:#242429;border-color:#4B4B53;color:#F4F4F5}
+:root[data-theme="dark"] .screen .posab,
+:root[data-theme="dark"] .screen .poslegend{color:#B7B7C0}
+:root[data-theme="dark"] .screen .poslegend b{color:#F4F4F5}
+:root[data-theme="dark"] .screen .ghost{background:#303036;color:#9B9BA5}
+:root[data-theme="dark"] .screen .callout,
+:root[data-theme="dark"] .screen .athcallout{background:#39251B;border-color:#64402D}
+:root[data-theme="dark"] .screen .callout.blue{background:#18263B;border-color:#324A70}
+:root[data-theme="dark"] .screen .callout.green{background:#163020;border-color:#2C5A3A}
+:root[data-theme="dark"] .screen .pricecompare>div+div{border-color:#36363D}
+:root[data-theme="dark"] .screen .switch{background:#4B4B53}
+:root[data-theme="dark"] .screen .switch::after{background:#F4F4F5}
+:root[data-theme="dark"] .screen .passbox{background:#0D0D0F}
+:root[data-theme="dark"] .screen .scrim{background:rgba(0,0,0,.62)}
+:root[data-theme="dark"] .screen .row[aria-disabled="true"]:hover{background:#202024}
+
 </style></head><body>
 <div class="wrap">
   <section class="guide" aria-label="Prototype guide">
     <div>
       <h1>Multi-athlete validation family</h1>
       <p class="lede">This household is intentionally unrealistic. Each athlete represents a different parent-portal situation so the full product model can be clicked through in one file.</p>
+    </div>
+
+    <div class="box">
+      <h2>Prototype theme</h2>
+      <div class="controls" role="group" aria-label="Prototype theme">
+        <button class="ctl" id="proto-theme-light" aria-pressed="true">Light</button>
+        <button class="ctl" id="proto-theme-dark" aria-pressed="false">Dark</button>
+      </div>
+      <p class="note" style="margin:10px 0 0">Prototype control only. This does not commit a theme setting to the Parent Portal product.</p>
     </div>
 
     <div class="box">
@@ -383,6 +473,23 @@ function enrollmentPage(){const a=byId('avery'),step=S.enrollStep;const steps='<
  else if(step===4){body='<div><div class="m" style="font-weight:600">Step 4 of 5 · Payers</div><div class="big" style="font-size:28px">Who is paying?</div></div><div class="card"><button class="row" data-act="esplit:no"><span class="radio '+(!S.enrollSplit?'on':'')+'"></span><div class="grow"><div class="t">I’m paying the full amount</div><div class="m">One payer for Avery</div></div></button><button class="row" data-act="esplit:yes"><span class="radio '+(S.enrollSplit?'on':'')+'"></span><div class="grow"><div class="t">Split with Jamie Carter</div><div class="m">You 70% · Jamie 30% · each payer completes their own setup</div></div></button></div>';foot='<button class="btn gho" data-act="eprev">Back</button><button class="btn pri" style="flex:1" data-act="enext">Continue</button>';}
  else {const full=S.enrollPlan==='full';body='<div><div class="m" style="font-weight:600">Step 5 of 5 · Review & pay</div><div class="big" style="font-size:28px">Complete your part</div></div><div class="pricecompare"><div><span>Bank</span><b>'+(full?'$4,200':'$500 deposit')+'</b><span>ACH pricing</span></div><div><span>Card</span><b>'+(full?'$4,450':'$520 deposit')+'</b><span>Card pricing</span></div></div><div class="card"><button class="row" data-act="emethod:usaa"><span class="radio '+(S.enrollMethod!=='visa'?'on':'')+'"></span>'+ic('bank','m')+'<div class="grow"><div class="t">USAA ••5375</div><div class="m">Bank account</div></div></button><button class="row" data-act="emethod:visa"><span class="radio '+(S.enrollMethod==='visa'?'on':'')+'"></span>'+ic('card','m')+'<div class="grow"><div class="t">Visa ••4242</div><div class="m">Card pricing applies</div></div></button></div>'+(S.enrollSplit?'<div class="callout blue"><div><div class="t">Your 70% share only</div><div class="m">Jamie receives a separate continuation. Finishing this screen does not complete Jamie’s responsibility.</div></div></div>':'') ;foot='<button class="btn gho" data-act="eprev">Back</button><button class="btn pri" style="flex:1" data-act="ecomplete">'+(full?'Authorize payment':'Pay deposit & finish my part')+'</button>';}
  return '<div class="pad flowpage" style="gap:18px"><button class="back" data-act="back">'+ic('back','s')+'Avery</button><div style="display:flex;gap:10px;align-items:center">'+pic(a,'a32')+'<span class="t">'+a.name+'</span></div>'+steps+'<div class="flowbody">'+body+'</div><div class="flowfoot" style="display:flex;gap:10px">'+foot+'</div></div>';}
+
+
+const PROTOTYPE_THEME_KEY = 'clubportalai-prototype-theme';
+function applyPrototypeTheme(theme){
+  const next = theme === 'dark' ? 'dark' : 'light';
+  document.documentElement.setAttribute('data-theme', next);
+  try { localStorage.setItem(PROTOTYPE_THEME_KEY, next); } catch (e) {}
+  const light = document.getElementById('proto-theme-light');
+  const dark = document.getElementById('proto-theme-dark');
+  if (light) light.setAttribute('aria-pressed', (next === 'light').toString());
+  if (dark) dark.setAttribute('aria-pressed', (next === 'dark').toString());
+}
+let initialPrototypeTheme = 'light';
+try { initialPrototypeTheme = localStorage.getItem(PROTOTYPE_THEME_KEY) || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'); } catch (e) {}
+applyPrototypeTheme(initialPrototypeTheme);
+document.getElementById('proto-theme-light').addEventListener('click', () => applyPrototypeTheme('light'));
+document.getElementById('proto-theme-dark').addEventListener('click', () => applyPrototypeTheme('dark'));
 
 function scenarioList(){document.getElementById('scenarioList').innerHTML=ATH.map(a=>'<button class="scenario" data-jump="'+a.id+'">'+pic(a,'a40')+'<span><b>'+a.name+'</b><small>'+a.scenario+'</small></span></button>').join('');}
 function syncGuide(){const m={aidInvite:'invited',aidCorrection:'correction',aidSubmitted:'submitted'};Object.keys(m).forEach(id=>{const el=document.getElementById(id);if(el)el.setAttribute('aria-pressed',String(S.aidState===m[id]))});}
