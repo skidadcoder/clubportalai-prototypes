@@ -638,9 +638,18 @@ function schedule(){
     h += '<div class="filters" role="group" aria-label="Filter by athlete"><button class="fchip ' + (S.filter === 'all' ? 'on' : '') + '" data-act="filter:all" style="padding-left:14px">Everyone</button>' +
       athletes().map(a => '<button class="fchip ' + (S.filter === a.id ? 'on' : '') + '" data-act="filter:' + a.id + '">' + pic(a, 'a28') + '<span>' + a.first + '</span></button>').join('') + '</div>';
   }
-  const ds = days(events());
-  h += ds.length ? '<div class="card">' + ds.map(d => '<div class="dayhead"><span>' + d.label + '</span>' + (d.conflict ? '<span class="chip warn">2 athletes · 2 places</span>' : '') + '</div>' + d.ev.map(e => eventRow(e, true)).join('')).join('') + '</div>'
-    : '<div class="card empty"><div class="t">Nothing scheduled</div><div class="m">Practices, tournaments and registered events appear here when there is something on Benji\'s calendar.</div></div>';
+  const visible = events();
+  const months = {};
+  visible.forEach(e => {
+    const month = e.month || 'October';
+    (months[month] = months[month] || []).push(e);
+  });
+  const monthNames = Object.keys(months);
+  h += monthNames.length ? monthNames.map(month =>
+    '<section class="sec"><h2 class="h2">' + month + '</h2>' +
+    months[month].map(e => '<div class="card">' + eventRow(e, true) + '</div>').join('') +
+    '</section>'
+  ).join('') : '<div class="card empty"><div class="t">Nothing scheduled</div><div class="m">Practices, tournaments and registered events appear here when there is something on Benji\'s calendar.</div></div>';
   h += '<button class="btn gho full" data-act="toast:Your calendar subscription link would open here">' + ic('cal', 's') + 'Subscribe in my calendar</button></div>';
   return h;
 }
