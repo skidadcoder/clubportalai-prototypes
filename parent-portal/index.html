@@ -297,8 +297,7 @@ const ROSTERS = {
       { name:'[Co-coach name]', ini:'CC', role:'Co-coach' },
       { name:'[Assistant coach name]', ini:'AC', role:'Assistant coach' }
     ],
-    players: [
-      [2,'S'],[4,'OH'],[5,'DS'],[7,'MB'],[8,'OH'],[10,'OPP'],[11,'MB'],[13,'L','benji'],[14,'OH'],[16,'S'],[18,'MB'],[21,'DS']
+    players: [      [2,'S'],[4,'OH'],[5,'DS'],[7,'MB'],[8,'OH'],[10,'OPP'],[11,'MB'],[13,'L','benji'],[14,'OH'],[16,'S'],[18,'MB'],[21,'DS']
     ]
   },
   t15: {
@@ -597,8 +596,7 @@ function playerFacts(a){
 }
 function athleteIssue(a){
   if (S.viewerIsPayer && a.id === 'benji' && pd()) return '<span class="chip bad">Past due</span>';
-  if (a.id === 't15' && S.invite === 'pending') return '<span class="chip warn">Invitation</span>';
-  if (S.viewerIsPayer && !S.autopay[a.id]) return '<span class="chip warn">Autopay needed</span>';
+  if (a.id === 't15' && S.invite === 'pending') return '<span class="chip warn">Invitation</span>';  if (S.viewerIsPayer && !S.autopay[a.id]) return '<span class="chip warn">Autopay needed</span>';
   return '';
 }
 function athletesList(){
@@ -897,8 +895,7 @@ scr.addEventListener('click', e => {
     case 'fixnext': if (fixValid()) { S.fix.step = 3; render(); } break;
     case 'fixpay': {
       const f = S.fix;
-      if (f.mode === 'bank') {
-        METH.bank2 = { label:(f.type === 'savings' ? 'Savings' : 'Checking') + ' ••' + f.acct.slice(-4), kind:'Bank account · ' + f.name, icon:'bank' };
+      if (f.mode === 'bank') {        METH.bank2 = { label:(f.type === 'savings' ? 'Savings' : 'Checking') + ' ••' + f.acct.slice(-4), kind:'Bank account · ' + f.name, icon:'bank' };
         S.newBank = true; S.proc = true; if (f.reuse) S.autopay.benji = 'bank2'; else if (S.autopay.benji === 'usaa') S.autopay.benji = null;
         S.sheet = null; S.fix = null; S.tab = 'home'; S.stack = [{ v:'athpay', id:'benji' }]; toast('Payment of $525.00 submitted');
       } else {
@@ -998,3 +995,20 @@ document.querySelectorAll('[data-flow]').forEach(b => b.addEventListener('click'
   const f = b.dataset.flow;
   S = fresh();
   if (f === '2') { S.offer = 'inprogress'; S.flow = { step:3, agree:true, plan:'monthly', payer:'me', method:'usaa' }; S.tab = 'home'; }
+  if (f === '3') { S.regWaiver = true; S.tab = 'schedule'; S.stack = [{ v:'event', id:'e7' }]; }
+  if (f === '4') { S.review = 'uniform'; S.tab = 'home'; }
+  if (f === '5') { S.ret = 'r03'; S.push = 'r03'; syncRet(); }
+  if (f === '6') { S.autopay.benji = null; S.push = 'autopay'; }
+  if (f === '7') { S.tab = 'athletes'; S.stack = [{ v:'athpay', id:'benji' }]; S.payDraft = { choice:'other', amount:800 }; S.sheet = { type:'payamount' }; }
+  if (f === '8') { S.aidState = 'invited'; S.tab = 'home'; }
+  syncRole(); syncWaiver(); syncRet();
+  render();
+  if (window.innerWidth < 860) scr.scrollIntoView({ behavior:'smooth', block:'start' });
+}));
+syncWaiver();
+syncRole();
+render();
+})();
+</script>
+
+</body></html>
