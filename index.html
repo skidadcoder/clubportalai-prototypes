@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ClubPortalAI Prototypes</title>
+<style>
+:root{--bg:#f4f2ed;--panel:#fff;--fg:#17171b;--muted:#66666f;--line:#dedbd3;--accent:#c2410c}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+main{max-width:900px;margin:auto;padding:48px 20px 80px}
+.kicker{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+h1{font-size:42px;line-height:1.05;margin:10px 0 12px}p{color:var(--muted);line-height:1.55}
+.notice{background:#fff7ed;border:1px solid #fed7aa;border-radius:14px;padding:14px 16px;margin:26px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:24px}
+.card{display:flex;flex-direction:column;gap:10px;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px;text-decoration:none;color:inherit;box-shadow:0 10px 30px rgba(0,0,0,.04)}
+.card:hover{border-color:#c9c5bc;transform:translateY(-1px)}
+.badge{align-self:flex-start;font-size:12px;font-weight:700;background:#f1efe9;border-radius:999px;padding:5px 9px}
+.card h2{font-size:24px;margin:0}.arrow{margin-top:auto;font-weight:700;color:var(--accent)}
+footer{margin-top:34px;padding-top:20px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+<main>
+<div class="kicker">ClubPortalAI Product Lab</div>
+<h1>Clickable prototypes</h1>
+<p>Current concepts for staff review. These are prototypes only, use sample data, and are not connected to production.</p>
+<div class="notice"><strong>Feedback:</strong> use the prototype, then reply to the review email with anything confusing, missing, or harder than it should be.</div>
+<div class="grid">
+<a class="card" href="./parent-portal/">
+<span class="badge">Staff review</span>
+<h2>Parent Portal</h2>
+<p>The current simplified parent experience, optimized around the common single-athlete family.</p>
+<span class="arrow">Open prototype →</span>
+</a>
+<a class="card" href="./parent-portal/validation/">
+<span class="badge">Validation lab</span>
+<h2>Parent Portal · Multi-athlete</h2>
+<p>An intentionally overloaded family used to exercise edge cases such as split payers, failed payments, enrollment, events, and financial aid.</p>
+<span class="arrow">Open validation prototype →</span>
+</a>
+</div>
+<footer>Stable links point to the current version under review. Git history preserves previous versions.</footer>
+</main>
+</body>
+</html>
