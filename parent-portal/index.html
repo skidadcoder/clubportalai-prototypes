@@ -511,7 +511,7 @@ const IC = {
 const ic = (n, c) => '<svg class="i ' + (c || '') + '" viewBox="0 0 24 24" aria-hidden="true">' + IC[n] + '</svg>';
 
 const ATH = [
-  { id:'benji', first:'Benji', name:'Benji Wirth', ini:'BW', color:'#C2410C', number:'13', position:'Libero', age:15, meta:'Class of 2029', team:'WPVC Boys 16 Armour Black' },
+  { id:'benji', first:'Benji', name:'Benji Carter', ini:'BW', color:'#C2410C', number:'13', position:'Libero', age:15, meta:'Class of 2029', team:'WPVC Boys 16 Armour Black' },
   { id:'t15', first:'Test15u', name:'Test15u Player', ini:'TP', color:'#1D4ED8', number:'8', position:'Outside', age:13, meta:'Class of 2031', team:null },
   { id:'ct', first:'Charging', name:'Charging Test', ini:'CT', color:'#0F766E', number:'4', position:'Setter', age:13, meta:'Class of 2031', team:null },
   { id:'u12', first:'12ucharge', name:'12ucharge Test', ini:'1T', color:'#7E22CE', number:'22', position:'Middle', age:11, meta:'Class of 2034', team:null }
@@ -569,7 +569,7 @@ function athDocs(aid){
   return '<div class="pad" style="gap:20px"><div><button class="back" data-act="back">' + ic('back', 's') + backLabel() + '</button></div>' +
     '<div><div class="m" style="font-weight:600">' + a.name + '</div><h1 class="h1" style="font-size:28px">Documents</h1></div>' +
     (docs.length ? Object.keys(bySeason).map(sn => '<section class="sec"><div class="sechead"><h2 class="h2">' + sn + ' season</h2><span class="m" style="font-weight:600">' + bySeason[sn].length + ' signed</span></div><div class="card">' +
-      bySeason[sn].map(d => '<button class="row" data-act="doc:' + aid + ':' + d.id + '">' + ic('doc', 'm') + '<div class="grow"><div class="t">' + d.title + '</div><div class="m">' + d.team + '</div><div class="m">Signed by Chris Wirth · ' + d.date + '</div></div><span class="chip ok">Signed</span>' + ic('chev', 's m') + '</button>').join('') + '</div></section>').join('')
+      bySeason[sn].map(d => '<button class="row" data-act="doc:' + aid + ':' + d.id + '">' + ic('doc', 'm') + '<div class="grow"><div class="t">' + d.title + '</div><div class="m">' + d.team + '</div><div class="m">Signed by Alex Carter · ' + d.date + '</div></div><span class="chip ok">Signed</span>' + ic('chev', 's m') + '</button>').join('') + '</div></section>').join('')
       : '<div class="card empty"><div class="t">No documents yet</div><div class="m">Agreements you sign for ' + a.first + ' will be kept here.</div></div>') +
     '<div class="m" style="text-align:center">Documents to sign show up in Needs you on Home.</div></div>';
 }
@@ -578,10 +578,10 @@ function docView(aid, did){
   const para = '<p class="m" style="font-size:14px;line-height:1.55;margin:0;color:#3F3F46">[Agreement text from the club, shown exactly as signed]</p>';
   return '<div class="pad" style="gap:18px"><div><button class="back" data-act="back">' + ic('back', 's') + backLabel() + '</button></div>' +
     '<div><div class="m" style="font-weight:600">' + d.season + ' · ' + d.team + '</div><h1 class="h1" style="font-size:28px">' + d.title + '</h1><span class="chip ok" style="margin-top:8px">Signed</span></div>' +
-    '<div class="card"><div class="row" style="align-items:flex-start"><span style="color:#15803D">' + ic('check') + '</span><div class="grow"><div class="t">Signed by Chris Wirth</div><div class="m">' + d.when + ' · signed electronically in the portal</div><div class="m">For ' + a.name + '</div></div></div></div>' +
+    '<div class="card"><div class="row" style="align-items:flex-start"><span style="color:#15803D">' + ic('check') + '</span><div class="grow"><div class="t">Signed by Alex Carter</div><div class="m">' + d.when + ' · signed electronically in the portal</div><div class="m">For ' + a.name + '</div></div></div></div>' +
     '<section class="sec"><h2 class="h2">What you agreed to</h2><div class="card" style="padding:18px 16px;display:flex;flex-direction:column;gap:14px">' +
       '<div class="t">1. [Section title]</div>' + para + '<div class="t">2. [Section title]</div>' + para + '<div class="t">3. [Section title]</div>' + para +
-      '<div style="border-top:1px dashed #D6D3CC;padding-top:12px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap"><span class="m">Guardian signature</span><span style="font-family:var(--display);font-style:italic;font-weight:700;font-size:20px">Chris Wirth</span></div></div></section>' +
+      '<div style="border-top:1px dashed #D6D3CC;padding-top:12px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap"><span class="m">Guardian signature</span><span style="font-family:var(--display);font-style:italic;font-weight:700;font-size:20px">Alex Carter</span></div></div></section>' +
     '<button class="btn gho full" data-act="toast:A PDF copy would download here">' + ic('doc', 's') + 'Download PDF</button>' +
     '<div class="m" style="text-align:center">This is the version you signed. If the club updates it, you\'ll be asked to sign the new version.</div></div>';
 }
@@ -812,7 +812,7 @@ function eventDetail(id){
   if (e.registered) {
     const pass = S.regWaiver
       ? '<div class="card" style="padding:16px;display:flex;flex-direction:column;gap:12px;border-color:#F4D8C8"><div style="display:flex;gap:10px"><span style="color:#C2410C">' + ic('alert') + '</span><div><div class="t">Waiver required</div><div class="m">Registration stays incomplete until this waiver is finished. Your check-in pass will appear here afterward.</div></div></div><button class="btn pri full" data-act="waiverdone">Review &amp; complete waiver</button></div>'
-      : '<div class="passbox"><div class="qr" aria-hidden="true"></div><div class="grow"><div style="font-family:var(--display);font-size:22px;font-weight:700">Check-in pass</div><div style="font-size:13px;opacity:.8;margin-top:4px">Benji Wirth · ' + e.pass + '</div><div style="font-size:13px;opacity:.8;margin-top:8px">Show this at arrival</div></div></div>';
+      : '<div class="passbox"><div class="qr" aria-hidden="true"></div><div class="grow"><div style="font-family:var(--display);font-size:22px;font-weight:700">Check-in pass</div><div style="font-size:13px;opacity:.8;margin-top:4px">Benji Carter · ' + e.pass + '</div><div style="font-size:13px;opacity:.8;margin-top:8px">Show this at arrival</div></div></div>';
     const reg = S.regWaiver
       ? '<div class="row"><span style="color:#C2410C">' + ic('alert') + '</span><div class="grow"><div class="t">Registration needs completion</div><div class="m">Waiver required · confirmation ' + e.pass + '</div></div><span class="chip warn">Action needed</span></div>'
       : '<div class="row"><span style="color:#15803D">' + ic('check') + '</span><div class="grow"><div class="t">Registration complete</div><div class="m">Benji · confirmation ' + e.pass + '</div></div></div>';
@@ -892,7 +892,7 @@ function account(){
   const methods = Object.keys(METH).filter(k => !(S.removedAmex && k === 'amex'));
   const textOn = S.sms;
   return '<div class="pad" style="gap:20px"><div><button class="back" data-act="back">' + ic('back','s') + 'Back</button></div>' +
-    '<div style="display:flex;align-items:center;gap:14px"><span class="av a64" style="background:#16161A;color:#FF7A33">CW</span><div><h1 class="h1" style="font-size:28px">Chris Wirth</h1><div class="m" style="font-size:14px">Guardian · Wirth family</div></div></div>' +
+    '<div style="display:flex;align-items:center;gap:14px"><span class="av a64" style="background:#16161A;color:#FF7A33">AC</span><div><h1 class="h1" style="font-size:28px">Alex Carter</h1><div class="m" style="font-size:14px">Guardian · Carter family</div></div></div>' +
     '<section class="sec"><h2 class="h2">Account</h2><div class="card">' +
       '<button class="row" data-act="profile">' + ic('user','m') + '<div class="grow"><div class="t">Contact information</div><div class="m">' + S.profile.phone + ' · ' + S.profile.city + '</div></div>' + ic('chev','s m') + '</button>' +
       '<button class="row" data-act="toast:Family & guardians would open here"><span class="grow t">Family &amp; guardians</span>' + ic('chev','s m') + '</button>' +
@@ -950,8 +950,8 @@ function photoSheet(aid){
 function profileSheet(){
   const p = S.profileDraft || S.profile;
   return '<div class="scrim"><button class="close" aria-label="Close" data-act="close"></button><div class="sheet" role="dialog" aria-label="Edit contact information"><div class="grab"></div><div class="big" style="font-size:24px">Contact information</div>' +
-    '<div class="fld"><label>Name</label><input value="Chris Wirth" disabled></div><div class="fld"><label>Sign-in email</label><input value="[sign-in email]" disabled><span class="hint">Contact the club if this email needs to change.</span></div>' +
-    '<div class="fld"><label>Phone</label><input data-profile="phone" value="' + p.phone + '"><span class="hint">Text-message permission belongs to this phone number. If you change it, texts turn off until you opt in for the new number.</span></div><div class="fld"><label>Street address</label><input data-profile="address" value="' + p.address + '"></div><div class="fld"><label>City, state & ZIP</label><input data-profile="city" value="' + p.city + '"></div>' +
+    '<div class="fld"><label>Name</label><input value="Alex Carter" disabled></div><div class="fld"><label>Sign-in email</label><input value="[sign-in email]" disabled><span class="hint">Contact the club if this email needs to change.</span></div>' +
+    '<div class="fld"><label>Phone</label><input data-profile="phone" value="' + p.phone + '"><span class="hint">Changing your phone number does not change your text-message preference.</span></div><div class="fld"><label>Street address</label><input data-profile="address" value="' + p.address + '"></div><div class="fld"><label>City, state & ZIP</label><input data-profile="city" value="' + p.city + '"></div>' +
     '<button class="btn pri full" data-act="saveprofile">Save changes</button><button class="btn gho full" data-act="close">Cancel</button></div></div>';
 }
 function notificationsSheet(){
@@ -966,19 +966,47 @@ function uniformSheet(){
     '<div class="card"><div class="row"><div class="grow"><div class="t">Jersey</div><div class="m">Adult Medium</div></div></div><div class="row"><div class="grow"><div class="t">Shorts</div><div class="m">Adult Medium</div></div></div></div>' +
     '<button class="btn pri full" data-act="confirmuniform">Confirm sizes</button><button class="btn gho full" data-act="uniformcorrection">Send a correction request</button><button class="btn gho full" data-act="close">Not now</button></div></div>';
 }
+function payOutcome(amount){
+  const before = futureInstallments(), after = futureInstallments(S.prepay + amount);
+  const paid = [], reduced = [];
+  before.forEach((b,i) => {
+    if (b.remaining <= 0) return;
+    const a = after[i];
+    if (a.remaining === 0 && b.remaining > 0) paid.push(a);
+    else if (a.remaining < b.remaining) reduced.push({before:b, after:a});
+  });
+  const next = after.find(x => x.remaining > 0) || null;
+  const dateText = xs => xs.length === 1 ? xs[0].mon + ' ' + xs[0].day : xs.slice(0,-1).map(x => x.mon + ' ' + x.day).join(', ') + ' and ' + xs[xs.length-1].mon + ' ' + xs[xs.length-1].day;
+  if (!next) return { primary:'Your season balance will be $0.', secondary:'No more automatic payments.' };
+  if (reduced.length) {
+    const r = reduced[0];
+    return {
+      primary: paid.length ? dateText(paid) + ' will be paid.' : 'Your next payment will be smaller.',
+      secondary:'Your ' + r.after.mon + ' ' + r.after.day + ' automatic payment will be ' + money(r.after.remaining) + ' instead of ' + money(r.before.remaining) + '.'
+    };
+  }
+  if (paid.length) return { primary:dateText(paid) + ' will be paid.', secondary:'Next automatic payment: ' + money(next.remaining) + ' on ' + next.mon + ' ' + next.day + '.' };
+  return { primary:'Your next payment will be smaller.', secondary:'Your ' + next.mon + ' ' + next.day + ' automatic payment will be ' + money(next.remaining) + '.' };
+}
+function payOutcomeHtml(amount){
+  if (!(amount > 0 && amount <= seasonRemaining())) return '<div id="pay-outcome" class="card" style="padding:14px 16px"><div class="t">Enter an amount to see what happens next.</div></div>';
+  const o = payOutcome(amount);
+  return '<div id="pay-outcome" class="card" style="padding:14px 16px;display:flex;gap:10px;align-items:flex-start"><span style="color:#15803D">' + ic('check','m') + '</span><div class="grow"><div class="m" style="font-weight:700;text-transform:uppercase;letter-spacing:.7px;font-size:11px">After this payment</div><div class="t" style="margin-top:4px">' + o.primary + '</div><div class="m" style="margin-top:2px">' + o.secondary + '</div></div></div>';
+}
 function payAmountSheet(){
   const next = nextSeasonPayment(), remaining = seasonRemaining();
   if (!S.payDraft) S.payDraft = { choice:'next', amount: next ? next.remaining : 0 };
   const d = S.payDraft;
   const amount = Math.max(0, Number(d.amount) || 0), valid = amount > 0 && amount <= remaining;
-  const p = valid ? previewPayAhead(amount) : { changed:[], next:null };
-  const choiceRow = (k,title,detail) => '<button class="row" data-act="paychoice:' + k + '"><span class="radio ' + (d.choice === k ? 'on' : '') + '"></span><div class="grow"><div class="t">' + title + '</div><div class="m">' + detail + '</div></div></button>';
-  const preview = valid ? '<section class="sec"><h2 class="h2">How this changes your plan</h2><div class="card">' + p.changed.slice(0,3).map(x => '<div class="row"><div class="date"><span>' + x.mon + '</span><b>' + x.day + '</b></div><div class="grow"><div class="t">Payment ' + x.n + ' of 10</div><div class="m">' + (x.remaining === 0 ? 'Paid by this payment' : money(x.applied) + ' applied now') + '</div></div><div style="font-weight:700">' + (x.remaining === 0 ? 'Paid' : money(x.remaining) + ' left') + '</div></div>').join('') + '</div>' + (p.next ? '<div class="m" style="text-align:center">Next automatic payment: <b style="color:#16161A">' + money(p.next.remaining) + ' on ' + p.next.mon + ' ' + p.next.day + '</b>.</div>' : '<div class="m" style="text-align:center">This pays the remaining season balance.</div>') + '</section>' : '';
-  return '<div class="scrim"><button class="close" aria-label="Close" data-act="close"></button><div class="sheet" role="dialog" aria-label="Pay an amount" style="max-height:92%"><div class="grab"></div><div class="big" style="font-size:24px">Pay an amount</div><div class="m">Money applies to the earliest unpaid season installment first and then moves forward. Other charges are kept separate.</div>' +
-    '<div class="card">' + choiceRow('next','Next payment',next ? money(next.remaining) + ' due ' + next.mon + ' ' + next.day : 'Nothing scheduled') + choiceRow('all','Entire remaining season balance',money(remaining)) + choiceRow('other','Other amount','Choose any amount up to ' + money(remaining)) + '</div>' +
-    (d.choice === 'other' ? '<div class="fld"><label for="pay-amount">Amount</label><input id="pay-amount" data-payamount inputmode="decimal" value="' + d.amount + '"><span class="hint">Maximum ' + money(remaining) + '</span></div>' : '') +
-    '<div class="card"><div class="row">' + ic('bank','m') + '<div class="grow"><div class="t">USAA ••5375</div><div class="m">One-time payment · future autopay stays unchanged</div></div></div></div>' + preview +
-    '<button class="btn pri full" data-act="submitpayamount" ' + (valid ? '' : 'disabled') + '>Pay ' + money(amount) + '</button><button class="btn gho full" data-act="close">Cancel</button></div></div>';
+  const quick = (label,detail,kind) => '<button class="btn gho sm" style="flex:1;min-height:42px;line-height:1.15" data-act="paychoice:' + kind + '"><span><b style="display:block">' + label + '</b><span class="m" style="display:block;margin-top:2px">' + detail + '</span></span></button>';
+  return '<div class="scrim"><button class="close" aria-label="Close" data-act="close"></button><div class="sheet" role="dialog" aria-label="Make a payment" style="max-height:92%"><div class="grab"></div>' +
+    '<div><div class="big" style="font-size:26px">Make a payment</div><div class="m" style="margin-top:4px">Season balance: <b style="color:inherit">' + money(remaining) + '</b></div></div>' +
+    '<div class="fld"><label for="pay-amount" style="font-size:15px;color:inherit">How much do you want to pay today?</label><div style="position:relative"><span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:22px;font-weight:700">$</span><input id="pay-amount" data-payamount inputmode="decimal" value="' + amount + '" style="font-size:22px;font-weight:700;padding-left:34px;width:100%;box-sizing:border-box"></div><span class="hint">Any amount up to ' + money(remaining) + '</span></div>' +
+    '<div style="display:flex;gap:8px">' + quick('Next payment', next ? money(next.remaining) + ' · ' + next.mon + ' ' + next.day : 'Nothing scheduled','next') + quick('Full balance',money(remaining),'all') + '</div>' +
+    payOutcomeHtml(amount) +
+    '<div class="card"><div class="row">' + ic('bank','m') + '<div class="grow"><div class="m" style="font-size:12px">Paying from</div><div class="t">USAA ••5375</div><div class="m">This payment will not change autopay.</div></div><button class="link" data-act="toast:One-time payment method picker would open here">Change</button></div></div>' +
+    '<button class="btn pri full" data-act="submitpayamount" ' + (valid ? '' : 'disabled') + '>Pay ' + money(amount) + '</button>' +
+    '<button class="link" style="align-self:center" data-act="close">Cancel</button></div></div>';
 }
 
 function squarePhoto(img){
@@ -1017,8 +1045,7 @@ function fixSheet(){
       '<div class="m">Find both numbers at the bottom of a check or in your bank\'s app. Prototype only: use made-up numbers.</div>' +
       '<div class="fld"><label for="f-name">Name on the account</label><input id="f-name" data-field="name" autocomplete="off" value="' + f.name + '"></div>' +
       '<div class="fld"><label for="f-routing">Routing number</label><input id="f-routing" data-field="routing" inputmode="numeric" maxlength="9" autocomplete="off" value="' + f.routing + '"><span class="hint">9 digits</span></div>' +
-      '<div class="fld"><label for="f-acct">Account number</label><input id="f-acct" data-field="acct" inputmode="numeric" maxlength="17" autocomplete="off" value="' + f.acct + '"></div>' +
-      '<div class="fld"><label for="f-acct2">Confirm account number</label><input id="f-acct2" data-field="acct2" inputmode="numeric" maxlength="17" autocomplete="off" value="' + f.acct2 + '"><span class="hint" id="f-match">' + (f.acct2 && f.acct !== f.acct2 ? 'Account numbers don\'t match' : '') + '</span></div>' +
+      '<div class="fld"><label for="f-acct">Account number</label><input id="f-acct" data-field="acct" inputmode="numeric" maxlength="17" autocomplete="off" value="' + f.acct + '"></div>' +      '<div class="fld"><label for="f-acct2">Confirm account number</label><input id="f-acct2" data-field="acct2" inputmode="numeric" maxlength="17" autocomplete="off" value="' + f.acct2 + '"><span class="hint" id="f-match">' + (f.acct2 && f.acct !== f.acct2 ? 'Account numbers don\'t match' : '') + '</span></div>' +
       '<div class="card"><button class="row" data-act="ftype:checking"><span class="radio ' + (f.type === 'checking' ? 'on' : '') + '"></span><span class="t">Checking</span></button><button class="row" data-act="ftype:savings"><span class="radio ' + (f.type === 'savings' ? 'on' : '') + '"></span><span class="t">Savings</span></button></div>';
     foot = '<div style="display:flex;gap:10px"><button class="btn gho" data-act="fixback">Back</button><button class="btn pri" style="flex:1" id="fix-next" data-act="fixnext" ' + (fixValid() ? '' : 'disabled') + '>Continue</button></div>';
   } else {
@@ -1044,8 +1071,9 @@ function enrollmentPage(){
     body = '<div class="m" style="font-weight:600">Step 1 of 5 · Team offer</div><div class="big" style="font-size:30px">' + NEW_TEAM + '</div><div class="m">2027–28 season · [Coach name] · respond by [date]</div><div class="card"><div class="row">' + ic('cal','m') + '<div class="grow"><div class="t">Practices</div><div class="m">[Days and times]</div></div></div><div class="row">' + ic('pin','m') + '<div class="grow"><div class="t">Home gym</div><div class="m">[Location]</div></div></div></div><button class="link" style="align-self:flex-start;color:#991B1B!important" data-act="declineoffer">Decline this offer</button>';
     next = 'Accept spot';
   } else if (f.step === 2) {
-    body = '<div class="m" style="font-weight:600">Step 2 of 5 · Agreement</div><div class="big" style="font-size:28px">Sign the agreement</div><div class="card"><button class="row" data-act="toast:The agreement would open to read here">' + ic('doc','m') + '<div class="grow"><div class="t">Participation Agreement</div><div class="m">2027–28 season · tap to read</div></div>' + ic('chev','s m') + '</button><button class="row" data-act="agree"><span class="check ' + (f.agree ? 'on' : '') + '">' + (f.agree ? ic('check','s') : '') + '</span><div class="grow t">I agree, signed as Chris Wirth</div></button></div>';
-    can = f.agree; next = 'Sign & continue';  } else if (f.step === 3) {
+    body = '<div class="m" style="font-weight:600">Step 2 of 5 · Agreement</div><div class="big" style="font-size:28px">Sign the agreement</div><div class="card"><button class="row" data-act="toast:The agreement would open to read here">' + ic('doc','m') + '<div class="grow"><div class="t">Participation Agreement</div><div class="m">2027–28 season · tap to read</div></div>' + ic('chev','s m') + '</button><button class="row" data-act="agree"><span class="check ' + (f.agree ? 'on' : '') + '">' + (f.agree ? ic('check','s') : '') + '</span><div class="grow t">I agree, signed as Alex Carter</div></button></div>';
+    can = f.agree; next = 'Sign & continue';
+  } else if (f.step === 3) {
     const opt = (k,t,d) => '<button class="row" data-act="plan:' + k + '"><span class="radio ' + (f.plan === k ? 'on' : '') + '"></span><div class="grow"><div class="t">' + t + '</div><div class="m">' + d + '</div></div></button>';
     body = '<div class="m" style="font-weight:600">Step 3 of 5 · Payment plan</div><div class="big" style="font-size:28px">How do you want to pay?</div><div class="card">' + opt('full','Pay in full','One payment after enrollment') + opt('monthly','Monthly payments','Deposit today, then scheduled autopay') + '</div>';
     can = !!f.plan;
@@ -1123,7 +1151,7 @@ function render(){
   const prev = scr.querySelector('.body');
   const keep = prev && key === lastKey ? prev.scrollTop : 0;
   scr.innerHTML =
-    '<div class="top"><div class="brand"><i>WPVC</i></div><div style="display:flex;align-items:center"><button class="iconbtn themebtn" aria-label="' + (document.documentElement.getAttribute('data-theme') === 'dark' ? 'Switch to light mode' : 'Switch to dark mode') + '" data-act="theme">' + ic(document.documentElement.getAttribute('data-theme') === 'dark' ? 'sun' : 'moon') + '</button><button class="iconbtn" aria-label="Account" data-act="account"><span class="av a28" style="background:#263244;color:#fff">CW</span></button></div></div>' +
+    '<div class="top"><div class="brand"><i>WPVC</i></div><div style="display:flex;align-items:center"><button class="iconbtn themebtn" aria-label="' + (document.documentElement.getAttribute('data-theme') === 'dark' ? 'Switch to light mode' : 'Switch to dark mode') + '" data-act="theme">' + ic(document.documentElement.getAttribute('data-theme') === 'dark' ? 'sun' : 'moon') + '</button><button class="iconbtn" aria-label="Account" data-act="account"><span class="av a28" style="background:#263244;color:#fff">AC</span></button></div></div>' +
     '<div class="body">' + main + '</div>' +
     '<nav class="tabs" aria-label="Main">' + tab('home', 'Home', 'home') + tab('athletes', 'Benji', 'user') + tab('schedule', 'Schedule', 'cal') + '</nav>' +
     (S.sheet && S.sheet.type === 'autopay' ? autopaySheet(S.sheet.aid) : '') +
@@ -1164,7 +1192,7 @@ scr.addEventListener('click', e => {
     case 'paychoice': { const next = nextSeasonPayment(), rem = seasonRemaining(); S.payDraft.choice = x; S.payDraft.amount = x === 'next' ? (next ? next.remaining : 0) : x === 'all' ? rem : 800; render(); break; }
     case 'submitpayamount': { const amt = Math.max(0, Math.min(seasonRemaining(), Number(S.payDraft && S.payDraft.amount) || 0)); if (amt > 0) { S.prepay += amt; S.payDraft = null; S.sheet = null; toast(money(amt) + ' payment submitted'); } break; }
     case 'cleared': S.proc = false; S.ret = null; syncRet(); toast('Oct 1 payment cleared'); break;
-    case 'fix': S.fix = { step:1, mode:null, name:'Chris Wirth', routing:'', acct:'', acct2:'', type:'checking', reuse:true }; go({ sheet:{ type:'fix' }, push:false }); break;
+    case 'fix': S.fix = { step:1, mode:null, name:'Alex Carter', routing:'', acct:'', acct2:'', type:'checking', reuse:true }; go({ sheet:{ type:'fix' }, push:false }); break;
     case 'fixmode': S.fix.mode = x; S.fix.step = x === 'bank' ? 2 : 3; render(); break;
     case 'ftype': S.fix.type = x; render(); break;
     case 'freuse': S.fix.reuse = !S.fix.reuse; render(); break;
@@ -1222,7 +1250,7 @@ scr.addEventListener('click', e => {
       else { S.agreement2027 = true; S.offer = S.flow.payer === 'split' ? 'payer_complete' : 'accepted'; S.stack = []; S.tab = 'athletes'; toast(S.flow.payer === 'split' ? 'Your part is complete' : 'Enrollment complete'); }
       break;
     case 'pushtap':
-      if (S.push === 'r03') { S.fix = { step:1, mode:null, name:'Chris Wirth', routing:'', acct:'', acct2:'', type:'checking', reuse:true }; go({ push:false, tab:'home', stack:[], sheet:{ type:'fix' } }); }
+      if (S.push === 'r03') { S.fix = { step:1, mode:null, name:'Alex Carter', routing:'', acct:'', acct2:'', type:'checking', reuse:true }; go({ push:false, tab:'home', stack:[], sheet:{ type:'fix' } }); }
       else go({ push:false, tab:'home', stack:[], sheet:{ type:'autopay', aid:'benji' } });
       break;
     case 'toast': toast(el.dataset.act.slice(6)); break;
@@ -1230,7 +1258,7 @@ scr.addEventListener('click', e => {
 });
 
 scr.addEventListener('change', e => {
-  if (e.target.dataset && e.target.dataset.payamount !== undefined) { if (!S.payDraft) S.payDraft = { choice:'other', amount:0 }; S.payDraft.choice = 'other'; S.payDraft.amount = e.target.value.replace(/[^0-9.]/g,''); const btn = scr.querySelector('[data-act="submitpayamount"]'); const amt = Number(S.payDraft.amount) || 0; if (btn) { btn.disabled = !(amt > 0 && amt <= seasonRemaining()); btn.textContent = 'Pay ' + money(amt); } return; }
+  if (e.target.dataset && e.target.dataset.payamount !== undefined) { if (!S.payDraft) S.payDraft = { choice:'other', amount:0 }; S.payDraft.choice = 'other'; S.payDraft.amount = e.target.value.replace(/[^0-9.]/g,''); const btn = scr.querySelector('[data-act="submitpayamount"]'); const amt = Number(S.payDraft.amount) || 0; if (btn) { btn.disabled = !(amt > 0 && amt <= seasonRemaining()); btn.textContent = 'Pay ' + money(amt); } const outcome = scr.querySelector('#pay-outcome'); if (outcome) { const wrap = document.createElement('div'); wrap.innerHTML = payOutcomeHtml(amt); outcome.replaceWith(wrap.firstElementChild); } return; }
   const aid = e.target.dataset && e.target.dataset.photo; if (!aid) return;
   const file = e.target.files && e.target.files[0]; if (!file) return;
   if (!/^image\//.test(file.type)) { toast('Choose an image file'); return; }
@@ -1241,7 +1269,7 @@ scr.addEventListener('change', e => {
 scr.addEventListener('input', e => {
   const pk = e.target.dataset && e.target.dataset.profile;
   if (pk) { if (!S.profileDraft) S.profileDraft = Object.assign({}, S.profile); S.profileDraft[pk] = e.target.value; return; }
-  if (e.target.dataset && e.target.dataset.payamount !== undefined) { if (!S.payDraft) S.payDraft = { choice:'other', amount:0 }; S.payDraft.choice = 'other'; S.payDraft.amount = e.target.value.replace(/[^0-9.]/g,''); const btn = scr.querySelector('[data-act="submitpayamount"]'); const amt = Number(S.payDraft.amount) || 0; if (btn) { btn.disabled = !(amt > 0 && amt <= seasonRemaining()); btn.textContent = 'Pay ' + money(amt); } return; }
+  if (e.target.dataset && e.target.dataset.payamount !== undefined) { if (!S.payDraft) S.payDraft = { choice:'other', amount:0 }; S.payDraft.choice = 'other'; S.payDraft.amount = e.target.value.replace(/[^0-9.]/g,''); const btn = scr.querySelector('[data-act="submitpayamount"]'); const amt = Number(S.payDraft.amount) || 0; if (btn) { btn.disabled = !(amt > 0 && amt <= seasonRemaining()); btn.textContent = 'Pay ' + money(amt); } const outcome = scr.querySelector('#pay-outcome'); if (outcome) { const wrap = document.createElement('div'); wrap.innerHTML = payOutcomeHtml(amt); outcome.replaceWith(wrap.firstElementChild); } return; }
   const k = e.target.dataset && e.target.dataset.field; if (!k || !S.fix) return;
   let v = e.target.value; if (k !== 'name') { v = v.replace(/\D/g, ''); e.target.value = v; }
   S.fix[k] = v;
