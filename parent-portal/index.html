@@ -1,4 +1,5 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}
+
 /* ---------- Prototype theme switch ---------- */
 :root[data-theme="dark"] .screen{background:#141416;color:#F4F4F5}
 :root[data-theme="dark"] .screen .h2{color:#B7B7C0}
@@ -247,6 +248,27 @@ svg.s{width:18px;height:18px}
 @keyframes down{from{transform:translateY(-24px);opacity:.4}to{transform:none;opacity:1}}
 @keyframes fade{from{opacity:0}to{opacity:1}}
 @media (max-width:440px){.phone{height:760px;border-radius:0;padding:0;background:none;box-shadow:none}.screen{border-radius:20px;border:1px solid var(--line)}}
+
+/* ---------- Event cards: type is carried by the card, not a badge ---------- */
+.eventcard{border-left-width:4px;overflow:hidden;transition:transform .12s ease,box-shadow .12s ease}
+.eventcard .row{background:transparent}
+.eventcard button.row:hover{background:rgba(255,255,255,.34)}
+.eventcard .date{background:rgba(255,255,255,.62)}
+.event-practice{background:#EDF5FF;border-color:#CFE1FF;border-left-color:#3B82F6}
+.event-tournament{background:#FFF2E8;border-color:#F6D4BE;border-left-color:#C2410C}
+.event-registered{background:#ECF8F0;border-color:#CBE8D4;border-left-color:#16803C}
+.event-other{background:#F4F0FF;border-color:#DDD2FA;border-left-color:#7C3AED}
+.eventnote{font-size:12px;font-weight:600;margin-top:5px;color:#6B4A16}
+.eventperson{display:flex;align-items:center;gap:6px;margin-top:6px}
+:root[data-theme="dark"] .screen .eventcard.event-practice{background:#17263A;border-color:#29486E;border-left-color:#60A5FA}
+:root[data-theme="dark"] .screen .eventcard.event-tournament{background:#39251B;border-color:#62402E;border-left-color:#FB923C}
+:root[data-theme="dark"] .screen .eventcard.event-registered{background:#163020;border-color:#2C5A3A;border-left-color:#4ADE80}
+:root[data-theme="dark"] .screen .eventcard.event-other{background:#282037;border-color:#4B3B67;border-left-color:#A78BFA}
+:root[data-theme="dark"] .screen .eventcard .row{background:transparent}
+:root[data-theme="dark"] .screen .eventcard button.row:hover{background:rgba(255,255,255,.035)}
+:root[data-theme="dark"] .screen .eventcard .date{background:rgba(255,255,255,.06)}
+:root[data-theme="dark"] .screen .eventnote{color:#F6C98B}
+
 </style>
 
 <div class="wrap">
@@ -364,7 +386,7 @@ const IC = {
 const ic = (n, c) => '<svg class="i ' + (c || '') + '" viewBox="0 0 24 24" aria-hidden="true">' + IC[n] + '</svg>';
 
 const ATH = [
-  { id:'benji', first:'Benji', name:'Benji Carter', ini:'BW', color:'#C2410C', number:'13', position:'Libero', age:15, meta:'Class of 2029', team:'WPVC Boys 16 Armour Black' },
+  { id:'benji', first:'Benji', name:'Benji Wirth', ini:'BW', color:'#C2410C', number:'13', position:'Libero', age:15, meta:'Class of 2029', team:'WPVC Boys 16 Armour Black' },
   { id:'t15', first:'Test15u', name:'Test15u Player', ini:'TP', color:'#1D4ED8', number:'8', position:'Outside', age:13, meta:'Class of 2031', team:null },
   { id:'ct', first:'Charging', name:'Charging Test', ini:'CT', color:'#0F766E', number:'4', position:'Setter', age:13, meta:'Class of 2031', team:null },
   { id:'u12', first:'12ucharge', name:'12ucharge Test', ini:'1T', color:'#7E22CE', number:'22', position:'Middle', age:11, meta:'Class of 2034', team:null }
@@ -375,8 +397,7 @@ const EV = [
   { id:'e2', aid:'benji', dow:'Thu', day:8, title:'Practice', kind:'Practice', time:'6:30–8:30 PM', where:'[Practice gym]' },
   { id:'e3', aid:'benji', dow:'Sat', day:10, title:'[Tournament name]', kind:'Tournament', time:'Check-in 7:30 AM', where:'[Venue A]' },
   { id:'e5', aid:'benji', dow:'Tue', day:13, title:'Practice', kind:'Practice', time:'6:30–8:30 PM', where:'[Practice gym]' },
-  { id:'e6', aid:'benji', dow:'Thu', day:15, title:'Practice', kind:'Practice', time:'6:30–8:30 PM', where:'[Practice gym]' },
-  { id:'e7', aid:'benji', dow:'Sat', day:17, title:'Fall Skills Clinic', kind:'Club event', time:'8:30–11:30 AM', where:'WPVC Fieldhouse', registered:true, pass:'WPVC-7K39' }
+  { id:'e6', aid:'benji', dow:'Thu', day:15, title:'Practice', kind:'Practice', time:'6:30–8:30 PM', where:'[Practice gym]' },  { id:'e7', aid:'benji', dow:'Sat', day:17, title:'Fall Skills Clinic', kind:'Club event', time:'8:30–11:30 AM', where:'WPVC Fieldhouse', registered:true, pass:'WPVC-7K39' }
 ];
 const NEW_TEAM = 'WPVC Boys 17 Armour Black';
 const POS = { S:'Setter', OH:'Outside hitter', MB:'Middle blocker', OPP:'Opposite', L:'Libero', DS:'Defensive specialist' };
@@ -422,7 +443,7 @@ function athDocs(aid){
   return '<div class="pad" style="gap:20px"><div><button class="back" data-act="back">' + ic('back', 's') + backLabel() + '</button></div>' +
     '<div><div class="m" style="font-weight:600">' + a.name + '</div><h1 class="h1" style="font-size:28px">Documents</h1></div>' +
     (docs.length ? Object.keys(bySeason).map(sn => '<section class="sec"><div class="sechead"><h2 class="h2">' + sn + ' season</h2><span class="m" style="font-weight:600">' + bySeason[sn].length + ' signed</span></div><div class="card">' +
-      bySeason[sn].map(d => '<button class="row" data-act="doc:' + aid + ':' + d.id + '">' + ic('doc', 'm') + '<div class="grow"><div class="t">' + d.title + '</div><div class="m">' + d.team + '</div><div class="m">Signed by Alex Carter · ' + d.date + '</div></div><span class="chip ok">Signed</span>' + ic('chev', 's m') + '</button>').join('') + '</div></section>').join('')
+      bySeason[sn].map(d => '<button class="row" data-act="doc:' + aid + ':' + d.id + '">' + ic('doc', 'm') + '<div class="grow"><div class="t">' + d.title + '</div><div class="m">' + d.team + '</div><div class="m">Signed by Chris Wirth · ' + d.date + '</div></div><span class="chip ok">Signed</span>' + ic('chev', 's m') + '</button>').join('') + '</div></section>').join('')
       : '<div class="card empty"><div class="t">No documents yet</div><div class="m">Agreements you sign for ' + a.first + ' will be kept here.</div></div>') +
     '<div class="m" style="text-align:center">Documents to sign show up in Needs you on Home.</div></div>';
 }
@@ -431,10 +452,10 @@ function docView(aid, did){
   const para = '<p class="m" style="font-size:14px;line-height:1.55;margin:0;color:#3F3F46">[Agreement text from the club, shown exactly as signed]</p>';
   return '<div class="pad" style="gap:18px"><div><button class="back" data-act="back">' + ic('back', 's') + backLabel() + '</button></div>' +
     '<div><div class="m" style="font-weight:600">' + d.season + ' · ' + d.team + '</div><h1 class="h1" style="font-size:28px">' + d.title + '</h1><span class="chip ok" style="margin-top:8px">Signed</span></div>' +
-    '<div class="card"><div class="row" style="align-items:flex-start"><span style="color:#15803D">' + ic('check') + '</span><div class="grow"><div class="t">Signed by Alex Carter</div><div class="m">' + d.when + ' · signed electronically in the portal</div><div class="m">For ' + a.name + '</div></div></div></div>' +
+    '<div class="card"><div class="row" style="align-items:flex-start"><span style="color:#15803D">' + ic('check') + '</span><div class="grow"><div class="t">Signed by Chris Wirth</div><div class="m">' + d.when + ' · signed electronically in the portal</div><div class="m">For ' + a.name + '</div></div></div></div>' +
     '<section class="sec"><h2 class="h2">What you agreed to</h2><div class="card" style="padding:18px 16px;display:flex;flex-direction:column;gap:14px">' +
       '<div class="t">1. [Section title]</div>' + para + '<div class="t">2. [Section title]</div>' + para + '<div class="t">3. [Section title]</div>' + para +
-      '<div style="border-top:1px dashed #D6D3CC;padding-top:12px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap"><span class="m">Guardian signature</span><span style="font-family:var(--display);font-style:italic;font-weight:700;font-size:20px">Alex Carter</span></div></div></section>' +
+      '<div style="border-top:1px dashed #D6D3CC;padding-top:12px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap"><span class="m">Guardian signature</span><span style="font-family:var(--display);font-style:italic;font-weight:700;font-size:20px">Chris Wirth</span></div></div></section>' +
     '<button class="btn gho full" data-act="toast:A PDF copy would download here">' + ic('doc', 's') + 'Download PDF</button>' +
     '<div class="m" style="text-align:center">This is the version you signed. If the club updates it, you\'ll be asked to sign the new version.</div></div>';
 }
@@ -487,7 +508,8 @@ function athPay(aid){
 
   if (S.proc) {
     h += '<div class="card" style="padding:16px;border-color:#C7D7F5"><div style="display:flex;gap:10px"><span style="color:#1E3A8A">' + ic('cal') + '</span><div><div class="t">Payment processing</div><div class="m">$525.00 is processing. Bank payments can take 1–3 business days to clear. We will not ask you to pay this amount again while it is unresolved.</div></div></div></div>';
-  } else if (S.ret === 'r03') {    h += '<div class="card" style="padding:16px;border-color:#F5C2C2;display:flex;flex-direction:column;gap:12px"><div style="display:flex;gap:10px"><span style="color:#991B1B">' + ic('alert') + '</span><div><div class="t">Update your bank account</div><div class="m">Your bank could not find USAA ••5375. The Oct 1 payment is still due.</div></div></div><button class="btn pri full" data-act="fix">Choose how to resolve the payment</button></div>';
+  } else if (S.ret === 'r03') {
+    h += '<div class="card" style="padding:16px;border-color:#F5C2C2;display:flex;flex-direction:column;gap:12px"><div style="display:flex;gap:10px"><span style="color:#991B1B">' + ic('alert') + '</span><div><div class="t">Update your bank account</div><div class="m">Your bank could not find USAA ••5375. The Oct 1 payment is still due.</div></div></div><button class="btn pri full" data-act="fix">Choose how to resolve the payment</button></div>';
   } else if (S.ret === 'nsf') {
     h += '<div class="card" style="padding:16px;border-color:#F5C2C2;display:flex;flex-direction:column;gap:12px"><div style="display:flex;gap:10px"><span style="color:#991B1B">' + ic('alert') + '</span><div><div class="t">Payment didn\'t go through</div><div class="m">$525.00 is still due. Nothing will be retried without your action.</div></div></div><div style="display:flex;gap:10px"><button class="btn pri" style="flex:1" data-act="paynow">Pay $525.00 now</button><button class="btn gho" data-act="autopay:benji">Change method</button></div></div>';
   }
@@ -608,18 +630,28 @@ function days(list){
   out.forEach(d => { d.conflict = d.who.size > 1; });
   return out;
 }
+function eventTone(e){
+  if (e.kind === 'Practice') return 'event-practice';
+  if (e.kind === 'Tournament') return 'event-tournament';
+  if (e.registered || e.kind === 'Club event' || e.kind === 'Registered event') return 'event-registered';
+  return 'event-other';
+}
 function eventRow(e, showWho){
   const a = byId(e.aid);
-  const chip = e.registered ? (S.regWaiver ? '<span class="chip warn">Waiver due</span>' : '<span class="chip info">Registered</span>') : '<span class="chip ' + kindClass(e.kind) + '">' + e.kind + '</span>';
-  return '<button class="row" data-act="event:' + e.id + '">' + (multi() ? badge(a) : '<div class="date"><span>' + e.dow + '</span><b>' + e.day + '</b></div>') +
-    '<div class="grow"><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="t">' + e.title + '</span>' + chip + '</div>' +
-    '<div class="m">' + e.time + ' · ' + e.where + (showWho && multi() ? ' · ' + a.first : '') + '</div></div></button>';
+  const attention = e.registered && S.regWaiver ? '<div class="eventnote">Waiver required before registration is complete</div>' : '';
+  return '<button class="row" data-act="event:' + e.id + '" aria-label="' + e.kind + ': ' + e.title + '">' +
+    '<div class="date"><span>' + e.dow + '</span><b>' + e.day + '</b></div>' +
+    '<div class="grow"><div class="t">' + e.title + '</div>' +
+    '<div class="m">' + e.time + ' · ' + e.where + '</div>' +
+    (showWho && multi() ? '<div class="m eventperson">' + pic(a,'a28') + '<span>' + a.first + '</span></div>' : '') + attention + '</div></button>';
 }
 
 /* ---------- screens ---------- */
 function home(){
   const n = needs();
-  const next = days(EV.filter(e => athletes().some(a => a.id === e.aid))).slice(0, 3);
+  const next = EV.filter(e => athletes().some(a => a.id === e.aid)).slice(0, 4);
+  const months = {};
+  next.forEach(e => { const month = e.month || 'October'; (months[month] = months[month] || []).push(e); });
   let h = '<div class="pad"><div><div class="m" style="font-size:14px;font-weight:500">Saturday, October 3</div><h1 class="h1">Hi Chris</h1></div>';
   if (n.length) {
     h += '<section class="sec"><div class="sechead"><h2 class="h2">Needs you</h2><span class="chip warn">' + n.length + '</span></div><div class="card">' +
@@ -627,13 +659,14 @@ function home(){
   } else {
     h += '<div class="card"><div class="row"><span style="color:#15803D">' + ic('check') + '</span><div><div class="t">You\'re all caught up</div><div class="m">Nothing needs your attention right now.</div></div></div></div>';
   }
-  h += '<section class="sec"><div class="sechead"><h2 class="h2">Coming up</h2><button class="link" data-act="tab:schedule">Full schedule</button></div><div class="card">' +
-    next.map(d => '<div class="dayhead"><span>' + d.label + '</span>' + (d.conflict ? '<span class="chip warn">2 athletes · 2 places</span>' : '') + '</div>' + d.ev.map(e => eventRow(e, true)).join('')).join('') + '</div></section>';
+  h += '<section class="sec"><div class="sechead"><h2 class="h2">Coming up</h2><button class="link" data-act="tab:schedule">Full schedule</button></div>' +
+    Object.keys(months).map(month => '<div style="display:flex;flex-direction:column;gap:10px"><h3 class="h2" style="margin-top:2px">' + month + '</h3>' + months[month].map(e => '<div class="card eventcard ' + eventTone(e) + '">' + eventRow(e, true) + '</div>').join('') + '</div>').join('') +
+    '</section>';
   return h + '</div>';
 }
 
 function schedule(){
-  let h = '<div class="pad"><div style="display:flex;justify-content:space-between;align-items:center"><h1 class="h1">Schedule</h1><span class="chip neutral">Sample events</span></div>';
+  let h = '<div class="pad"><div><h1 class="h1">Schedule</h1></div>';
   if (multi()) {
     h += '<div class="filters" role="group" aria-label="Filter by athlete"><button class="fchip ' + (S.filter === 'all' ? 'on' : '') + '" data-act="filter:all" style="padding-left:14px">Everyone</button>' +
       athletes().map(a => '<button class="fchip ' + (S.filter === a.id ? 'on' : '') + '" data-act="filter:' + a.id + '">' + pic(a, 'a28') + '<span>' + a.first + '</span></button>').join('') + '</div>';
@@ -647,7 +680,7 @@ function schedule(){
   const monthNames = Object.keys(months);
   h += monthNames.length ? monthNames.map(month =>
     '<section class="sec"><h2 class="h2">' + month + '</h2>' +
-    months[month].map(e => '<div class="card">' + eventRow(e, true) + '</div>').join('') +
+    months[month].map(e => '<div class="card eventcard ' + eventTone(e) + '">' + eventRow(e, true) + '</div>').join('') +
     '</section>'
   ).join('') : '<div class="card empty"><div class="t">Nothing scheduled</div><div class="m">Practices, tournaments and registered events appear here when there is something on Benji\'s calendar.</div></div>';
   h += '<button class="btn gho full" data-act="toast:Your calendar subscription link would open here">' + ic('cal', 's') + 'Subscribe in my calendar</button></div>';
@@ -658,12 +691,12 @@ function eventDetail(id){
   if (e.registered) {
     const pass = S.regWaiver
       ? '<div class="card" style="padding:16px;display:flex;flex-direction:column;gap:12px;border-color:#F4D8C8"><div style="display:flex;gap:10px"><span style="color:#C2410C">' + ic('alert') + '</span><div><div class="t">Waiver required</div><div class="m">Registration stays incomplete until this waiver is finished. Your check-in pass will appear here afterward.</div></div></div><button class="btn pri full" data-act="waiverdone">Review &amp; complete waiver</button></div>'
-      : '<div class="passbox"><div class="qr" aria-hidden="true"></div><div class="grow"><div style="font-family:var(--display);font-size:22px;font-weight:700">Check-in pass</div><div style="font-size:13px;opacity:.8;margin-top:4px">Benji Carter · ' + e.pass + '</div><div style="font-size:13px;opacity:.8;margin-top:8px">Show this at arrival</div></div></div>';
+      : '<div class="passbox"><div class="qr" aria-hidden="true"></div><div class="grow"><div style="font-family:var(--display);font-size:22px;font-weight:700">Check-in pass</div><div style="font-size:13px;opacity:.8;margin-top:4px">Benji Wirth · ' + e.pass + '</div><div style="font-size:13px;opacity:.8;margin-top:8px">Show this at arrival</div></div></div>';
     const reg = S.regWaiver
-      ? '<div class="row"><span style="color:#C2410C">' + ic('alert') + '</span><div class="grow"><div class="t">Registration needs completion</div><div class="m">Waiver required · confirmation ' + e.pass + '</div></div><span class="chip warn">Action needed</span></div>'
+      ? '<div class="row"><span style="color:#C2410C">' + ic('alert') + '</span><div class="grow"><div class="t">Registration needs completion</div><div class="m">Waiver required · confirmation ' + e.pass + '</div></div></div>'
       : '<div class="row"><span style="color:#15803D">' + ic('check') + '</span><div class="grow"><div class="t">Registration complete</div><div class="m">Benji · confirmation ' + e.pass + '</div></div></div>';
     return '<div class="pad" style="gap:18px"><div><button class="back" data-act="back">' + ic('back','s') + 'Schedule</button></div>' +
-      '<div><span class="chip ' + (S.regWaiver ? 'warn">Action needed' : 'info">Registered') + '</span><h1 class="h1" style="margin-top:8px">' + e.title + '</h1><div class="m" style="margin-top:5px">For ' + a.name + '</div></div>' +
+      '<div><h1 class="h1">' + e.title + '</h1><div class="m" style="margin-top:5px">For ' + a.name + (S.regWaiver ? ' · Waiver required' : ' · Registered') + '</div></div>' +
       '<div class="card"><div class="row">' + ic('cal','m') + '<div class="grow"><div class="t">' + e.dow + ', October ' + e.day + '</div><div class="m">' + e.time + '</div></div></div>' +
       '<div class="row">' + ic('pin','m') + '<div class="grow"><div class="t">' + e.where + '</div><div class="m">[Street address]</div></div><button class="link" data-act="toast:Directions would open in Maps">Directions</button></div></div>' +
       '<section class="sec"><h2 class="h2">Registration</h2><div class="card">' + reg + '</div></section>' + pass +
@@ -671,7 +704,7 @@ function eventDetail(id){
   }
   return '<div class="pad" style="gap:18px"><div><button class="back" data-act="back">' + ic('back', 's') + 'Back</button></div>' +
     '<div style="display:flex;gap:8px;align-items:center">' + badge(a) + '<span class="m" style="font-weight:600">' + a.first + ' · ' + (teamOf(a) || 'Club event') + '</span></div>' +
-    '<div><span class="chip ' + kindClass(e.kind) + '">' + e.kind + '</span><h1 class="h1" style="margin-top:8px">' + e.title + '</h1></div>' +
+    '<div><h1 class="h1">' + e.title + '</h1></div>' +
     '<div class="card"><div class="row">' + ic('cal', 'm') + '<div class="grow"><div class="t">' + e.dow + ', October ' + e.day + '</div><div class="m">' + e.time + '</div></div></div>' +
     '<div class="row">' + ic('pin', 'm') + '<div class="grow"><div class="t">' + e.where + '</div><div class="m">[Street address]</div></div><button class="link" data-act="toast:Directions would open in Maps">Directions</button></div></div>' +
     '<button class="btn pri full" data-act="toast:Added to your calendar">Add to calendar</button></div>';
@@ -738,7 +771,7 @@ function account(){
   const methods = Object.keys(METH).filter(k => !(S.removedAmex && k === 'amex'));
   const textOn = S.sms;
   return '<div class="pad" style="gap:20px"><div><button class="back" data-act="back">' + ic('back','s') + 'Back</button></div>' +
-    '<div style="display:flex;align-items:center;gap:14px"><span class="av a64" style="background:#16161A;color:#FF7A33">AC</span><div><h1 class="h1" style="font-size:28px">Alex Carter</h1><div class="m" style="font-size:14px">Guardian · Carter family</div></div></div>' +
+    '<div style="display:flex;align-items:center;gap:14px"><span class="av a64" style="background:#16161A;color:#FF7A33">CW</span><div><h1 class="h1" style="font-size:28px">Chris Wirth</h1><div class="m" style="font-size:14px">Guardian · Wirth family</div></div></div>' +
     '<section class="sec"><h2 class="h2">Account</h2><div class="card">' +
       '<button class="row" data-act="profile">' + ic('user','m') + '<div class="grow"><div class="t">Contact information</div><div class="m">' + S.profile.phone + ' · ' + S.profile.city + '</div></div>' + ic('chev','s m') + '</button>' +
       '<button class="row" data-act="toast:Family & guardians would open here"><span class="grow t">Family &amp; guardians</span>' + ic('chev','s m') + '</button>' +
@@ -763,8 +796,7 @@ function financialAidPage(){
 /* ---------- sheets ---------- */
 function autopaySheet(aid){
   const a = byId(aid), cur = S.autopay[aid];
-  const methods = Object.keys(METH).filter(k => !(S.removedAmex && k === 'amex'));
-  if (S.autopayReview) {
+  const methods = Object.keys(METH).filter(k => !(S.removedAmex && k === 'amex'));  if (S.autopayReview) {
     const k = S.autopayReview.key, isCard = k === 'amex';
     return '<div class="scrim"><button class="close" aria-label="Close" data-act="close"></button><div class="sheet" role="dialog" aria-label="Review autopay change"><div class="grab"></div>' +
       '<div class="big" style="font-size:24px">Review autopay change</div><div class="m">This changes future scheduled payments only. It does not pay anything due today.</div>' +
@@ -796,14 +828,14 @@ function photoSheet(aid){
 function profileSheet(){
   const p = S.profileDraft || S.profile;
   return '<div class="scrim"><button class="close" aria-label="Close" data-act="close"></button><div class="sheet" role="dialog" aria-label="Edit contact information"><div class="grab"></div><div class="big" style="font-size:24px">Contact information</div>' +
-    '<div class="fld"><label>Name</label><input value="Alex Carter" disabled></div><div class="fld"><label>Sign-in email</label><input value="[sign-in email]" disabled><span class="hint">Contact the club if this email needs to change.</span></div>' +
-    '<div class="fld"><label>Phone</label><input data-profile="phone" value="' + p.phone + '"><span class="hint">Changing your phone number does not change your text-message preference.</span></div><div class="fld"><label>Street address</label><input data-profile="address" value="' + p.address + '"></div><div class="fld"><label>City, state & ZIP</label><input data-profile="city" value="' + p.city + '"></div>' +
+    '<div class="fld"><label>Name</label><input value="Chris Wirth" disabled></div><div class="fld"><label>Sign-in email</label><input value="[sign-in email]" disabled><span class="hint">Contact the club if this email needs to change.</span></div>' +
+    '<div class="fld"><label>Phone</label><input data-profile="phone" value="' + p.phone + '"><span class="hint">Text-message permission belongs to this phone number. If you change it, texts turn off until you opt in for the new number.</span></div><div class="fld"><label>Street address</label><input data-profile="address" value="' + p.address + '"></div><div class="fld"><label>City, state & ZIP</label><input data-profile="city" value="' + p.city + '"></div>' +
     '<button class="btn pri full" data-act="saveprofile">Save changes</button><button class="btn gho full" data-act="close">Cancel</button></div></div>';
 }
 function notificationsSheet(){
   const textOn = S.sms;
   return '<div class="scrim"><button class="close" aria-label="Close" data-act="close"></button><div class="sheet" role="dialog" aria-label="Notifications"><div class="grab"></div><div class="big" style="font-size:24px">Notifications</div><div class="card">' +
-    '<button class="row" data-act="smstoggle"><div class="grow"><div class="t">Text messages to ' + S.profile.phone + '</div><div class="m">Schedule, billing and club alerts. You can turn text messages on or off here.</div></div><span class="switch ' + (textOn ? 'on' : '') + '"></span></button>' +
+    '<button class="row" data-act="smstoggle"><div class="grow"><div class="t">Text messages to ' + S.profile.phone + '</div><div class="m">Schedule, billing and club alerts. Text consent is an account preference and is not tied to a specific phone number.</div></div><span class="switch ' + (textOn ? 'on' : '') + '"></span></button>' +
     '<button class="row" data-act="emailtoggle"><div class="grow"><div class="t">Email notifications</div><div class="m">Important club and account updates.</div></div><span class="switch ' + (S.emailNotice ? 'on' : '') + '"></span></button></div><button class="btn gho full" data-act="close">Done</button></div></div>';
 }
 function uniformSheet(){
@@ -890,12 +922,13 @@ function enrollmentPage(){
     body = '<div class="m" style="font-weight:600">Step 1 of 5 · Team offer</div><div class="big" style="font-size:30px">' + NEW_TEAM + '</div><div class="m">2027–28 season · [Coach name] · respond by [date]</div><div class="card"><div class="row">' + ic('cal','m') + '<div class="grow"><div class="t">Practices</div><div class="m">[Days and times]</div></div></div><div class="row">' + ic('pin','m') + '<div class="grow"><div class="t">Home gym</div><div class="m">[Location]</div></div></div></div><button class="link" style="align-self:flex-start;color:#991B1B!important" data-act="declineoffer">Decline this offer</button>';
     next = 'Accept spot';
   } else if (f.step === 2) {
-    body = '<div class="m" style="font-weight:600">Step 2 of 5 · Agreement</div><div class="big" style="font-size:28px">Sign the agreement</div><div class="card"><button class="row" data-act="toast:The agreement would open to read here">' + ic('doc','m') + '<div class="grow"><div class="t">Participation Agreement</div><div class="m">2027–28 season · tap to read</div></div>' + ic('chev','s m') + '</button><button class="row" data-act="agree"><span class="check ' + (f.agree ? 'on' : '') + '">' + (f.agree ? ic('check','s') : '') + '</span><div class="grow t">I agree, signed as Alex Carter</div></button></div>';
+    body = '<div class="m" style="font-weight:600">Step 2 of 5 · Agreement</div><div class="big" style="font-size:28px">Sign the agreement</div><div class="card"><button class="row" data-act="toast:The agreement would open to read here">' + ic('doc','m') + '<div class="grow"><div class="t">Participation Agreement</div><div class="m">2027–28 season · tap to read</div></div>' + ic('chev','s m') + '</button><button class="row" data-act="agree"><span class="check ' + (f.agree ? 'on' : '') + '">' + (f.agree ? ic('check','s') : '') + '</span><div class="grow t">I agree, signed as Chris Wirth</div></button></div>';
     can = f.agree; next = 'Sign & continue';
   } else if (f.step === 3) {
     const opt = (k,t,d) => '<button class="row" data-act="plan:' + k + '"><span class="radio ' + (f.plan === k ? 'on' : '') + '"></span><div class="grow"><div class="t">' + t + '</div><div class="m">' + d + '</div></div></button>';
     body = '<div class="m" style="font-weight:600">Step 3 of 5 · Payment plan</div><div class="big" style="font-size:28px">How do you want to pay?</div><div class="card">' + opt('full','Pay in full','One payment after enrollment') + opt('monthly','Monthly payments','Deposit today, then scheduled autopay') + '</div>';
-    can = !!f.plan;  } else if (f.step === 4) {
+    can = !!f.plan;
+  } else if (f.step === 4) {
     body = '<div class="m" style="font-weight:600">Step 4 of 5 · Payers</div><div class="big" style="font-size:28px">Who is paying?</div><div class="card"><button class="row" data-act="payer:me"><span class="radio ' + (f.payer === 'me' ? 'on' : '') + '"></span><div class="grow"><div class="t">Just me</div><div class="m">You are responsible for 100%</div></div></button><button class="row" data-act="payer:split"><span class="radio ' + (f.payer === 'split' ? 'on' : '') + '"></span><div class="grow"><div class="t">Split with another payer</div><div class="m">You 70% · another payer 30%</div></div></button></div>' + (f.payer === 'split' ? '<div class="card" style="padding:14px"><div class="t">Your part is separate</div><div class="m">You complete your 70% here. Finishing your part does not mean the full enrollment is complete; the other payer continues separately.</div></div>' : '');
   } else {
     const methods = Object.keys(METH).filter(k => !(S.removedAmex && k === 'amex'));
@@ -936,7 +969,7 @@ function render(){
   const prev = scr.querySelector('.body');
   const keep = prev && key === lastKey ? prev.scrollTop : 0;
   scr.innerHTML =
-    '<div class="top"><div class="brand"><i>WPVC</i></div><div style="display:flex"><button class="iconbtn" aria-label="Account" data-act="account"><span class="av a28" style="background:#26262B;color:#fff">AC</span></button></div></div>' +
+    '<div class="top"><div class="brand"><i>WPVC</i></div><div style="display:flex"><button class="iconbtn" aria-label="Account" data-act="account"><span class="av a28" style="background:#26262B;color:#fff">CW</span></button></div></div>' +
     '<div class="body">' + main + '</div>' +
     '<nav class="tabs" aria-label="Main">' + tab('home', 'Home', 'home') + tab('athletes', 'Benji', 'user') + tab('schedule', 'Schedule', 'cal') + '</nav>' +
     (S.sheet && S.sheet.type === 'autopay' ? autopaySheet(S.sheet.aid) : '') +
@@ -976,7 +1009,7 @@ scr.addEventListener('click', e => {
     case 'paychoice': { const next = nextSeasonPayment(), rem = seasonRemaining(); S.payDraft.choice = x; S.payDraft.amount = x === 'next' ? (next ? next.remaining : 0) : x === 'all' ? rem : 800; render(); break; }
     case 'submitpayamount': { const amt = Math.max(0, Math.min(seasonRemaining(), Number(S.payDraft && S.payDraft.amount) || 0)); if (amt > 0) { S.prepay += amt; S.payDraft = null; S.sheet = null; toast(money(amt) + ' payment submitted'); } break; }
     case 'cleared': S.proc = false; S.ret = null; syncRet(); toast('Oct 1 payment cleared'); break;
-    case 'fix': S.fix = { step:1, mode:null, name:'Alex Carter', routing:'', acct:'', acct2:'', type:'checking', reuse:true }; go({ sheet:{ type:'fix' }, push:false }); break;
+    case 'fix': S.fix = { step:1, mode:null, name:'Chris Wirth', routing:'', acct:'', acct2:'', type:'checking', reuse:true }; go({ sheet:{ type:'fix' }, push:false }); break;
     case 'fixmode': S.fix.mode = x; S.fix.step = x === 'bank' ? 2 : 3; render(); break;
     case 'ftype': S.fix.type = x; render(); break;
     case 'freuse': S.fix.reuse = !S.fix.reuse; render(); break;
@@ -1034,7 +1067,7 @@ scr.addEventListener('click', e => {
       else { S.agreement2027 = true; S.offer = S.flow.payer === 'split' ? 'payer_complete' : 'accepted'; S.stack = []; S.tab = 'athletes'; toast(S.flow.payer === 'split' ? 'Your part is complete' : 'Enrollment complete'); }
       break;
     case 'pushtap':
-      if (S.push === 'r03') { S.fix = { step:1, mode:null, name:'Alex Carter', routing:'', acct:'', acct2:'', type:'checking', reuse:true }; go({ push:false, tab:'home', stack:[], sheet:{ type:'fix' } }); }
+      if (S.push === 'r03') { S.fix = { step:1, mode:null, name:'Chris Wirth', routing:'', acct:'', acct2:'', type:'checking', reuse:true }; go({ push:false, tab:'home', stack:[], sheet:{ type:'fix' } }); }
       else go({ push:false, tab:'home', stack:[], sheet:{ type:'autopay', aid:'benji' } });
       break;
     case 'toast': toast(el.dataset.act.slice(6)); break;
