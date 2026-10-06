@@ -51,6 +51,36 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:
 @media(max-width:1100px){.shell{grid-template-columns:70px 1fr}.brand{justify-content:center}.brandsub,.brandmark{display:none}.nav button{font-size:0;justify-content:center}.nav .ico{font-size:16px}.orgswitch{justify-content:center}.orgswitch span{display:none}.workspace{grid-template-columns:1fr}.rail{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.rail .card{margin:0}}
 @media(max-width:780px){.shell{display:block}.sidebar{display:none}.topbar{position:static}.main{padding:14px}.proto{align-items:flex-start;flex-wrap:wrap}.proto small{width:100%}.head{flex-wrap:wrap}.head-actions{margin-left:0;width:100%}.player-context{align-items:flex-start;flex-wrap:wrap}.player-context .spacer{display:none}.switcher{width:100%;align-items:stretch;flex-direction:column;gap:4px}.switcher select{width:100%;min-width:0}.kpis{grid-template-columns:1fr 1fr}.workspace{display:block}.rail{display:block}.rail .card{margin-top:12px}.grid2,.payergrid{grid-template-columns:1fr}.contact{gap:9px 14px}.search{width:100%}.toplink,.user span{display:none}}
 @media(max-width:480px){.kpis{grid-template-columns:1fr}.formrow{grid-template-columns:1fr}.head h1{font-size:26px}}
+
+/* ---------- Simplified player-billing workspace ---------- */
+.billing-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:-4px 0 14px}
+.billing-actions .context-label{font-size:12px;color:#6b7788;font-weight:700;margin-right:2px}
+.billing-actions .btn{min-width:132px;justify-content:center}
+.billing-actions .btn.primary{min-width:146px}
+.context-actions{display:flex;gap:6px;justify-content:flex-end;flex-wrap:wrap}
+.context-actions .btn{height:30px;padding:0 9px;font-size:11px}
+.rail-links{display:flex;flex-direction:column}
+.rail-links button{border:0;border-top:1px solid #edf1f5;background:#fff;text-align:left;padding:10px 13px;color:#33445b}
+.rail-links button:first-child{border-top:0}.rail-links button:hover{background:#f7f9fc;color:var(--blue)}
+.action-choice{width:100%;display:flex;gap:10px;align-items:flex-start;text-align:left;border:1px solid #dce4ee;background:#fff;border-radius:8px;padding:10px 11px;color:#2d3e55}
+.action-choice:hover{background:#f8fafc;border-color:#b9c8da}.action-choice.selected{border-color:#8db6e6;background:#f4f9ff}
+.action-choice b{display:block}.action-choice small{display:block;color:#708095;margin-top:2px}
+.action-choice .choice-ico{width:28px;height:28px;border-radius:7px;background:#eef3f8;display:grid;place-items:center;flex:none}
+.action-groups{display:flex;flex-direction:column;gap:14px}.action-group h4{margin:0 0 7px;font-size:12px;color:#68768a;text-transform:uppercase;letter-spacing:.05em}
+.inline-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.scope-note{font-size:12px;color:#68768a;margin-left:auto}
+.method-badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:4px}
+.activity-tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:10px 14px;border-bottom:1px solid #e8edf3;background:#fbfcfe}
+.activity-tools .spacer{flex:1}
+.open-item{display:grid;grid-template-columns:minmax(0,1fr) 110px 115px auto;gap:12px;align-items:center;padding:12px 14px;border-bottom:1px solid #edf1f5}
+.open-item:last-child{border-bottom:0}.open-item .title{font-weight:750}.open-item .sub{font-size:11px;color:#718096;margin-top:2px}
+.schedule-row{display:grid;grid-template-columns:120px minmax(0,1fr) 110px 110px auto;gap:12px;align-items:center;padding:11px 14px;border-bottom:1px solid #edf1f5}
+.schedule-row:last-child{border-bottom:0}
+.section-kicker{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:#728096;font-weight:800}
+.notes-preview{font-size:12px;color:#526174;line-height:1.45}.notes-preview strong{color:#2d3d54}
+@media(max-width:900px){.open-item{grid-template-columns:minmax(0,1fr) 100px auto}.open-item .status-col{display:none}.schedule-row{grid-template-columns:100px minmax(0,1fr) 95px auto}.schedule-row .collection-col{display:none}}
+@media(max-width:620px){.billing-actions{display:grid;grid-template-columns:1fr}.billing-actions .context-label{display:none}.billing-actions .btn{width:100%}.open-item,.schedule-row{display:flex;align-items:flex-start;flex-wrap:wrap}.open-item .context-actions,.schedule-row .context-actions{width:100%;justify-content:flex-start}.scope-note{width:100%;margin:0}}
+
 </style>
 </head>
 <body>
@@ -93,12 +123,17 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:
         <div class="contact" id="contact"></div>
       </div>
       <div class="head-actions">
-        <button class="btn" data-action="note">▤ Notes <span id="noteCount"></span></button>
-        <button class="btn primary" data-action="charge">＋ Add Charge</button>
-        <button class="btn" id="moreActions">More ▾</button>
+        <button class="btn" data-action="account">Edit account</button>
+        <button class="btn" data-action="access">Family access</button>
       </div>
     </section>
     <section class="player-context" id="playerContext" aria-label="Selected player billing context"></section>
+    <section class="billing-actions" aria-label="Primary billing actions">
+      <span class="context-label">For selected player:</span>
+      <button class="btn primary" data-action="payment">▤ Record payment</button>
+      <button class="btn" data-action="charge">＋ Add charge</button>
+      <button class="btn" data-action="adjustBilling">◴ Adjust billing</button>
+    </section>
     <section class="kpis" id="kpis"></section>
     <nav class="tabs" id="tabs"></nav>
     <section class="workspace">
@@ -226,70 +261,103 @@ const fixtures={
 let scenario=localStorage.getItem('cp-billing-scenario')||'healthy';
 let data=deep(fixtures[scenario]);
 let selectedPlayerName=data.players[0].name;
-let tab='Overview',action=null,filters={q:'',type:'All'};
-const tabs=['Overview','Transactions','Installments','Charges & Credits','Payment Methods','Players','Notes'];
+let tab='Activity',action=null,filters={q:'',type:'All'};
+const tabs=['Activity','Open Items','Payment Schedule','Payment Methods'];
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 
 function badge(text,kind='info'){return '<span class="badge '+kind+'">'+text+'</span>'}
-function statusKind(s){s=s.toLowerCase();if(s.includes('paid')||s.includes('active')||s.includes('scheduled'))return 'good';if(s.includes('past')||s.includes('hold')||s.includes('returned')||s.includes('failed'))return 'bad';if(s.includes('processing')||s.includes('review'))return 'warn';return 'info'}
-function initials(name){return name.split(' ').map(x=>x[0]).join('').slice(0,2)}
-function selectedPlayer(){return data.players.find(p=>p.name===selectedPlayerName)||data.players[0]}
-function initPlayerBalances(){
-  data.playerBalances=data.playerBalances||{};
-  data.players.forEach((p,i)=>{
-    if(data.playerBalances[p.name]==null){
-      data.playerBalances[p.name]=data.players.length===1?data.balance:data.charges.filter(x=>x.player===p.name).reduce((sum,x)=>sum+Number(x.remaining||0),0);
-    }
-  });
+function statusKind(s){
+  s=String(s||'').toLowerCase();
+  if(s.includes('paid')||s.includes('active')||s.includes('scheduled')||s.includes('current'))return 'good';
+  if(s.includes('past')||s.includes('hold')||s.includes('returned')||s.includes('failed'))return 'bad';
+  if(s.includes('processing')||s.includes('review')||s.includes('requested'))return 'warn';
+  return 'info';
 }
-function playerBalance(){initPlayerBalances();return Number(data.playerBalances[selectedPlayer().name]||0)}
-function playerPastDue(){return selectedPlayer().name===data.players[0].name?Number(data.pastDue||0):0}
-function playerProcessing(){return selectedPlayer().name===data.players[0].name?Number(data.processing||0):0}
+function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.remove('hidden');clearTimeout(window._toast);window._toast=setTimeout(()=>t.classList.add('hidden'),2400)}
+function selectedPlayer(){return data.players.find(p=>p.name===selectedPlayerName)||data.players[0]}
 function playerTransactions(){return data.transactions.filter(x=>x.player===selectedPlayer().name)}
 function playerInstallments(){return data.installments.filter(x=>x.player===selectedPlayer().name)}
 function playerCharges(){return data.charges.filter(x=>x.player===selectedPlayer().name)}
-function nextPlayerInstallment(){return playerInstallments().filter(x=>x.status!=='Paid').sort((a,b)=>a.date.localeCompare(b.date))[0]||null}
-function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.remove('hidden');clearTimeout(window._toast);window._toast=setTimeout(()=>t.classList.add('hidden'),2500)}
+function openCharges(){return playerCharges().filter(x=>Number(x.remaining||0)>0&&x.status!=='Removed')}
+function unpaidInstallments(){return playerInstallments().filter(x=>x.status!=='Paid').sort((a,b)=>a.date.localeCompare(b.date))}
+function nextPlayerInstallment(){return unpaidInstallments()[0]||null}
+function playerPastDue(){return selectedPlayer().name===data.players[0].name?Number(data.pastDue||0):0}
+function playerProcessing(){return selectedPlayer().name===data.players[0].name?Number(data.processing||0):0}
+
+function ensureMeta(){
+  data.playerBalances=data.playerBalances||{};
+  data.players.forEach(p=>{
+    if(data.playerBalances[p.name]==null)data.playerBalances[p.name]=data.players.length===1?Number(data.balance||0):playerChargesFor(p.name).reduce((s,x)=>s+Number(x.remaining||0),0);
+  });
+  data.mailingAddress=data.mailingAddress||'1234 Example Ave, '+data.city;
+  data.billingAddress=data.billingAddress||data.mailingAddress;
+  data.familyAccess=data.familyAccess||[
+    {name:data.name,email:data.email,status:'Accepted',role:'Primary account access'},
+    {name:'Jamie '+data.name.split(' ').slice(-1)[0],email:'jamie.family@example.com',status:'Pending',role:'Player access'}
+  ];
+  data.autopayByPlayer=data.autopayByPlayer||{};
+  data.players.forEach(p=>{
+    if(!data.autopayByPlayer[p.name]){
+      const m=data.methods.find(x=>x.autopay)||data.methods[0];
+      if(m)data.autopayByPlayer[p.name]=m.id;
+    }
+  });
+  data.notes=data.notes||[];
+  data.notes.forEach(n=>{if(!n.scope)n.scope='Account';if(!n.status)n.status='Normal'});
+  data.adjustRequests=data.adjustRequests||[];
+}
+function playerChargesFor(name){return data.charges.filter(x=>x.player===name)}
+function playerBalance(){ensureMeta();return Number(data.playerBalances[selectedPlayer().name]||0)}
+function setPlayerBalance(v){ensureMeta();data.playerBalances[selectedPlayer().name]=Math.max(0,Number(v||0))}
+function addPlayerBalance(delta){setPlayerBalance(playerBalance()+Number(delta||0));data.balance=Math.max(0,Number(data.balance||0)+Number(delta||0))}
+function switchPlayer(name){selectedPlayerName=name;filters={q:'',type:'All'};tab='Activity';render()}
 
 function init(){
-  const s=$('#scenario');s.innerHTML=Object.entries(fixtures).map(([k,v])=>'<option value="'+k+'">'+v.label+'</option>').join('');s.value=scenario;
-  s.onchange=e=>{scenario=e.target.value;localStorage.setItem('cp-billing-scenario',scenario);data=deep(fixtures[scenario]);selectedPlayerName=data.players[0].name;initPlayerBalances();tab='Overview';render()};
-  $('#reset').onclick=()=>{data=deep(fixtures[scenario]);selectedPlayerName=data.players[0].name;initPlayerBalances();render();toast('Fake account reset')};
-  $('#closeDrawer').onclick=closeDrawer;$('#drawerBack').addEventListener('click',e=>{if(e.target===e.currentTarget)closeDrawer()});
-  $('#nav').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return; if(b.dataset.nav!=='Accounts')toast(b.dataset.nav+' is outside this billing prototype')});
-  $('#globalSearch').addEventListener('keydown',e=>{if(e.key==='Enter')toast('Prototype search: try switching account scenarios above')});
-  $('#moreActions').onclick=e=>showMore(e.currentTarget);
-  document.addEventListener('click',e=>{if(!e.target.closest('#moreActions')&&!e.target.closest('#moreMenu'))$('#moreMenu').classList.add('hidden')});
-  initPlayerBalances();
+  ensureMeta();
+  const s=$('#scenario');
+  s.innerHTML=Object.entries(fixtures).map(([k,v])=>'<option value="'+k+'">'+v.label+'</option>').join('');
+  s.value=scenario;
+  s.onchange=e=>{
+    scenario=e.target.value;localStorage.setItem('cp-billing-scenario',scenario);
+    data=deep(fixtures[scenario]);selectedPlayerName=data.players[0].name;tab='Activity';filters={q:'',type:'All'};ensureMeta();render();
+  };
+  $('#reset').onclick=()=>{data=deep(fixtures[scenario]);selectedPlayerName=data.players[0].name;tab='Activity';filters={q:'',type:'All'};ensureMeta();render();toast('Fake account reset')};
+  $('#closeDrawer').onclick=closeDrawer;
+  $('#drawerBack').addEventListener('click',e=>{if(e.target===e.currentTarget)closeDrawer()});
+  $('#nav').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.nav!=='Accounts')toast(b.dataset.nav+' is outside this account prototype')});
+  $('#globalSearch').addEventListener('keydown',e=>{if(e.key==='Enter')toast('Global search is outside this prototype')});
   render();
 }
 
 function render(){
+  ensureMeta();
   $('#crumbName').textContent=data.name;$('#accountName').textContent=data.name;
   $('#accountBadge').innerHTML=badge(data.status,statusKind(data.status));
   $('#contact').innerHTML='<span>☎ '+data.phone+'</span><span>✉ '+data.email+'</span><span>⌖ '+data.city+'</span>';
-  $('#noteCount').textContent='('+data.notes.length+')';
+  const nc=$('#noteCount');if(nc)nc.textContent='('+data.notes.length+')';
   renderPlayerContext();renderKpis();renderTabs();renderMain();renderRail();
   $$('[data-action]').forEach(b=>b.onclick=()=>openDrawer(b.dataset.action,b.dataset.id||''));
 }
 function renderPlayerContext(){
-  const p=selectedPlayer(), due=playerPastDue(), processing=playerProcessing();
+  const p=selectedPlayer(),due=playerPastDue(),processing=playerProcessing();
   const state=due?badge('Past due','bad'):processing?badge('Payment review','warn'):badge('Current','good');
   $('#playerContext').innerHTML=
     '<div class="circle">'+p.initials+'</div><div class="who"><small>Billing for</small><strong>'+p.name+'</strong><span>'+p.team+'</span></div>'+state+
+    '<button class="btn small" data-action="playerWorkspace">Open Player Workspace</button>'+
     '<div class="spacer"></div>'+
     (data.players.length>1?'<div class="switcher"><label for="playerSwitcher">Switch player</label><select id="playerSwitcher">'+data.players.map(x=>'<option value="'+x.name+'" '+(x.name===p.name?'selected':'')+'>'+x.name+' · '+x.team+'</option>').join('')+'</select></div>':'<span class="muted tiny">Only player on this account</span>');
-  const sw=$('#playerSwitcher');if(sw)sw.onchange=e=>{selectedPlayerName=e.target.value;filters={q:'',type:'All'};tab='Overview';render()};
+  const sw=$('#playerSwitcher');if(sw)sw.onchange=e=>switchPlayer(e.target.value);
+  const open=$('#playerContext [data-action]');if(open)open.onclick=()=>openDrawer('playerWorkspace');
 }
 function renderKpis(){
-  const next=nextPlayerInstallment(),due=playerPastDue(),installments=playerInstallments().filter(x=>x.status!=='Paid'),charges=playerCharges().filter(x=>x.remaining>0);
+  const next=nextPlayerInstallment(),due=playerPastDue(),items=openCharges();
   $('#kpis').innerHTML=[
-    ['＄','Player Balance',money(playerBalance()),'<a href="#" data-gotab="Transactions">View balance details →</a>',''],
-    ['◷','Past Due',money(due),due?'Needs attention':'Great! No past due balance.',due?'attn':''],
+    ['＄','Player Balance',money(playerBalance()),'<a href="#" data-gotab="Activity">View activity →</a>',''],
+    ['◷','Past Due',money(due),due?'Needs attention':'No past due balance.',due?'attn':''],
     ['▣','Next Payment',next?money(next.amount):'—',next?'Due '+fmt(next.date):'Nothing scheduled',''],
-    ['☷','Open Items',installments.length+charges.length,String(installments.length)+' installments · '+charges.length+' other charges','']
+    ['☷','Open Items',items.length,items.length===1?'1 billing item':items.length+' billing items','']
   ].map(x=>'<div class="kpi '+x[4]+'"><div class="kicon">'+x[0]+'</div><div><div class="klabel">'+x[1]+'</div><div class="kvalue">'+x[2]+'</div><div class="khelp">'+x[3]+'</div></div></div>').join('');
-  $('[data-gotab]').forEach(a=>a.onclick=e=>{e.preventDefault();tab=e.currentTarget.dataset.gotab;render()});
+  $$('[data-gotab]').forEach(a=>a.onclick=e=>{e.preventDefault();tab=e.currentTarget.dataset.gotab;render()});
 }
 function renderTabs(){
   $('#tabs').innerHTML=tabs.map(t=>'<button class="tab '+(t===tab?'active':'')+'" data-tab="'+t+'">'+t+'</button>').join('');
@@ -297,149 +365,303 @@ function renderTabs(){
 }
 function attention(){
   const processing=playerProcessing(),due=playerPastDue(),p=selectedPlayer();
-  if(processing)return '<div class="alert blue"><div>⟳</div><div class="grow"><strong>'+money(processing)+' payment is unresolved for '+p.name+'</strong><span>ClubPortalAI is protecting this amount from another charge until the processor result is verified.</span></div><button class="btn small" id="reconcile">Check Authorize.Net</button></div>';
-  if(due)return '<div class="alert"><div>!</div><div class="grow"><strong>'+money(due)+' is past due for '+p.name+'</strong><span>ACH is unavailable after repeated returns. Collect by card or record an offline payment. Participation hold remains visible until the balance is resolved.</span></div><button class="btn small primary" data-action="payment">Recover payment</button></div>';
-  if(data.payers.length>1)return '<div class="alert amber"><div>⇄</div><div class="grow"><strong>Split payer billing for '+p.name+'</strong><span>Each payment and installment stays with the responsible payer. Actions here must not change the other payer’s share.</span></div></div>';
+  if(processing)return '<div class="alert blue"><div>⟳</div><div class="grow"><strong>'+money(processing)+' payment is unresolved for '+p.name+'</strong><span>This amount stays protected from another collection until the processor result is known.</span></div><div class="context-actions"><button class="btn small" id="reconcile">Check Authorize.Net</button></div></div>';
+  if(due)return '<div class="alert"><div>!</div><div class="grow"><strong>'+money(due)+' is past due for '+p.name+'</strong><span>Collect payment or send a payment request. A participation hold, if present, is managed separately and is not removed automatically.</span></div><div class="context-actions"><button class="btn small primary" data-action="payment">Record payment</button><button class="btn small" data-action="paymentRequest">Send payment request</button></div></div>';
   return '';
 }
 function renderMain(){
   const p=$('#mainPanel');
-  if(tab==='Overview')p.innerHTML=renderOverview();
-  if(tab==='Transactions')p.innerHTML=renderTransactions();
-  if(tab==='Installments')p.innerHTML=renderInstallments();
-  if(tab==='Charges & Credits')p.innerHTML=renderCharges();
+  if(tab==='Activity')p.innerHTML=renderActivity();
+  if(tab==='Open Items')p.innerHTML=renderOpenItems();
+  if(tab==='Payment Schedule')p.innerHTML=renderSchedule();
   if(tab==='Payment Methods')p.innerHTML=renderMethods();
-  if(tab==='Players')p.innerHTML=renderPlayers();
-  if(tab==='Notes')p.innerHTML=renderNotes();
   const r=$('#reconcile');if(r)r.onclick=reconcile;
   $$('[data-action]').forEach(b=>b.onclick=()=>openDrawer(b.dataset.action,b.dataset.id||''));
-  $$('[data-method-default]').forEach(b=>b.onclick=()=>setDefault(b.dataset.methodDefault));
-  const nt=$('#noteText');if(nt)$('#addNoteInline').onclick=()=>{if(!nt.value.trim())return;data.notes.unshift({date:today,by:'Chris Wirth',text:nt.value.trim()});nt.value='';render();toast('Note added')};
+  $$('[data-pay-target]').forEach(b=>b.onclick=()=>openDrawer('payment',b.dataset.payTarget));
+  $$('[data-adjust-target]').forEach(b=>b.onclick=()=>openDrawer('adjustBilling',b.dataset.adjustTarget));
+  $$('[data-waive-fee]').forEach(b=>b.onclick=()=>openDrawer('waiveFee',b.dataset.waiveFee));
+  $$('[data-method-manage]').forEach(b=>b.onclick=()=>openDrawer('methodManage',b.dataset.methodManage));
 }
-function renderOverview(){
-  const p=selectedPlayer(),due=playerPastDue(),processing=playerProcessing();
-  const payerBlock=data.payers.length>1?'<div class="card"><div class="cardhead"><h2>Payer responsibility · '+p.name+'</h2></div><div class="cardbody"><div class="payergrid">'+data.payers.map(payer=>'<div class="payer"><h4>'+payer.name+' · '+payer.share+'%</h4><div class="big">'+money(payer.balance)+'</div><small class="muted">'+payer.rail+' · '+(payer.autopay?'Autopay on':'Autopay off')+'</small></div>').join('')+'</div></div></div>':'';
-  const upcoming=playerInstallments().filter(x=>x.status!=='Paid').slice(0,4),open=playerCharges().filter(x=>x.remaining>0).slice(0,4);
-  return attention()+
-  '<div class="card"><div class="cardhead"><h2>'+p.name+' register</h2><span class="badge info">Player ledger</span><div class="spacer"></div><button class="btn small" data-action="statement">View statement</button></div>'+
-  '<div class="ledger-summary"><div><span>Player balance</span><b>'+money(playerBalance())+'</b></div><div><span>Past due</span><b class="'+(due?'neg':'')+'">'+money(due)+'</b></div><div><span>Protected / processing</span><b>'+money(processing)+'</b></div></div>'+
-  registerTable(playerTransactions().slice(0,8))+'</div>'+
-  '<div class="grid2" style="margin-top:12px"><div class="card"><div class="cardhead"><h3>Upcoming installments</h3><div class="spacer"></div><button class="btn linkish small" data-action="goto-installments">View all</button></div><div class="cardbody"><div class="itemlist">'+(upcoming.length?upcoming.map(instItem).join(''):'<div class="empty"><b>No upcoming installments</b>Nothing scheduled for this player.</div>')+'</div></div></div>'+
-  '<div class="card"><div class="cardhead"><h3>Open charges</h3><div class="spacer"></div><button class="btn linkish small" data-action="charge">Add charge</button></div><div class="cardbody"><div class="itemlist">'+(open.length?open.map(chargeItem).join(''):'<div class="empty"><b>No open charges</b>This player is clear.</div>')+'</div></div></div></div>'+payerBlock;
-}
-function registerTable(rows){
-  let running=playerBalance();
-  if(!rows.length)return '<div class="empty"><b>No activity for '+selectedPlayer().name+'</b>Transactions for another player stay out of this register.</div>';
-  return '<div class="tablewrap"><table class="table"><thead><tr><th>Date</th><th>Type</th><th>Description</th><th class="num">Amount</th><th class="num">Current balance</th><th></th></tr></thead><tbody>'+
-    rows.map((r,i)=>{const txIndex=data.transactions.indexOf(r);return '<tr><td>'+fmt(r.date)+'</td><td>'+badge(r.type,statusKind(r.type))+'</td><td class="desc"><strong>'+r.desc+'</strong><small>'+r.detail+'</small></td><td class="num money '+(r.amount<0?'pos':r.type==='Refund'||r.type==='Return'?'neg':'')+'">'+(r.amount<0?'-':'')+money(Math.abs(r.amount))+'</td><td class="num">'+(i===0?money(running):'')+'</td><td><button class="rowaction" data-action="transaction" data-id="'+txIndex+'">⋮</button></td></tr>'}).join('')+
-    '</tbody></table></div>';
-}
-function renderTransactions(){
+function renderActivity(){
   const source=playerTransactions(),types=['All',...new Set(source.map(x=>x.type))];
   const rows=source.filter(r=>(filters.q===''||(r.desc+' '+r.detail).toLowerCase().includes(filters.q.toLowerCase()))&&(filters.type==='All'||r.type===filters.type));
   setTimeout(()=>{
-    const q=$('#txq'),ty=$('#txtype');if(q)q.oninput=e=>{filters.q=e.target.value;renderMain()};if(ty)ty.onchange=e=>{filters.type=e.target.value;renderMain()};
+    const q=$('#txq'),ty=$('#txtype');
+    if(q)q.oninput=e=>{filters.q=e.target.value;renderMain()};
+    if(ty)ty.onchange=e=>{filters.type=e.target.value;renderMain()};
   },0);
-  return attention()+'<div class="card"><div class="cardhead"><h2>Transactions · '+selectedPlayer().name+'</h2><div class="spacer"></div><button class="btn small" data-action="statement">Export</button></div>'+
-    '<div class="toolbar"><input class="field" id="txq" placeholder="Search this player’s transactions…" value="'+filters.q+'"><select class="select" id="txtype">'+types.map(x=>'<option '+(filters.type===x?'selected':'')+'>'+x+'</option>').join('')+'</select><div class="spacer"></div><button class="btn small" data-action="payment">Record payment</button></div>'+
+  return attention()+
+    '<div class="card"><div class="cardhead"><h2>Activity · '+selectedPlayer().name+'</h2><span class="badge info">Player register</span><div class="spacer"></div><button class="btn small" data-action="statement">Statement</button></div>'+
+    '<div class="activity-tools"><input class="field" id="txq" placeholder="Search this player’s activity…" value="'+filters.q+'"><select class="select" id="txtype">'+types.map(x=>'<option '+(filters.type===x?'selected':'')+'>'+x+'</option>').join('')+'</select><div class="spacer"></div><span class="scope-note">Payments, returns, refunds, fees, credits, and charges</span></div>'+
     registerTable(rows)+'</div>';
 }
-function instItem(x){return '<div class="item"><span class="statusdot '+statusKind(x.status)+'"></span><div class="grow"><strong>'+x.label+'</strong><small>'+fmt(x.date)+' · '+x.player+'</small></div><div class="money">'+money(x.amount)+'</div>'+badge(x.status,statusKind(x.status))+'</div>'}
-function renderInstallments(){
-  const rows=playerInstallments();
-  return attention()+'<div class="card"><div class="cardhead"><h2>Installments · '+selectedPlayer().name+'</h2><div class="spacer"></div><button class="btn small" data-action="adjust">Adjust installment</button></div>'+(rows.length?'<div class="tablewrap"><table class="table"><thead><tr><th>Due date</th><th>Installment</th><th>Status</th><th class="num">Amount</th><th>Collection</th><th></th></tr></thead><tbody>'+
-  rows.map(x=>'<tr><td>'+fmt(x.date)+'</td><td>'+x.label+'</td><td>'+badge(x.status,statusKind(x.status))+'</td><td class="num money">'+money(x.amount)+'</td><td>'+(x.status==='Scheduled'?'Autopay':x.status==='Past due'?'Manual recovery':x.status==='Processing'?'Protected':'—')+'</td><td><button class="rowaction" data-action="adjust" data-id="'+x.id+'">⋮</button></td></tr>').join('')+
-  '</tbody></table></div>':'<div class="empty"><b>No installments</b>No installment schedule exists for this player.</div>')+'</div>';
+function registerTable(rows){
+  if(!rows.length)return '<div class="empty"><b>No activity for '+selectedPlayer().name+'</b>Nothing matches the current filters.</div>';
+  return '<div class="tablewrap"><table class="table"><thead><tr><th>Date</th><th>Type</th><th>Description</th><th class="num">Amount</th><th></th></tr></thead><tbody>'+
+    rows.map(r=>{const idx=data.transactions.indexOf(r);return '<tr><td>'+fmt(r.date)+'</td><td>'+badge(r.type,statusKind(r.type))+'</td><td class="desc"><strong>'+r.desc+'</strong><small>'+r.detail+'</small></td><td class="num money '+(r.amount<0?'pos':(r.type==='Refund'||r.type==='Return')?'neg':'')+'">'+(r.amount<0?'-':'')+money(Math.abs(r.amount))+'</td><td><button class="rowaction" data-action="activityAction" data-id="'+idx+'" aria-label="Actions for '+r.desc+'">⋮</button></td></tr>'}).join('')+
+    '</tbody></table></div>';
 }
-function chargeItem(x){return '<div class="item"><span class="statusdot '+statusKind(x.status)+'"></span><div class="grow"><strong>'+x.label+'</strong><small>'+x.player+' · '+x.group+'</small></div><div><div class="money">'+money(x.remaining)+'</div><small class="muted">of '+money(x.amount)+'</small></div></div>'}
-function renderCharges(){
-  const source=playerCharges(),groups=[...new Set(source.map(x=>x.group))];
-  return '<div class="card"><div class="cardhead"><h2>Charges & credits · '+selectedPlayer().name+'</h2><div class="spacer"></div><button class="btn small primary" data-action="charge">＋ Add Charge</button></div><div class="cardbody">'+(groups.length?groups.map(g=>'<div class="mini" style="margin-bottom:10px"><h4>'+g+'</h4>'+source.filter(x=>x.group===g).map(x=>'<div class="line"><span><b>'+x.label+'</b><br><small class="muted">'+x.status+'</small></span><span class="num"><b>'+money(x.remaining)+'</b><br><small class="muted">remaining</small></span></div>').join('')+'</div>').join(''):'<div class="empty"><b>No charges</b>No billing items belong to this player.</div>')+'</div></div>';
+function renderOpenItems(){
+  const items=openCharges();
+  return attention()+'<div class="card"><div class="cardhead"><h2>Open Items · '+selectedPlayer().name+'</h2><div class="spacer"></div><button class="btn small" data-action="adjustBilling">Adjust billing</button></div>'+
+    (items.length?'<div>'+items.map(x=>{
+      const isFee=/fee/i.test(x.label);
+      return '<div class="open-item"><div><div class="title">'+x.label+'</div><div class="sub">'+x.group+'</div></div><div class="money num">'+money(x.remaining)+'</div><div class="status-col">'+badge(x.status,statusKind(x.status))+'</div><div class="context-actions">'+
+      '<button class="btn small" data-pay-target="'+x.id+'">Collect</button>'+
+      (isFee?'<button class="btn small" data-waive-fee="'+x.id+'">Waive</button>':'<button class="btn small" data-adjust-target="charge:'+x.id+'">Adjust</button>')+
+      '</div></div>';
+    }).join('')+'</div>':'<div class="empty"><b>No open items</b>'+selectedPlayer().name+' has no unpaid billing items.</div>')+'</div>';
+}
+function renderSchedule(){
+  const rows=playerInstallments();
+  return attention()+'<div class="card"><div class="cardhead"><h2>Payment Schedule · '+selectedPlayer().name+'</h2><div class="spacer"></div><button class="btn small" data-action="adjustBilling">Adjust billing</button></div>'+
+    (rows.length?'<div>'+rows.map(x=>'<div class="schedule-row"><div>'+fmt(x.date)+'</div><div><div class="title"><b>'+x.label+'</b></div><div class="sub muted tiny">'+(x.status==='Scheduled'?'Scheduled collection':x.status==='Past due'?'Manual recovery':x.status==='Processing'?'Protected while processing':'Completed')+'</div></div><div class="money num">'+money(x.amount)+'</div><div class="collection-col">'+badge(x.status,statusKind(x.status))+'</div><div class="context-actions">'+(x.status!=='Paid'?'<button class="btn small" data-adjust-target="installment:'+x.id+'">Adjust</button>':'')+'</div></div>').join('')+'</div>':'<div class="empty"><b>No payment schedule</b>No installments exist for this player.</div>')+'</div>';
 }
 function renderMethods(){
-  return '<div class="card"><div class="cardhead"><h2>Payment methods · '+selectedPlayer().name+'</h2><div class="spacer"></div><button class="btn small primary" data-action="method">＋ Add payment method</button></div><div class="cardbody"><div class="callout" style="margin-bottom:12px"><strong>Player context:</strong> these are the payer methods available for '+selectedPlayer().name+'’s billing. The saved method still belongs to the payer, not the player.</div><div class="itemlist">'+data.methods.map(m=>'<div class="item"><div class="kicon" style="width:36px;height:36px;font-size:15px">'+(m.type==='ACH'?'▤':'▰')+'</div><div class="grow"><strong>'+m.label+' ···· '+m.last4+'</strong><small>'+m.type+' · '+(m.autopay?'Used for this player’s autopay':'Available for this player')+'</small></div>'+(m.default?badge('Default','good'):'<button class="btn small" data-method-default="'+m.id+'">Set default</button>')+'</div>').join('')+'</div><div class="callout" style="margin-top:12px"><strong>Prototype behavior:</strong> changing the default method here only changes fake data for this page session.</div></div></div>';
-}
-function renderPlayers(){
-  initPlayerBalances();
-  return '<div class="card"><div class="cardhead"><h2>Players on account</h2><span class="muted tiny">Choose a player to change the billing context.</span></div><div class="cardbody"><div class="grid2">'+data.players.map((p,i)=>'<div class="mini '+(p.name===selectedPlayer().name?'selected-player':'')+'"><div class="person"><div class="circle '+(i?'alt':'')+'">'+p.initials+'</div><div class="grow"><b>'+p.name+'</b><small>'+p.team+'</small></div>'+(p.name===selectedPlayer().name?badge('Selected','info'):'')+'</div><div class="line"><span>Billing balance</span><b>'+money(data.playerBalances[p.name]||0)+'</b></div><div class="line"><span>Past due</span><b>'+money(i===0?data.pastDue:0)+'</b></div><button class="btn small" style="margin-top:10px" data-action="player" data-id="'+i+'">'+(p.name===selectedPlayer().name?'Viewing billing':'View player billing')+'</button></div>').join('')+'</div></div></div>';
-}
-function renderNotes(){
-  return '<div class="card"><div class="cardhead"><h2>Account notes</h2></div><div class="cardbody"><label class="label">Add a note<textarea id="noteText" placeholder="Write an internal account note…"></textarea></label><div style="margin:8px 0 16px"><button class="btn small primary" id="addNoteInline">Add note</button></div>'+data.notes.map(n=>'<div class="note"><div class="notehead"><strong>'+n.by+'</strong><small>'+fmt(n.date)+'</small></div><p>'+n.text+'</p></div>').join('')+'</div></div>';
+  const p=selectedPlayer(),auto=data.autopayByPlayer[p.name];
+  return '<div class="card"><div class="cardhead"><h2>Payment Methods · '+p.name+'</h2><div class="spacer"></div><button class="btn small primary" data-action="method">＋ Add payment method</button></div>'+
+    '<div class="cardbody"><div class="callout" style="margin-bottom:12px"><strong>Two different jobs:</strong> the Account default is used for one-time charges. '+p.name+'’s autopay method controls this player’s scheduled collections.</div><div class="itemlist">'+
+    data.methods.map(m=>'<div class="item"><div class="kicon" style="width:36px;height:36px;font-size:15px">'+(m.type==='ACH'?'▤':'▰')+'</div><div class="grow"><strong>'+m.label+' ···· '+m.last4+'</strong><small>'+m.type+'</small><div class="method-badges">'+(m.default?badge('Account default','info'):'')+(auto===m.id?badge('Player autopay','good'):'')+'</div></div><button class="btn small" data-method-manage="'+m.id+'">Manage</button></div>').join('')+
+    '</div></div></div>';
 }
 function renderRail(){
+  const p=selectedPlayer();
+  const payerHtml=data.payers.map(x=>'<div class="person"><div class="circle">'+x.name.split(' ').map(v=>v[0]).join('').slice(0,2)+'</div><div class="grow"><b>'+x.name+' · '+x.share+'%</b><small>'+x.rail+' · '+(x.autopay?'Autopay on':'Autopay off')+'</small></div></div>').join('');
+  const latest=data.notes.slice(0,2);
   $('#rail').innerHTML=
-  '<div class="card"><div class="cardhead"><h3>Account details</h3><div class="spacer"></div><button class="btn linkish small" data-action="account">Edit</button></div><div class="cardbody"><dl class="kv"><dt>Account ID</dt><dd>'+data.id+'</dd><dt>Type</dt><dd>Family</dd><dt>Status</dt><dd>'+data.status+'</dd><dt>Primary contact</dt><dd>'+data.name+'</dd><dt>Email</dt><dd>'+data.email+'</dd><dt>Phone</dt><dd>'+data.phone+'</dd></dl></div></div>'+
-  '<div class="card"><div class="cardhead"><h3>Players</h3><div class="spacer"></div><button class="btn linkish small" data-action="goto-players">Manage</button></div><div class="cardbody">'+data.players.map((p,i)=>'<button class="player-rail '+(p.name===selectedPlayer().name?'selected':'')+'" data-player-switch="'+i+'"><div class="circle '+(i?'alt':'')+'">'+p.initials+'</div><div class="grow"><b>'+p.name+'</b><small>'+p.team+'</small></div>'+(p.name===selectedPlayer().name?badge('Viewing','info'):'<span>›</span>')+'</button>').join('')+'</div></div>'+
-  '<div class="card"><div class="cardhead"><h3>Payment methods</h3><div class="spacer"></div><button class="btn linkish small" data-action="goto-methods">Manage</button></div><div class="cardbody">'+data.methods.slice(0,2).map(m=>'<div class="method"><span>'+(m.type==='ACH'?'▤':'▰')+'</span><div class="grow"><b>'+m.label+'</b><small>···· '+m.last4+'</small></div>'+(m.autopay?badge('AutoPay','good'):'')+'</div>').join('')+'</div></div>'+
-  '<div class="card"><div class="cardhead"><h3>Quick actions</h3></div><div class="quick"><button data-action="payment">▤ Record a payment</button><button data-action="charge">◇ Add a charge</button><button data-action="refund">↶ Create a refund</button><button data-action="adjust">◴ Adjust an installment</button><button data-action="method">▰ Add payment method</button><button data-action="statement">▧ View / print statement</button></div></div>';
-  $('#rail [data-action]').forEach(b=>b.onclick=()=>openDrawer(b.dataset.action,b.dataset.id||''));
-  $('#rail [data-player-switch]').forEach(b=>b.onclick=()=>{selectedPlayerName=data.players[Number(b.dataset.playerSwitch)].name;filters={q:'',type:'All'};tab='Overview';render()});
-}
-function showMore(btn){
-  const m=$('#moreMenu'),r=btn.getBoundingClientRect();m.style.top=(r.bottom+6)+'px';m.style.left=Math.max(8,r.right-190)+'px';
-  m.innerHTML='<button data-action="payment">Record payment</button><button data-action="refund">Create refund</button><button data-action="adjust">Adjust installment</button><button data-action="method">Add payment method</button><button data-action="statement">View / print statement</button>';
-  m.classList.remove('hidden');$$('#moreMenu [data-action]').forEach(b=>b.onclick=()=>{m.classList.add('hidden');openDrawer(b.dataset.action)});
+    '<div class="card"><div class="cardhead"><h3>Account & access</h3></div><div class="cardbody"><dl class="kv"><dt>Account ID</dt><dd>'+data.id+'</dd><dt>Status</dt><dd>'+data.status+'</dd><dt>Primary contact</dt><dd>'+data.name+'</dd><dt>Family access</dt><dd>'+data.familyAccess.length+' people</dd></dl></div></div>'+
+    '<div class="card"><div class="cardhead"><h3>Payer responsibility</h3><div class="spacer"></div><button class="btn linkish small" data-action="responsibility">Manage</button></div><div class="cardbody">'+payerHtml+'<div class="tiny muted" style="margin-top:8px">Who can access a player and who owes the balance are separate.</div></div></div>'+
+    '<div class="card"><div class="cardhead"><h3>Account notes</h3><div class="spacer"></div><button class="btn linkish small" data-action="notes">Open</button></div><div class="cardbody">'+(latest.length?latest.map(n=>'<div class="notes-preview"><strong>'+n.scope+' · '+n.by+'</strong><br>'+n.text+'</div>').join('<hr style="border:0;border-top:1px solid #edf1f5;margin:9px 0">'):'<span class="muted">No notes.</span>')+'</div></div>'+
+    '<div class="card"><div class="cardhead"><h3>Related work</h3></div><div class="rail-links"><button data-action="playerWorkspace">Open '+p.name+' workspace</button><button data-action="enrollment">Enrollment & team placement</button><button data-action="financialAid">Financial aid</button></div></div>';
+  $$('#rail [data-action]').forEach(b=>b.onclick=()=>openDrawer(b.dataset.action,b.dataset.id||''));
 }
 function closeDrawer(){action=null;$('#drawerBack').classList.add('hidden')}
+function drawer(title,html,foot){
+  $('#drawerTitle').textContent=title;$('#drawerBody').innerHTML=html;$('#drawerFoot').innerHTML=foot||'<button class="btn" id="cancelDrawer">Close</button>';$('#drawerBack').classList.remove('hidden');
+  const cancel=$('#cancelDrawer');if(cancel)cancel.onclick=closeDrawer;
+}
+function obligationOptions(selected){
+  const opts=[];
+  openCharges().forEach(x=>opts.push({value:'charge:'+x.id,label:x.label+' · '+money(x.remaining)}));
+  unpaidInstallments().forEach(x=>opts.push({value:'installment:'+x.id,label:fmt(x.date)+' · '+x.label+' · '+money(x.amount)}));
+  return opts.map(x=>'<option value="'+x.value+'" '+(selected===x.value?'selected':'')+'>'+x.label+'</option>').join('');
+}
+function paymentTargetOptions(selected){
+  return openCharges().map(x=>'<option value="'+x.id+'" '+(selected===x.id?'selected':'')+'>'+x.label+' · '+money(x.remaining)+'</option>').join('');
+}
 function openDrawer(a,id=''){
-  if(a==='goto-installments'){tab='Installments';render();return}
-  if(a==='goto-methods'){tab='Payment Methods';render();return}
-  if(a==='goto-players'){tab='Players';render();return}
-  if(a==='player'){selectedPlayerName=data.players[Number(id)].name;filters={q:'',type:'All'};tab='Overview';render();toast('Now viewing '+selectedPlayerName);return}
-  action={type:a,id};const titles={payment:'Record a payment',charge:'Add a charge',refund:'Create a refund',adjust:'Adjust an installment',method:'Add payment method',note:'Add account note',statement:'Player statement',account:'Edit account details',transaction:'Transaction details'};
-  const financial=['payment','charge','refund','adjust','method','statement'];
-  $('#drawerTitle').textContent=(titles[a]||'Account action')+(financial.includes(a)?' · '+selectedPlayer().name:'');$('#drawerBack').classList.remove('hidden');
-  let html='',foot='<button class="btn" id="cancelDrawer">Cancel</button>';
-  if(a==='payment'){
-    const next=nextPlayerInstallment();
-    html='<div class="form"><div class="callout"><strong>Recording payment for '+selectedPlayer().name+'.</strong> Payment applies only to this player’s eligible unpaid items.</div><div class="formrow"><label class="label">Amount<input id="fAmount" type="number" min="0" step=".01" value="'+(playerPastDue()||(next&&next.amount)||0)+'"></label><label class="label">Method<select id="fMethod">'+data.methods.map(m=>'<option>'+m.label+' ···· '+m.last4+'</option>').join('')+'<option>Cash / check</option></select></label></div><label class="label">Staff note<textarea id="fNote" placeholder="Optional"></textarea></label></div>';foot+='<button class="btn primary" id="saveDrawer">Record payment</button>';
-  } else if(a==='charge'){
-    html='<div class="form"><div class="callout"><strong>Adding charge for '+selectedPlayer().name+'.</strong> Switch players before opening this action to charge someone else.</div><label class="label">Charge<select id="fDesc"><option>Uniform package</option><option>Tournament fee</option><option>Training clinic</option><option>Custom charge</option></select></label><div class="formrow"><label class="label">Amount<input id="fAmount" type="number" min="0" step=".01" value="125"></label><label class="label">Due date<input id="fDate" type="date" value="'+today+'"></label></div><label class="label">Collection<select id="fCollection"><option>Use saved payment setup</option><option>Finance managed / offline</option></select><span class="help">No real payment is created in this prototype.</span></label></div>';foot+='<button class="btn primary" id="saveDrawer">Add charge</button>';
-  } else if(a==='refund'){
-    const pays=playerTransactions().filter(x=>x.type==='Payment');
-    html='<div class="form"><div class="callout"><strong>Refunds for '+selectedPlayer().name+' preserve original payment history.</strong> Choose a settled payment and enter the amount to return.</div>'+(pays.length?'<label class="label">Payment<select id="fPayment">'+pays.map((p,i)=>'<option value="'+i+'">'+fmt(p.date)+' · '+p.desc+' · '+money(Math.abs(p.amount))+'</option>').join('')+'</select></label><label class="label">Refund amount<input id="fAmount" type="number" min="0" step=".01" value="'+Math.min(100,Math.abs(pays[0].amount))+'"></label><label class="label">Reason<textarea id="fNote" placeholder="Reason for refund"></textarea></label>':'<div class="empty"><b>No settled payments</b>There is nothing to refund for this player.</div>')+'</div>';if(pays.length)foot+='<button class="btn primary" id="saveDrawer">Create fake refund</button>';
-  } else if(a==='adjust'){
-    const installments=playerInstallments(),selected=installments.find(x=>x.id===id)||installments.find(x=>x.status!=='Paid')||installments[0];
-    html='<div class="form">'+(selected?'<label class="label">Installment<select id="fInstallment">'+installments.map(x=>'<option value="'+x.id+'" '+(selected.id===x.id?'selected':'')+'>'+fmt(x.date)+' · '+x.label+'</option>').join('')+'</select></label><div class="formrow"><label class="label">Amount<input id="fAmount" type="number" step=".01" value="'+selected.amount+'"></label><label class="label">Due date<input id="fDate" type="date" value="'+selected.date+'"></label></div><label class="label">Adjustment note<textarea id="fNote" placeholder="Optional internal note"></textarea></label>':'<div class="empty"><b>No installments</b>This player has no installment to adjust.</div>')+'</div>';if(selected)foot+='<button class="btn primary" id="saveDrawer">Save adjustment</button>';
-  } else if(a==='method'){
-    html='<div class="form"><div class="callout">This is fake data. Do not enter a real card or bank account.</div><label class="label">Method type<select id="fType"><option>Card</option><option>ACH</option></select></label><label class="label">Display label<input id="fLabel" value="Demo Visa"></label><label class="label">Last four digits<input id="fLast4" inputmode="numeric" maxlength="4" value="4242"></label></div>';foot+='<button class="btn primary" id="saveDrawer">Add fake method</button>';
-  } else if(a==='note'){
-    html='<div class="form"><label class="label">Internal note<textarea id="fNote" placeholder="Visible to staff only"></textarea></label></div>';foot+='<button class="btn primary" id="saveDrawer">Add note</button>';
-  } else if(a==='statement'){
-    html='<div class="form"><div class="callout"><strong>'+selectedPlayer().name+' statement preview</strong><br>'+data.name+' · '+data.id+'<br><br>Player balance: <b>'+money(playerBalance())+'</b><br>Past due: <b>'+money(playerPastDue())+'</b><br><br>This prototype does not generate a real PDF.</div><label class="label">Statement range<select><option>All player activity</option><option>Current season</option><option>Last 90 days</option></select></label></div>';foot+='<button class="btn primary" id="saveDrawer">Pretend to print</button>';
-  } else if(a==='account'){
-    html='<div class="form"><label class="label">Primary contact<input id="fName" value="'+data.name+'"></label><label class="label">Email<input id="fEmail" value="'+data.email+'"></label><label class="label">Phone<input id="fPhone" value="'+data.phone+'"></label><label class="label">City<input id="fCity" value="'+data.city+'"></label></div>';foot+='<button class="btn primary" id="saveDrawer">Save</button>';
-  } else {
-    const r=data.transactions[Number(id)]||data.transactions[0];html='<div class="form"><div class="callout"><strong>'+r.desc+'</strong><br>'+fmt(r.date)+' · '+r.player+'<br>'+r.detail+'<br><br>Amount: <b>'+money(Math.abs(r.amount))+'</b></div><div class="mini"><h4>Prototype next actions</h4><div class="line"><span>Open processor evidence</span><b>›</b></div><div class="line"><span>View related charge</span><b>›</b></div><div class="line"><span>Add account note</span><b>›</b></div></div></div>';
+  action={type:a,id};
+  if(a==='playerWorkspace'){
+    drawer('Player Workspace · '+selectedPlayer().name,'<div class="callout"><strong>Outside this billing prototype.</strong><br>Player profile, team placement, offers, enrollment, participation, tryouts, and operational work belong in the Player Workspace rather than being recreated here.</div>');return;
   }
-  $('#drawerBody').innerHTML=html;$('#drawerFoot').innerHTML=foot;
-  $('#cancelDrawer').onclick=closeDrawer;const save=$('#saveDrawer');if(save)save.onclick=saveAction;
+  if(a==='enrollment'){
+    drawer('Enrollment & team placement · '+selectedPlayer().name,'<div class="callout"><strong>Outside Billing.</strong><br>This route would open the selected player’s enrollment and team-placement workflow. Billing here only reflects the financial consequences.</div>');return;
+  }
+  if(a==='financialAid'){
+    drawer('Financial aid · '+selectedPlayer().name,'<div class="callout"><strong>Status and entry point only.</strong><br>Application review, documents, approval/denial, and correction requests belong in Financial Aid. Approved aid can then be applied through Adjust billing.</div><div class="inline-actions"><button class="btn" data-drawer-action="aidInvite">Send application invitation</button><button class="btn" data-drawer-action="aidStatus">Open Financial Aid workflow</button></div>');
+    bindDrawerButtons();return;
+  }
+  if(a==='account'){
+    drawer('Edit account','<div class="form"><div class="callout">Login/account email is read-only here.</div><label class="label">Account holder name<input id="fName" value="'+data.name+'"></label><label class="label">Phone<input id="fPhone" value="'+data.phone+'"></label><label class="label">Billing email<input id="fEmail" value="'+data.email+'"></label><label class="label">Mailing address<input id="fMail" value="'+data.mailingAddress+'"></label><label class="label">Billing address<input id="fBill" value="'+data.billingAddress+'"></label></div>','<button class="btn" id="cancelDrawer">Cancel</button><button class="btn primary" id="saveDrawer">Save</button>');
+  } else if(a==='access'){
+    drawer('Family access','<div class="callout"><strong>Access is not payer responsibility.</strong> Inviting someone to access '+selectedPlayer().name+' does not make them responsible for billing.</div><div class="itemlist" style="margin-top:12px">'+data.familyAccess.map((x,i)=>'<div class="item"><div class="circle">'+x.name.split(' ').map(v=>v[0]).join('').slice(0,2)+'</div><div class="grow"><strong>'+x.name+'</strong><small>'+x.email+' · '+x.role+'</small></div>'+badge(x.status,statusKind(x.status))+(x.status==='Pending'?'<div class="context-actions"><button class="btn small" data-access-resend="'+i+'">Resend</button><button class="btn small" data-access-revoke="'+i+'">Revoke</button></div>':'')+'</div>').join('')+'</div><div class="inline-actions"><button class="btn primary" id="inviteAccess">Invite family member</button><button class="btn" data-drawer-action="accessHistory">Invitation history</button></div>');
+    $('#inviteAccess').onclick=()=>{data.familyAccess.push({name:'New family member',email:'new.member@example.com',status:'Pending',role:'Player access'});closeDrawer();render();toast('Fake invitation sent')};
+    $$('[data-access-resend]').forEach(b=>b.onclick=()=>toast('Invitation resent'));
+    $$('[data-access-revoke]').forEach(b=>b.onclick=()=>{data.familyAccess.splice(Number(b.dataset.accessRevoke),1);closeDrawer();render();toast('Invitation revoked')});
+    bindDrawerButtons();return;
+  } else if(a==='responsibility'){
+    drawer('Payer responsibility · '+selectedPlayer().name,'<div class="form"><div class="callout"><strong>Separate from family access.</strong> This changes unpaid financial responsibility for this player, not who can see the player.</div><label class="label">Move unpaid responsibility to<select id="fResponsibility"><option>Another eligible linked Account</option><option>Secondary family Account</option></select></label><label class="label" style="flex-direction:row;align-items:center"><input id="fRemoveAccess" type="checkbox" style="width:auto"> Remove the original Account’s access to this player</label><label class="label">Internal note<textarea id="fNote" placeholder="Why is responsibility changing?"></textarea></label></div>','<button class="btn" id="cancelDrawer">Cancel</button><button class="btn primary" id="saveDrawer">Simulate transfer</button>');
+  } else if(a==='notes'){
+    drawer('Account & player notes','<div class="callout">Notes are internal, permanent, and do not notify families.</div><div class="form" style="margin-top:12px"><label class="label">Scope<select id="fNoteScope"><option>Account</option><option>'+selectedPlayer().name+'</option></select></label><label class="label">New note<textarea id="fNote" placeholder="Add an internal note…"></textarea></label><button class="btn primary" id="addNote">Add note</button></div><div style="margin-top:18px">'+data.notes.map((n,i)=>'<div class="note"><div class="notehead"><strong>'+n.scope+' · '+n.by+'</strong><small>'+fmt(n.date)+' · '+n.status+'</small></div><p>'+n.text+'</p><div class="inline-actions"><button class="btn small" data-note-reply="'+i+'">Reply</button><button class="btn small" data-note-toggle="'+i+'">'+(n.status==='Escalated'?'Resolve':'Escalate')+'</button></div></div>').join('')+'</div>');
+    $('#addNote').onclick=()=>{const text=$('#fNote').value.trim();if(!text)return toast('Write a note first');data.notes.unshift({date:today,by:'Chris Wirth',scope:$('#fNoteScope').value,status:'Normal',text});closeDrawer();render();toast('Note added')};
+    $$('[data-note-reply]').forEach(b=>b.onclick=()=>toast('Reply composer simulated'));
+    $$('[data-note-toggle]').forEach(b=>b.onclick=()=>{const n=data.notes[Number(b.dataset.noteToggle)];n.status=n.status==='Escalated'?'Resolved':'Escalated';closeDrawer();render();toast('Note status updated')});return;
+  } else if(a==='payment'){
+    const target=id&&playerCharges().some(x=>x.id===id)?id:(openCharges()[0]&&openCharges()[0].id)||'';
+    const next=nextPlayerInstallment();
+    drawer('Record payment · '+selectedPlayer().name,'<div class="form"><div class="callout"><strong>One payment action.</strong> Use a saved method, another card for this payment only, or record money received offline.</div><label class="label">Apply payment to<select id="fPaymentTarget">'+paymentTargetOptions(target)+'</select></label><div class="formrow"><label class="label">Amount<input id="fAmount" type="number" min="0" step=".01" value="'+(playerPastDue()||(next&&next.amount)||Math.min(playerBalance(),100))+'"></label><label class="label">Payment method<select id="fMethod">'+data.methods.map(m=>'<option value="saved:'+m.id+'">'+m.label+' ···· '+m.last4+'</option>').join('')+'<option value="another-card">Another card · this payment only</option><option value="cash">Cash</option><option value="check">Check</option><option value="dibs">DIBS Hours</option><option value="staff-payroll">Staff Payroll</option><option value="coach-payroll">Coaches Payroll</option><option value="other">Other offline</option></select></label></div><button class="btn small" id="fullBalance">Use full player balance '+money(playerBalance())+'</button><label class="label">Staff note<textarea id="fNote" placeholder="Optional"></textarea></label></div>','<button class="btn" id="cancelDrawer">Cancel</button><button class="btn primary" id="saveDrawer">Record payment</button>');
+    $('#fullBalance').onclick=()=>{$('#fAmount').value=playerBalance().toFixed(2)};
+  } else if(a==='charge'){
+    drawer('Add charge · '+selectedPlayer().name,'<div class="form"><div class="callout"><strong>Selected player is fixed.</strong> The action does not ask staff to choose the player again.</div><label class="label">Product or service<select id="fDesc"><option>Uniform package</option><option>Tournament fee</option><option>Training clinic</option><option>Custom charge</option></select></label><div class="formrow"><label class="label">Amount<input id="fAmount" type="number" min="0" step=".01" value="125"></label><label class="label">Collection<select id="fCollection"><option value="one-time">One-time · parent approval/payment</option><option value="plan">Automatic installment plan</option><option value="offline">Offline charge</option></select></label></div><label class="label">Internal note<textarea id="fNote" placeholder="Optional internal note"></textarea></label><div id="chargePreview" class="callout"></div></div>','<button class="btn" id="cancelDrawer">Cancel</button><button class="btn primary" id="saveDrawer">Create fake charge</button>');
+    const preview=()=>{const mode=$('#fCollection').value,amt=Number($('#fAmount').value||0);$('#chargePreview').innerHTML=mode==='plan'?'<strong>Schedule preview</strong><br>3 automatic payments of approximately '+money(amt/3)+'.':mode==='offline'?'<strong>Offline</strong><br>No online collection will be scheduled.':'<strong>One-time</strong><br>Parent receives a payment/setup path for '+money(amt)+'.'};
+    $('#fCollection').onchange=preview;$('#fAmount').oninput=preview;preview();
+  } else if(a==='adjustBilling'){
+    const target=id&&String(id).includes(':')?id:((openCharges()[0]&&'charge:'+openCharges()[0].id)||(unpaidInstallments()[0]&&'installment:'+unpaidInstallments()[0].id)||'');
+    drawer('Adjust billing · '+selectedPlayer().name,'<div class="form"><div class="callout"><strong>Not two more copies of other workflows.</strong><br>Money received uses <button class="btn linkish small" data-drawer-action="openPayment">Record payment</button>. Refunds start from the original payment in <button class="btn linkish small" data-drawer-action="openActivity">Activity</button>.</div><label class="label">What are you changing?<select id="fAdjustTarget">'+obligationOptions(target)+'</select></label><label class="label">Change type<select id="fAdjustType"><option value="aid">Financial aid credit</option><option value="discount">Discount</option><option value="account-credit">Apply account credit</option><option value="correction">Correction</option><option value="remove">Remove item</option><option value="reduce-payment">Reduce or skip one payment</option><option value="due-date">Change payment due date</option><option value="frequency">Change payment frequency</option><option value="convert-plan">Convert to payment plan</option></select></label><div id="adjustFields"></div></div>','<button class="btn" id="cancelDrawer">Cancel</button><button class="btn primary" id="saveDrawer">Apply fake change</button>');
+    $('#fAdjustType').onchange=renderAdjustFields;renderAdjustFields();bindDrawerButtons();
+  } else if(a==='waiveFee'){
+    const x=data.charges.find(v=>v.id===id);
+    drawer('Waive fee · '+selectedPlayer().name,'<div class="form"><div class="callout"><strong>'+x.label+'</strong><br>Remaining: '+money(x.remaining)+'</div><label class="label">Internal note<textarea id="fNote" placeholder="Optional"></textarea></label></div>','<button class="btn" id="cancelDrawer">Cancel</button><button class="btn primary" id="saveDrawer">Waive fee</button>');
+  } else if(a==='method'){
+    drawer('Add payment method','<div class="form"><div class="callout">Fake data only. Do not enter real payment information.</div><label class="label">Method type<select id="fType"><option>Card</option><option>ACH</option></select></label><label class="label">Display label<input id="fLabel" value="Demo Visa"></label><label class="label">Last four digits<input id="fLast4" maxlength="4" value="4242"></label></div>','<button class="btn" id="cancelDrawer">Cancel</button><button class="btn primary" id="saveDrawer">Add fake method</button>');
+  } else if(a==='methodManage'){
+    const m=data.methods.find(x=>x.id===id),auto=data.autopayByPlayer[selectedPlayer().name]===id;
+    drawer('Manage '+m.label,'<div class="form"><div class="callout"><strong>'+m.type+' ···· '+m.last4+'</strong><br>Account default and player autopay are independent choices.</div><label class="label" style="flex-direction:row;align-items:center"><input type="radio" name="methodAction" value="default" '+(m.default?'checked':'')+' style="width:auto"> Set as Account default for one-time charges</label><label class="label" style="flex-direction:row;align-items:center"><input type="radio" name="methodAction" value="autopay" '+(auto?'checked':'')+' style="width:auto"> Use for '+selectedPlayer().name+' autopay</label><label class="label" style="flex-direction:row;align-items:center"><input type="radio" name="methodAction" value="remove" style="width:auto"> Remove saved method</label></div>','<button class="btn" id="cancelDrawer">Cancel</button><button class="btn primary" id="saveDrawer">Apply</button>');
+  } else if(a==='statement'){
+    drawer('Statement · '+selectedPlayer().name,'<div class="form"><div class="callout"><strong>Player statement preview</strong><br>'+data.name+' · '+data.id+'<br><br>Player balance: <b>'+money(playerBalance())+'</b><br>Past due: <b>'+money(playerPastDue())+'</b></div><label class="label">Statement range<select><option>All player activity</option><option>Current season</option><option>Last 90 days</option></select></label></div>','<button class="btn" id="cancelDrawer">Close</button><button class="btn primary" id="saveDrawer">Pretend to print</button>');
+  } else if(a==='paymentRequest'){
+    drawer('Send payment request · '+selectedPlayer().name,'<div class="form"><div class="callout"><strong>Past due: '+money(playerPastDue())+'</strong><br>Preview the request before sending. Eligible late/returned-payment fees can be included.</div><label class="label" style="flex-direction:row;align-items:center"><input type="checkbox" checked style="width:auto"> Include eligible fees</label><label class="label">Optional Inbox note<textarea id="fNote" placeholder="Optional message"></textarea></label></div>','<button class="btn" id="cancelDrawer">Cancel</button><button class="btn primary" id="saveDrawer">Send fake request</button>');
+  } else if(a==='activityAction'){
+    const r=data.transactions[Number(id)];
+    let actions='';
+    if(r.type==='Payment')actions='<button class="btn primary" data-drawer-action="refund">Refund payment</button><button class="btn" data-drawer-action="receipt">Send receipt</button>';
+    else if(r.type==='Processing')actions='<button class="btn primary" data-drawer-action="reconcile">Check Authorize.Net</button>';
+    else if(r.type==='Return')actions='<button class="btn primary" data-drawer-action="recharge">Recharge</button><button class="btn" data-drawer-action="paymentRequest">Send payment request</button>';
+    else if(r.type==='Refund')actions='<button class="btn" data-drawer-action="retryRefund">Retry refund</button><button class="btn" data-drawer-action="refundReconcile">Reconcile refund</button>';
+    else actions='<button class="btn" data-drawer-action="adjustFromActivity">Adjust related billing</button><button class="btn" data-drawer-action="copyLink">Copy payment/setup link</button>';
+    drawer('Activity actions · '+selectedPlayer().name,'<div class="callout"><strong>'+r.desc+'</strong><br>'+fmt(r.date)+' · '+r.detail+'<br><br>Amount: <b>'+money(Math.abs(r.amount))+'</b></div><div class="inline-actions">'+actions+'</div>');
+    bindDrawerButtons(r);return;
+  }
+  const save=$('#saveDrawer');if(save)save.onclick=saveAction;
+  const cancel=$('#cancelDrawer');if(cancel)cancel.onclick=closeDrawer;
+}
+function renderAdjustFields(){
+  const box=$('#adjustFields');if(!box)return;const type=$('#fAdjustType').value;
+  const installments=unpaidInstallments();
+  const installmentSelect='<label class="label">Payment<select id="fAdjInstallment">'+installments.map(x=>'<option value="'+x.id+'">'+fmt(x.date)+' · '+x.label+' · '+money(x.amount)+'</option>').join('')+'</select></label>';
+  if(['aid','discount','account-credit'].includes(type))box.innerHTML='<div class="formrow"><label class="label">Amount<input id="fAdjAmount" type="number" min="0" step=".01" value="100"></label><label class="label">Schedule effect<select id="fScheduleEffect"><option value="lower">Lower remaining payments</option><option value="upcoming">Cover upcoming payments first</option></select></label></div>';
+  else if(type==='correction')box.innerHTML='<label class="label">Balance correction<input id="fAdjAmount" type="number" step=".01" value="-100"><span class="help">Negative lowers the balance. Positive increases it.</span></label><label class="label">Internal explanation<textarea id="fNote"></textarea></label>';
+  else if(type==='remove')box.innerHTML='<div class="callout"><strong>Finance approval required.</strong> This creates a request to remove an unpaid item. It does not immediately erase history.</div><label class="label">Reason<textarea id="fNote"></textarea></label>';
+  else if(type==='reduce-payment')box.innerHTML=installmentSelect+'<div class="formrow"><label class="label">New payment amount<input id="fAdjAmount" type="number" min="0" step=".01" value="0"></label><label class="label">Recover difference<select id="fScheduleEffect"><option value="next">In the next payment</option><option value="spread">Across later payments</option></select></label></div>';
+  else if(type==='due-date')box.innerHTML=installmentSelect+'<label class="label">New due date<input id="fAdjDate" type="date" value="2026-11-15"></label>';
+  else if(type==='frequency')box.innerHTML='<label class="label">New frequency<select id="fFrequency"><option>Monthly</option><option>Semi-monthly</option><option>Every two weeks</option><option>Weekly</option></select></label><div class="callout">Unpaid payments will be regenerated. Paid history stays unchanged.</div>';
+  else if(type==='convert-plan')box.innerHTML='<div class="formrow"><label class="label">Agreed final balance<input id="fAdjAmount" type="number" min="0" step=".01" value="'+playerBalance().toFixed(2)+'"></label><label class="label">Frequency<select id="fFrequency"><option>Monthly</option><option>Semi-monthly</option><option>Every two weeks</option><option>Weekly</option></select></label></div><div class="formrow"><label class="label">First date<input id="fAdjDate" type="date" value="2026-11-01"></label><label class="label">Final date<input id="fFinalDate" type="date" value="2027-02-01"></label></div>';
+}
+function bindDrawerButtons(activityRow){
+  $$('[data-drawer-action]').forEach(b=>b.onclick=()=>{
+    const a=b.dataset.drawerAction;
+    if(a==='openPayment'){closeDrawer();openDrawer('payment');return}
+    if(a==='openActivity'){closeDrawer();tab='Activity';render();toast('Choose the original payment to refund');return}
+    if(a==='refund'){closeDrawer();openRefundFor(activityRow);return}
+    if(a==='receipt'){toast('Receipt sent');return}
+    if(a==='reconcile'){closeDrawer();reconcile();return}
+    if(a==='recharge'){closeDrawer();openDrawer('payment');toast('Recharge uses the selected failed obligation');return}
+    if(a==='paymentRequest'){closeDrawer();openDrawer('paymentRequest');return}
+    if(a==='retryRefund'){toast('Refund retry simulated');return}
+    if(a==='refundReconcile'){toast('Refund reconciliation simulated: Succeeded / Not processed / Still unknown');return}
+    if(a==='adjustFromActivity'){closeDrawer();openDrawer('adjustBilling');return}
+    if(a==='copyLink'){toast('Payment/setup link copied (simulated)');return}
+    if(a==='aidInvite'){toast('Financial aid invitation sent');return}
+    if(a==='aidStatus'){toast('Would open Financial Aid workflow');return}
+    if(a==='accessHistory'){toast('Invitation history opened (simulated)');return}
+  });
+}
+function openRefundFor(row){
+  if(!row){toast('Choose a payment first');return}
+  action={type:'refund',row};
+  drawer('Refund payment · '+selectedPlayer().name,'<div class="form"><div class="callout"><strong>'+row.desc+'</strong><br>'+fmt(row.date)+' · '+money(Math.abs(row.amount))+'<br>Online refunds/eligible voids preserve the original payment history.</div><label class="label">Refund amount<input id="fAmount" type="number" min="0" max="'+Math.abs(row.amount)+'" step=".01" value="'+Math.min(100,Math.abs(row.amount))+'"></label><label class="label">Item handling<select id="fRefundItem"><option>Keep item / restored balance remains due</option><option>Return item / remove from ordering</option></select></label><label class="label">Reason<textarea id="fNote"></textarea></label></div>','<button class="btn" id="cancelDrawer">Cancel</button><button class="btn primary" id="saveDrawer">Create fake refund</button>');
+  $('#saveDrawer').onclick=saveAction;$('#cancelDrawer').onclick=closeDrawer;
+}
+function applyPaymentToTarget(amount,targetId){
+  const charge=data.charges.find(x=>x.id===targetId&&x.player===selectedPlayer().name);
+  if(charge)charge.remaining=Math.max(0,Number(charge.remaining||0)-amount);
+  if(charge&&/season tuition/i.test(charge.label)){
+    let left=amount;
+    unpaidInstallments().forEach(x=>{
+      if(left<=0)return;
+      const applied=Math.min(left,Number(x.amount||0));
+      x.amount=Math.max(0,Number(x.amount||0)-applied);left-=applied;
+      if(x.amount<0.01){x.amount=0;x.status='Paid'}
+    });
+  }
+}
+function reduceFutureSchedule(amount,effect){
+  let left=Math.max(0,amount);const rows=unpaidInstallments();if(!rows.length)return;
+  if(effect==='upcoming'){
+    rows.forEach(x=>{if(left<=0)return;const d=Math.min(left,x.amount);x.amount-=d;left-=d;if(x.amount<0.01){x.amount=0;x.status='Paid'}});
+  }else{
+    const active=rows.filter(x=>x.amount>0);const each=active.length?left/active.length:0;
+    active.forEach(x=>{x.amount=Math.max(0,x.amount-each);if(x.amount<0.01){x.amount=0;x.status='Paid'}});
+  }
+}
+function regenerateSchedule(total,frequency,firstDate){
+  const counts={'Monthly':4,'Semi-monthly':6,'Every two weeks':8,'Weekly':8},count=counts[frequency]||4;
+  const per=Math.round((total/count)*100)/100,base=new Date((firstDate||'2026-11-01')+'T12:00:00');
+  const oldIds=new Set(playerInstallments().filter(x=>x.status!=='Paid').map(x=>x.id));
+  data.installments=data.installments.filter(x=>!oldIds.has(x.id));
+  for(let i=0;i<count;i++){
+    const d=new Date(base);d.setDate(d.getDate()+(frequency==='Monthly'?30*i:frequency==='Semi-monthly'?15*i:frequency==='Every two weeks'?14*i:7*i));
+    const iso=d.toISOString().slice(0,10),amt=i===count-1?Math.round((total-per*(count-1))*100)/100:per;
+    data.installments.push({id:'r'+Date.now()+i,date:iso,player:selectedPlayer().name,label:'Revised payment '+(i+1),amount:amt,status:'Scheduled'});
+  }
+}
+function applyAdjustment(){
+  const type=$('#fAdjustType').value,target=$('#fAdjustTarget').value,[kind,id]=target.split(':');
+  const charge=kind==='charge'?data.charges.find(x=>x.id===id):null;
+  if(['aid','discount','account-credit'].includes(type)){
+    const amount=Math.max(0,Number($('#fAdjAmount').value||0));if(!amount)return toast('Enter an amount');
+    const actual=charge?Math.min(amount,charge.remaining):Math.min(amount,playerBalance());
+    if(charge)charge.remaining=Math.max(0,charge.remaining-actual);addPlayerBalance(-actual);reduceFutureSchedule(actual,$('#fScheduleEffect').value);
+    const label=type==='aid'?'Financial aid credit':type==='discount'?'Discount':'Account credit applied';
+    data.transactions.unshift({date:today,type:'Credit',desc:label,detail:'Billing adjustment',player:selectedPlayer().name,amount:-actual});toast(label+' applied');
+  } else if(type==='correction'){
+    const delta=Number($('#fAdjAmount').value||0);if(!delta)return toast('Enter a correction');
+    if(charge)charge.remaining=Math.max(0,charge.remaining+delta);addPlayerBalance(delta);
+    data.transactions.unshift({date:today,type:'Correction',desc:'Billing correction',detail:($('#fNote').value||'Staff correction'),player:selectedPlayer().name,amount:delta});toast('Correction applied');
+  } else if(type==='remove'){
+    if(charge)charge.status='Removal requested';data.adjustRequests.push({player:selectedPlayer().name,type:'Remove item',target,status:'Pending Finance approval',date:today});toast('Removal request sent to Finance');
+  } else if(type==='reduce-payment'){
+    const x=data.installments.find(v=>v.id===$('#fAdjInstallment').value),newAmt=Math.max(0,Number($('#fAdjAmount').value||0));if(!x)return;
+    const diff=Math.max(0,x.amount-newAmt);x.amount=newAmt;if(newAmt===0)x.status='Scheduled';
+    const later=unpaidInstallments().filter(v=>v.id!==x.id&&v.date>=x.date);
+    if(diff&&later.length){if($('#fScheduleEffect').value==='next')later[0].amount+=diff;else{const each=diff/later.length;later.forEach(v=>v.amount+=each)}}
+    toast('Payment schedule adjusted');
+  } else if(type==='due-date'){
+    const x=data.installments.find(v=>v.id===$('#fAdjInstallment').value);if(x)x.date=$('#fAdjDate').value;toast('Due date changed');
+  } else if(type==='frequency'){
+    regenerateSchedule(unpaidInstallments().reduce((s,x)=>s+x.amount,0),$('#fFrequency').value,nextPlayerInstallment()&&nextPlayerInstallment().date);toast('Unpaid schedule regenerated');
+  } else if(type==='convert-plan'){
+    const total=Math.max(0,Number($('#fAdjAmount').value||0));regenerateSchedule(total,$('#fFrequency').value,$('#fAdjDate').value);setPlayerBalance(total);toast('Converted to payment plan');
+  }
 }
 function saveAction(){
   const a=action.type;
-  if(a==='payment'){
-    const amt=Math.max(0,Number($('#fAmount').value||0));if(!amt)return toast('Enter an amount');
-    const player=selectedPlayer().name,method=$('#fMethod').value;initPlayerBalances();data.playerBalances[player]=Math.max(0,data.playerBalances[player]-amt);data.balance=Math.max(0,data.balance-amt);if(player===data.players[0].name)data.pastDue=Math.max(0,data.pastDue-amt);data.transactions.unshift({date:today,type:'Payment',desc:'Staff recorded payment',detail:method,player,amount:-amt});if(data.pastDue===0&&data.status==='Participation hold')data.status='Active';toast('Fake payment recorded for '+player);
-  }
-  if(a==='charge'){
-    const amt=Math.max(0,Number($('#fAmount').value||0)),player=selectedPlayer().name,desc=$('#fDesc').value;initPlayerBalances();data.playerBalances[player]+=amt;data.balance+=amt;data.charges.push({id:'c'+Date.now(),group:'Staff-added charges · '+player,label:desc,player,amount:amt,remaining:amt,status:'Open'});data.transactions.unshift({date:today,type:'Charge',desc,detail:'Staff-added charge',player,amount:amt});toast('Fake charge added for '+player);
-  }
-  if(a==='refund'){
-    const amt=Math.max(0,Number($('#fAmount').value||0));if(!amt)return toast('Enter a refund amount');const player=selectedPlayer().name;initPlayerBalances();data.playerBalances[player]+=amt;data.balance+=amt;data.transactions.unshift({date:today,type:'Refund',desc:'Refund created',detail:($('#fNote').value||'Staff refund'),player,amount:amt});toast('Fake refund created for '+player);
-  }
-  if(a==='adjust'){
-    const id=$('#fInstallment').value,x=data.installments.find(i=>i.id===id),amt=Math.max(0,Number($('#fAmount').value||0)),date=$('#fDate').value;if(x){const delta=amt-x.amount;x.amount=amt;x.date=date;if(x.status!=='Paid'){initPlayerBalances();data.playerBalances[x.player]=Math.max(0,data.playerBalances[x.player]+delta);data.balance=Math.max(0,data.balance+delta)}toast('Installment adjusted for '+x.player)}}
-  if(a==='method'){
+  if(a==='account'){
+    data.name=$('#fName').value;data.phone=$('#fPhone').value;data.email=$('#fEmail').value;data.mailingAddress=$('#fMail').value;data.billingAddress=$('#fBill').value;toast('Fake account updated');
+  } else if(a==='responsibility'){toast('Responsibility transfer simulated');}
+  else if(a==='payment'){
+    const amount=Math.max(0,Number($('#fAmount').value||0));if(!amount)return toast('Enter an amount');
+    const target=$('#fPaymentTarget').value,method=$('#fMethod').selectedOptions[0].textContent;
+    const actual=Math.min(amount,playerBalance());applyPaymentToTarget(actual,target);addPlayerBalance(-actual);
+    if(selectedPlayer().name===data.players[0].name)data.pastDue=Math.max(0,Number(data.pastDue||0)-actual);
+    data.transactions.unshift({date:today,type:'Payment',desc:'Staff recorded payment',detail:method,player:selectedPlayer().name,amount:-actual});toast('Payment recorded for '+selectedPlayer().name);
+  } else if(a==='charge'){
+    const amount=Math.max(0,Number($('#fAmount').value||0));if(!amount)return toast('Enter an amount');
+    const desc=$('#fDesc').value,mode=$('#fCollection').value,player=selectedPlayer().name,id='c'+Date.now();
+    data.charges.push({id,group:'Staff-added charges · '+player,label:desc,player,amount,remaining:amount,status:'Open'});addPlayerBalance(amount);
+    data.transactions.unshift({date:today,type:'Charge',desc,detail:mode==='offline'?'Finance managed / offline':mode==='plan'?'Automatic installment plan':'One-time charge',player,amount});
+    if(mode==='plan'){const per=Math.round((amount/3)*100)/100;for(let i=0;i<3;i++)data.installments.push({id:'p'+Date.now()+i,date:['2026-11-01','2026-12-01','2027-01-01'][i],player,label:desc+' · Payment '+(i+1),amount:i===2?Math.round((amount-per*2)*100)/100:per,status:'Scheduled'})}
+    toast('Fake charge created');
+  } else if(a==='adjustBilling'){applyAdjustment();}
+  else if(a==='waiveFee'){
+    const x=data.charges.find(v=>v.id===action.id);if(x){const amt=x.remaining;x.remaining=0;x.status='Waived';addPlayerBalance(-amt);data.transactions.unshift({date:today,type:'Credit',desc:'Fee waived',detail:x.label,player:selectedPlayer().name,amount:-amt});toast('Fee waived')}
+  } else if(a==='method'){
     const type=$('#fType').value,label=$('#fLabel').value||'Demo method',last4=$('#fLast4').value||'0000';data.methods.push({id:'m'+Date.now(),type,label,last4,default:false,autopay:false});toast('Fake payment method added');
+  } else if(a==='methodManage'){
+    const choice=$('input[name="methodAction"]:checked');if(!choice)return toast('Choose an action');
+    const id=action.id,m=data.methods.find(x=>x.id===id);
+    if(choice.value==='default'){data.methods.forEach(x=>x.default=x.id===id);toast('Account default changed')}
+    if(choice.value==='autopay'){data.autopayByPlayer[selectedPlayer().name]=id;toast(selectedPlayer().name+' autopay changed')}
+    if(choice.value==='remove'){
+      if(m.default||data.autopayByPlayer[selectedPlayer().name]===id)return toast('Change default/autopay before removing this method');
+      data.methods=data.methods.filter(x=>x.id!==id);toast('Payment method removed')
+    }
+  } else if(a==='statement'){toast('Print simulated')}
+  else if(a==='paymentRequest'){toast('Payment request sent')}
+  else if(a==='refund'){
+    const amount=Math.max(0,Number($('#fAmount').value||0));if(!amount)return toast('Enter a refund amount');
+    addPlayerBalance(amount);data.transactions.unshift({date:today,type:'Refund',desc:'Refund created',detail:($('#fNote').value||'Processor refund'),player:selectedPlayer().name,amount});toast('Fake refund created');
   }
-  if(a==='note'){const text=$('#fNote').value.trim();if(text)data.notes.unshift({date:today,by:'Chris Wirth',text});toast('Note added')}
-  if(a==='statement'){toast('Print simulated')}
-  if(a==='account'){data.name=$('#fName').value;data.email=$('#fEmail').value;data.phone=$('#fPhone').value;data.city=$('#fCity').value;toast('Fake account details updated')}
   closeDrawer();render();
 }
-function setDefault(id){data.methods.forEach(m=>m.default=m.id===id);render();toast('Default payment method changed')}
 function reconcile(){
-  const amt=playerProcessing();if(!amt)return;const player=selectedPlayer().name;data.processing=0;const p=data.transactions.find(x=>x.type==='Processing'&&x.player===player);if(p){p.type='Payment';p.desc='Card payment verified';p.detail='Authorize.Net · settled after reconciliation'}const i=data.installments.find(x=>x.status==='Processing'&&x.player===player);if(i)i.status='Paid';initPlayerBalances();data.playerBalances[player]=Math.max(0,data.playerBalances[player]-amt);data.balance=Math.max(0,data.balance-amt);data.status='Active';data.notes.unshift({date:today,by:'System',text:'Authorize.Net confirmed the '+money(amt)+' payment for '+player+'. Billing activity and balance were repaired exactly once.'});render();toast('Processor result verified for '+player)}
+  const amount=playerProcessing();if(!amount)return;
+  const player=selectedPlayer().name,p=data.transactions.find(x=>x.type==='Processing'&&x.player===player),i=data.installments.find(x=>x.status==='Processing'&&x.player===player);
+  if(p){p.type='Payment';p.desc='Card payment verified';p.detail='Authorize.Net · settled after reconciliation'}
+  if(i){i.status='Paid';i.amount=0}
+  data.processing=0;addPlayerBalance(-amount);data.notes.unshift({date:today,by:'System',scope:player,status:'Normal',text:'Authorize.Net confirmed the '+money(amount)+' payment. Billing activity and balance were repaired exactly once.'});
+  render();toast('Processor result verified for '+player);
+}
 init();
 </script>
 </body>
