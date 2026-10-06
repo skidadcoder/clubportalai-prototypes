@@ -87,7 +87,6 @@ var state={
 var events=[
  {id:"clinic",name:"Fall Skills Clinic",kind:"Clinic",status:"Active",accent:"",date:"Oct 6 - Oct 29",location:"WPVC South Gym",sessions:9,registered:22,capacity:24,price:"$325 full · $70/day",audience:"Club + public",attention:3},
  {id:"meeting",name:"12 Elite Parent Meeting",kind:"Meeting",status:"Active",accent:"green",date:"Oct 12 · 7:00 PM",location:"WPVC Classroom",sessions:1,registered:31,capacity:40,price:"Free",audience:"Selected team",attention:0},
- {id:"tryout",name:"2027 Girls 14U Tryouts",kind:"Tryout",status:"Active",accent:"violet",date:"Nov 8 - Nov 11",location:"WPVC South + North",sessions:4,registered:54,capacity:72,price:"$65 tryout fee",audience:"Girls · 14U",attention:2},
  {id:"camp",name:"Holiday Break Camp",kind:"Camp",status:"Draft",accent:"violet",date:"Dec 28 - Dec 30",location:"WPVC North Gym",sessions:3,registered:0,capacity:36,price:"$195 full · $75/day",audience:"Public",attention:0}
 ];
 var sessions=[
@@ -100,11 +99,7 @@ var sessions=[
  {id:"c6",eventId:"clinic",date:"Thu, Oct 22",time:"6:00 - 8:30 PM",location:"WPVC North Gym",court:"Court A + Court B",registered:16,cap:24,status:"Scheduled"},
  {id:"c7",eventId:"clinic",date:"Tue, Oct 27",time:"5:00 - 7:00 PM",location:"WPVC South Gym",court:"Court 1 + Court 2",registered:15,cap:24,status:"Scheduled"},
  {id:"c8",eventId:"clinic",date:"Thu, Oct 29",time:"6:00 - 8:30 PM",location:"WPVC North Gym",court:"Court A + Court B",registered:15,cap:24,status:"Scheduled"},
- {id:"m1",eventId:"meeting",date:"Mon, Oct 12",time:"7:00 - 8:00 PM",location:"WPVC Classroom",court:"",registered:31,cap:40,status:"Scheduled"},
- {id:"t1",eventId:"tryout",label:"Regular",date:"Sun, Nov 8",time:"4:00 - 6:00 PM",location:"WPVC South Gym",court:"Court 1 + Court 2",registered:54,cap:72,status:"Scheduled"},
- {id:"t2",eventId:"tryout",label:"Regular",date:"Mon, Nov 9",time:"6:00 - 8:00 PM",location:"WPVC North Gym",court:"Court A + Court B",registered:48,cap:72,status:"Scheduled"},
- {id:"t3",eventId:"tryout",label:"Callback",date:"Tue, Nov 10",time:"6:30 - 8:00 PM",location:"WPVC South Gym",court:"Court 1",registered:0,cap:36,status:"Scheduled"},
- {id:"t4",eventId:"tryout",label:"Makeup",date:"Wed, Nov 11",time:"6:00 - 7:30 PM",location:"WPVC North Gym",court:"Court A",registered:8,cap:24,status:"Scheduled"}
+ {id:"m1",eventId:"meeting",date:"Mon, Oct 12",time:"7:00 - 8:00 PM",location:"WPVC Classroom",court:"",registered:31,cap:40,status:"Scheduled"}
 ];
 var registrations=[
  {id:"r1",eventId:"clinic",participant:"Maya Carter",registrant:"Jamie Carter",coverage:"Full Event",payment:"Paid",price:"$300",rail:"ACH",status:"Active",hold:false,cancel:false},
@@ -113,8 +108,7 @@ var registrations=[
  {id:"r4",eventId:"clinic",participant:"Eli Morgan",registrant:"Jordan Morgan",coverage:"Full Event",payment:"Processing",price:"$325",rail:"ACH",status:"Active",hold:false,cancel:false},
  {id:"r5",eventId:"clinic",participant:"Ava Kim",registrant:"Casey Kim",coverage:"Oct 15",payment:"Paid",price:"$70",rail:"ACH",status:"Cancellation requested",hold:false,cancel:true},
  {id:"r6",eventId:"clinic",participant:"Liam Price",registrant:"Morgan Price",coverage:"Full Event",payment:"Paid",price:"$250 staff offer",rail:"ACH",status:"Active",hold:false,cancel:false},
- {id:"r7",eventId:"meeting",participant:"Sam Rivera",registrant:"Sam Rivera",coverage:"Oct 12",payment:"Free",price:"$0",rail:"",status:"Active",hold:false,cancel:false},
- {id:"r8",eventId:"tryout",participant:"Sofia Martinez",registrant:"Dana Martinez",coverage:"Regular dates proposed",payment:"Paid",price:"$65",rail:"ACH",status:"Awaiting staff confirmation",hold:false,cancel:false}
+ {id:"r7",eventId:"meeting",participant:"Sam Rivera",registrant:"Sam Rivera",coverage:"Oct 12",payment:"Free",price:"$0",rail:"",status:"Active",hold:false,cancel:false}
 ];
 var attendance={
  c1:{"Maya Carter":"Here","Noah Bennett":"Late","Olivia Ross":"","Eli Morgan":"Here","Ava Kim":"","Liam Price":"Here"},
@@ -151,7 +145,7 @@ function listView(){
  var filtered=events.filter(function(e){var matches=state.statusFilter==="All"||e.status===state.statusFilter;var q=state.search.toLowerCase();return matches&&(!q||e.name.toLowerCase().indexOf(q)>=0||e.kind.toLowerCase().indexOf(q)>=0)});
  var body=state.listView==="cards"?'<div class="grid cards">'+filtered.map(eventCard).join("")+'</div>':eventTable(filtered);
  return '<main class="page"><div class="page-head"><div><div class="eyebrow">Operations</div><h1>Events</h1><div class="sub">Create signup activities, manage Sessions, registrations, attendance, coaches, volunteers, and the changes people already committed to.</div></div><div class="actions"><button class="btn primary" onclick="startWizard()">+ Create Event</button></div></div>'+
- '<div class="grid stats"><div class="stat"><div class="label">Active events</div><div class="value">3</div><div class="hint">1 has staff attention</div></div><div class="stat"><div class="label">Upcoming Sessions</div><div class="value">10</div><div class="hint">Next: Tue 5:00 PM</div></div><div class="stat"><div class="label">Registrations</div><div class="value">53</div><div class="hint">Across active Events</div></div><div class="stat"><div class="label">Needs attention</div><div class="value">3</div><div class="hint">Coverage, cancellation, email</div></div></div>'+
+ '<div class="grid stats"><div class="stat"><div class="label">Active events</div><div class="value">2</div><div class="hint">1 has staff attention</div></div><div class="stat"><div class="label">Upcoming Sessions</div><div class="value">10</div><div class="hint">Next: Tue 5:00 PM</div></div><div class="stat"><div class="label">Registrations</div><div class="value">53</div><div class="hint">Across active Events</div></div><div class="stat"><div class="label">Needs attention</div><div class="value">3</div><div class="hint">Coverage, cancellation, email</div></div></div>'+
  '<div class="toolbar"><div class="toolbar-left"><input class="control search" placeholder="Search Events" value="'+esc(state.search)+'" oninput="state.search=this.value;render()"><select class="control" onchange="state.statusFilter=this.value;render()"><option '+(state.statusFilter==="All"?"selected":"")+'>All</option><option '+(state.statusFilter==="Active"?"selected":"")+'>Active</option><option '+(state.statusFilter==="Draft"?"selected":"")+'>Draft</option></select></div><div class="toolbar-right"><div class="seg"><button class="'+(state.listView==="cards"?"active":"")+'" onclick="state.listView=\'cards\';render()">Cards</button><button class="'+(state.listView==="table"?"active":"")+'" onclick="state.listView=\'table\';render()">List</button></div></div></div>'+body+'</main>'
 }
 function eventCard(e){
@@ -290,23 +284,15 @@ function setTryoutMode(isTryout){
 function wizardView(){
  var d=state.draft||{},labels=["Basics","Schedule","Registration","Pricing","Review"];
  var steps='<div class="stepper">'+labels.map(function(l,i){var n=i+1;return '<div class="step '+(state.wizardStep===n?"active":state.wizardStep>n?"done":"")+'"><span class="num">'+n+'</span>'+l+'</div>'}).join("")+'</div>';
- var context=d.isTryout&&state.wizardStep>1?'<div class="tryout-context"><div><strong>Tryout</strong><div class="tiny">'+esc(d.season)+'</div></div><div class="season-select"><label class="tiny strong">Season</label><select class="input" onchange="state.draft.season=this.value;render()"><option '+(d.season==="2026-2027 Club Season"?"selected":"")+'>2026-2027 Club Season</option><option '+(d.season==="Summer 2027"?"selected":"")+'>Summer 2027</option></select></div></div>':"";
+ var context=false?'<div class="tryout-context"><div><strong>Tryout</strong><div class="tiny">'+esc(d.season)+'</div></div><div class="season-select"><label class="tiny strong">Season</label><select class="input" onchange="state.draft.season=this.value;render()"><option '+(d.season==="2026-2027 Club Season"?"selected":"")+'>2026-2027 Club Season</option><option '+(d.season==="Summer 2027"?"selected":"")+'>Summer 2027</option></select></div></div>':"";
  var body=state.wizardStep===1?wizardBasics(d):state.wizardStep===2?wizardSchedule(d):state.wizardStep===3?wizardRegistration(d):state.wizardStep===4?wizardPricing(d):wizardReview(d);
- return '<main class="page"><div class="page-head"><div><h1 style="margin-top:0">Create '+(d.isTryout?"Tryout":"Event")+'</h1></div><button class="btn" onclick="state.screen=\'list\';render()">Exit setup</button></div><div class="form-card">'+steps+context+body+wizardActions()+'</div></main>'
+ return '<main class="page"><div class="page-head"><div><h1 style="margin-top:0">Create Event</h1></div><button class="btn" onclick="state.screen=\'list\';render()">Exit setup</button></div><div class="form-card">'+steps+context+body+wizardActions()+'</div></main>'
 }
 function wizardBasics(d){
- var tryoutCard='<div class="radio-card '+(d.isTryout?"selected":"")+'" onclick="setTryoutMode(true)">'+
-  '<b>Tryout</b><span>Player evaluation and Team Offers.</span>'+
-  (d.isTryout?'<div class="tryout-mode-season" onclick="event.stopPropagation()"><label>Season</label><select class="input" onchange="state.draft.season=this.value;render()"><option '+(d.season==="2026-2027 Club Season"?"selected":"")+'>2026-2027 Club Season</option><option '+(d.season==="Summer 2027"?"selected":"")+'>Summer 2027</option></select></div>':'')+
- '</div>';
  return '<div class="basics-stack">'+
- '<section class="basics-section"><div class="basics-section-title">What are you creating?</div><div class="mode-cards"><div class="radio-card '+(!d.isTryout?"selected":"")+'" onclick="setTryoutMode(false)"><b>Event</b><span>Clinic, camp, meeting, tournament, or training.</span></div>'+tryoutCard+'</div></section>'+
- '<section class="basics-section"><label class="basics-section-title">Name</label><input class="input" style="font-size:16px;padding:12px" value="'+esc(d.name)+'" placeholder="'+(d.isTryout?"2027 Girls 14U Tryouts":"Winter Skills Clinic")+'" oninput="state.draft.name=this.value"></section>'+
+ '<section class="basics-section"><label class="basics-section-title">Name</label><input class="input" style="font-size:16px;padding:12px" value="'+esc(d.name)+'" placeholder="Winter Skills Clinic" oninput="state.draft.name=this.value"></section>'+
  '<section class="basics-section"><label class="basics-section-title">Parent description</label><textarea class="input parent-description" rows="3" placeholder="What should families know?" oninput="state.draft.description=this.value">'+esc(d.description)+'</textarea></section>'+
- '<section class="basics-details">'+
- (!d.isTryout?'<div class="basics-section"><label class="basics-section-title">Activity</label><select class="input" onchange="setDraftKind(this.value)"><option '+(d.kind==="Clinic"?"selected":"")+'>Clinic</option><option '+(d.kind==="Camp"?"selected":"")+'>Camp</option><option '+(d.kind==="Meeting"?"selected":"")+'>Meeting</option><option '+(d.kind==="Tournament"?"selected":"")+'>Tournament</option><option '+(d.kind==="Training"?"selected":"")+'>Training</option></select></div>':'')+
- '<div class="basics-section"><label class="basics-section-title">Max participants per Session</label><input class="input" type="number" min="1" value="'+esc(d.capacity)+'" oninput="state.draft.capacity=Number(this.value)||24"></div>'+
- '</section>'+
+ '<section class="basics-details"><div class="basics-section"><label class="basics-section-title">Activity</label><select class="input" onchange="setDraftKind(this.value)"><option '+(d.kind==="Clinic"?"selected":"")+'>Clinic</option><option '+(d.kind==="Camp"?"selected":"")+'>Camp</option><option '+(d.kind==="Meeting"?"selected":"")+'>Meeting</option><option '+(d.kind==="Tournament"?"selected":"")+'>Tournament</option><option '+(d.kind==="Training"?"selected":"")+'>Training</option></select></div><div class="basics-section"><label class="basics-section-title">Max participants per Session</label><input class="input" type="number" min="1" value="'+esc(d.capacity)+'" oninput="state.draft.capacity=Number(this.value)||24"></div></section>'+
  '</div>'
 }
 function toggleEventLocation(loc){
@@ -643,7 +629,7 @@ function schedulePreview(d){
  (p.length>12?'<div class="preview-row"><div>…</div><div>'+(p.length-12)+' more</div><div></div><div></div></div>':"")+'</div>'
 }
 function wizardRegistration(d){
- var tryout=d.isTryout;
+ var tryout=false;
  return '<div class="grid '+(tryout?"two":"")+'"><div class="grid">'+
  '<section class="panel"><h2>Registration window</h2><div class="form-grid"><div class="field"><label>Opens</label><input class="input" type="datetime-local" value="'+esc(d.registrationOpens)+'" onchange="state.draft.registrationOpens=this.value"></div><div class="field"><label>Closes</label><input class="input" type="datetime-local" value="'+esc(d.registrationCloses)+'" onchange="state.draft.registrationCloses=this.value"></div></div></section>'+
  '<section class="panel"><h2>Participant eligibility</h2><div class="form-grid"><div class="field"><label>Participant</label><select class="input" onchange="state.draft.audience=this.value"><option '+(d.audience==="Public"?"selected":"")+'>Public</option><option '+(d.audience==="Club participants"?"selected":"")+'>Club participants</option><option '+(d.audience==="Selected Teams"?"selected":"")+'>Selected Teams</option><option '+(d.audience==="Invited people"?"selected":"")+'>Invited people</option></select></div><div class="field"><label>Gender</label><select class="input" onchange="state.draft.gender=this.value;render()"><option '+(d.gender==="Any gender"?"selected":"")+'>Any gender</option><option '+(d.gender==="Female"?"selected":"")+'>Girls / Female</option><option '+(d.gender==="Male"?"selected":"")+'>Boys / Male</option><option '+(d.gender==="Coed"?"selected":"")+'>Coed</option></select></div>'+
