@@ -290,7 +290,7 @@ function wizardSchedule(d){
  if(selected.length&&selected.indexOf(d.activeScheduleDay)<0)d.activeScheduleDay=selected[0];
  var active=d.activeScheduleDay&&ds[d.activeScheduleDay]?ds[d.activeScheduleDay]:null;
  return '<div>'+
- '<div class="radio-cards"><div class="radio-card '+(d.schedule==="one"?"selected":"")+'" onclick="state.draft.schedule=\'one\';render()"><b>One day</b><span>One Session.</span></div><div class="radio-card '+(d.schedule==="repeat"?"selected":"")+'" onclick="state.draft.schedule=\'repeat\';render()"><b>Repeating schedule</b><span>Set the recurrence once, then configure each selected weekday only when it differs.</span></div></div>'+
+ '<div class="radio-cards"><div class="radio-card '+(d.schedule==="one"?"selected":"")+'" onclick="state.draft.schedule=\'one\';render()"><b>One day</b><span>One Session.</span></div><div class="radio-card '+(d.schedule==="repeat"?"selected":"")+'" onclick="state.draft.schedule=\'repeat\';render()"><b>Multiple sessions</b><span>Set the schedule once, then configure each selected weekday only when it differs.</span></div></div>'+
  (d.schedule==="repeat"?
  '<div class="recurrence-box">'+
  '<div class="recurrence-row"><div class="recurrence-label">Starts</div><div><input class="input" style="max-width:220px" type="date" value="'+esc(d.startDate)+'" onchange="state.draft.startDate=this.value;render()"></div></div>'+
