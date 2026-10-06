@@ -35,7 +35,14 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}a{color:inherit}
 .two{grid-template-columns:2fr 1fr}.three{grid-template-columns:repeat(3,minmax(0,1fr))}.panel{background:white;border:1px solid var(--line);border-radius:12px;padding:16px}.panel h2{font-size:15px;margin:0 0 12px}.panel h3{font-size:13px;margin:0 0 8px}.row{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid #eef1f4}.row:last-child{border-bottom:0}.row .k{font-size:12px;color:var(--muted)}.row .v{font-size:13px;font-weight:700;text-align:right}.attention{display:flex;gap:10px;padding:10px;border-radius:9px;background:#fffaeb;border:1px solid #fedf89;margin:8px 0}.attention.bad{background:#fef3f2;border-color:#fecdca}.attention.blue{background:#fff7f2;border-color:#ffcbb8}.attention .icon{font-size:16px}.attention b{font-size:12px;display:block}.attention span{font-size:11px;color:#667085;display:block;margin-top:2px}
 .session-list{display:grid;gap:9px}.session{display:grid;grid-template-columns:130px 1fr 130px 100px auto;gap:12px;align-items:center;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:white}.session.canceled{background:#f9fafb;opacity:.75}.session-date b{display:block;font-size:12px}.session-date span{font-size:11px;color:var(--muted)}.capacity{font-size:12px}.bar{height:6px;border-radius:99px;background:#eaecf0;overflow:hidden;margin-top:5px}.bar i{display:block;height:100%;background:var(--brand);border-radius:99px}
 .rollcall{display:grid;gap:8px}.roll-row{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;border:1px solid var(--line);background:white;border-radius:10px;padding:10px 12px}.roll-actions{display:flex;gap:5px}.mark{border:1px solid #d0d5dd;background:white;border-radius:7px;padding:6px 8px;font-size:11px;font-weight:800;color:#667085}.mark.active.here{background:#ecfdf3;border-color:#abefc6;color:#067647}.mark.active.late{background:#fffaeb;border-color:#fedf89;color:#b54708}.mark.active.excused{background:#fff7f2;border-color:#ffcbb8;color:#c2411a}.mark.active.absent{background:#fef3f2;border-color:#fecdca;color:#b42318}
-.form-card{background:white;border:1px solid var(--line);border-radius:14px;padding:18px}.stepper{display:flex;gap:0;margin-bottom:18px}.step{flex:1;position:relative;text-align:center;font-size:11px;color:#98a2b3;font-weight:800;padding-top:28px}.step:before{content:"";position:absolute;top:11px;left:0;right:0;height:2px;background:#e4e7ec}.step:first-child:before{left:50%}.step:last-child:before{right:50%}.step .num{position:absolute;top:1px;left:50%;transform:translateX(-50%);width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:#eaecf0;color:#667085;z-index:1}.step.active,.step.done{color:#c2411a}.step.active .num,.step.done .num{background:#f16432;color:white}.step.done:before{background:#f59b7b}
+.form-card{background:white;border:1px solid var(--line);border-radius:14px;padding:18px}
+.tryout-context{display:flex;justify-content:space-between;gap:14px;align-items:center;border:1px solid var(--choice-active-border);background:var(--choice-active-bg);border-radius:var(--choice-radius);padding:12px 14px;margin:-2px 0 16px}
+.tryout-context strong{font-size:13px}.tryout-context .season-select{min-width:260px;max-width:360px}
+.mode-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.legal-search-results{display:grid;gap:7px;max-height:260px;overflow:auto;margin-top:10px;padding-right:2px}
+.legal-result{display:flex;justify-content:space-between;gap:12px;align-items:center;border:1px solid var(--choice-border);border-radius:10px;padding:10px 12px;background:#fff}
+.legal-result.selected{border-color:var(--choice-active-border);background:var(--choice-active-bg)}
+.stepper{display:flex;gap:0;margin-bottom:18px}.step{flex:1;position:relative;text-align:center;font-size:11px;color:#98a2b3;font-weight:800;padding-top:28px}.step:before{content:"";position:absolute;top:11px;left:0;right:0;height:2px;background:#e4e7ec}.step:first-child:before{left:50%}.step:last-child:before{right:50%}.step .num{position:absolute;top:1px;left:50%;transform:translateX(-50%);width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:#eaecf0;color:#667085;z-index:1}.step.active,.step.done{color:#c2411a}.step.active .num,.step.done .num{background:#f16432;color:white}.step.done:before{background:#f59b7b}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field{display:grid;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:12px;font-weight:800;color:#344054}.field small{font-size:11px;color:#667085}.input{width:100%;border:1px solid #d0d5dd;border-radius:8px;padding:9px 10px;background:white;color:#18202a}.radio-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}.radio-card{width:100%;border:1px solid var(--choice-border);border-radius:var(--choice-radius);padding:var(--choice-pad);cursor:pointer;background:var(--choice-bg);min-height:84px}.radio-card.selected{border-color:var(--choice-active-border);background:var(--choice-active-bg)}.radio-card b{font-size:12px;display:block}.radio-card span{font-size:11px;color:var(--muted)}
 .recurrence-box{border:1px solid var(--line);border-radius:12px;background:#fff;padding:14px 16px;margin-top:14px}.recurrence-top{display:grid;grid-template-columns:minmax(190px,1fr) minmax(220px,1fr) minmax(280px,1.2fr);gap:14px;align-items:end}.recurrence-field{display:grid;gap:6px}.recurrence-label{font-size:11px;font-weight:800;color:#344054}.repeat-inline{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.repeat-inline .input{width:auto}.recurrence-days{display:flex;gap:10px;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid #eef1f4}.recurrence-summary{margin-top:10px;font-size:11px;color:var(--muted)}.day-tabs{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0}.day-detail{border:1px solid #dbe4ee;border-radius:12px;background:#fbfdff;padding:16px}.day-detail-grid{display:grid;grid-template-columns:160px 160px minmax(220px,1fr) minmax(180px,.8fr);gap:12px;align-items:end}
 .week-board-wrap{overflow-x:auto;margin-top:14px;padding-bottom:3px}.week-board{display:grid;grid-template-columns:repeat(7,minmax(145px,1fr));gap:8px;min-width:1050px}.week-day-card{width:100%;border:1px solid var(--choice-border);border-radius:var(--choice-radius);background:var(--choice-bg);padding:var(--choice-pad);min-height:170px;display:flex;flex-direction:column;gap:8px}.week-day-card.inactive{background:var(--choice-muted-bg);border-color:var(--choice-muted-border);color:var(--choice-muted-text)}.week-day-card.inactive .btn{background:#fff;border-color:var(--choice-muted-border);color:#667085}.week-day-card.active{border-color:var(--choice-active-border);background:var(--choice-active-bg)}.week-day-head{display:flex;justify-content:space-between;gap:6px;align-items:center}.week-day-name{font-size:13px;font-weight:900}.week-session-mini{border:1px solid var(--choice-border);border-radius:var(--choice-radius);background:var(--choice-bg);padding:10px;display:grid;gap:4px}.week-session-mini .time{font-size:12px;font-weight:900}.week-session-mini .meta{font-size:10px;color:#667085;line-height:1.3}.week-day-actions{margin-top:auto;display:flex;gap:5px;flex-wrap:wrap}.week-day-actions .btn{flex:1}.session-day-group{border:1px solid var(--choice-border);border-radius:var(--choice-radius);background:var(--choice-bg);padding:var(--choice-pad)}.session-day-head{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:8px}.session-day-head .day-name{font-size:14px;font-weight:900}.session-group-list{display:grid;gap:7px}.session-setup-list{display:grid;gap:12px;margin-top:10px}
@@ -60,7 +67,7 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}a{color:inherit}
 .toast{position:fixed;right:20px;bottom:20px;background:#101828;color:white;padding:11px 14px;border-radius:10px;box-shadow:var(--shadow);font-size:12px;font-weight:700;z-index:60}
 .empty{padding:32px;text-align:center;color:var(--muted);font-size:13px}.mobile-nav{display:none}
 @media(max-width:1050px){.recurrence-top{grid-template-columns:1fr 1fr}.recurrence-top .recurrence-field:last-child{grid-column:1/-1}.location-court-grid{grid-template-columns:1fr 1fr}.session-setup-card{grid-template-columns:70px 130px 1fr auto}.session-setup-card .courts-col{grid-column:3}.day-detail-grid{grid-template-columns:1fr 1fr}.schedule-pattern{grid-template-columns:60px 1fr 1.4fr}.schedule-copy{grid-column:2/-1;grid-template-columns:auto auto;justify-content:start}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.three{grid-template-columns:1fr}.session{grid-template-columns:110px 1fr 100px auto}.session .capacity{display:none}.weekdays{grid-template-columns:repeat(4,1fr)}}
-@media(max-width:780px){.recurrence-top{grid-template-columns:1fr}.recurrence-top .recurrence-field:last-child{grid-column:auto}.recurrence-days{align-items:flex-start;flex-direction:column}.one-date-form,.location-court-grid{grid-template-columns:1fr}.session-setup-card{grid-template-columns:1fr auto}.session-setup-card .time-col,.session-setup-card .place-col,.session-setup-card .courts-col{grid-column:1/-1}.recurrence-row{grid-template-columns:1fr}.day-detail-grid{grid-template-columns:1fr}.schedule-pattern{grid-template-columns:1fr}.schedule-day-name,.schedule-copy{grid-column:auto}.schedule-copy{display:flex;flex-wrap:wrap}.app{display:block}.sidebar{display:none}.topbar{padding:0 14px}.page{padding:18px 14px 86px}.page-head{display:block}.page-head .actions{margin-top:12px}.cards,.two,.coach-grid,.vol-grid,.form-grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.toolbar{align-items:stretch;display:grid}.toolbar-left,.toolbar-right{flex-wrap:wrap}.search{min-width:0;width:100%}.session{grid-template-columns:1fr auto}.session>div:nth-child(2){grid-column:1/-1}.session .capacity{display:none}.session>div:nth-child(4){display:none}.workspace-main{display:block}.workspace-main .actions{margin-top:12px}.tabs{padding:0 6px}.weekdays{grid-template-columns:repeat(2,1fr)}.radio-cards{grid-template-columns:1fr}.preview-row{grid-template-columns:80px 100px 1fr}.preview-row>div:last-child{display:none}.persona{display:none}.mobile-nav{position:fixed;z-index:20;bottom:0;left:0;right:0;background:white;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding:6px}.mobile-nav button{border:0;background:transparent;padding:8px 2px;font-size:10px;font-weight:800;color:#667085}.mobile-nav button.active{color:#c2411a}.roll-row{grid-template-columns:1fr}.roll-actions{overflow:auto}}
+@media(max-width:780px){.tryout-context{align-items:stretch;flex-direction:column}.tryout-context .season-select{min-width:0;max-width:none;width:100%}.mode-cards{grid-template-columns:1fr}.recurrence-top{grid-template-columns:1fr}.recurrence-top .recurrence-field:last-child{grid-column:auto}.recurrence-days{align-items:flex-start;flex-direction:column}.one-date-form,.location-court-grid{grid-template-columns:1fr}.session-setup-card{grid-template-columns:1fr auto}.session-setup-card .time-col,.session-setup-card .place-col,.session-setup-card .courts-col{grid-column:1/-1}.recurrence-row{grid-template-columns:1fr}.day-detail-grid{grid-template-columns:1fr}.schedule-pattern{grid-template-columns:1fr}.schedule-day-name,.schedule-copy{grid-column:auto}.schedule-copy{display:flex;flex-wrap:wrap}.app{display:block}.sidebar{display:none}.topbar{padding:0 14px}.page{padding:18px 14px 86px}.page-head{display:block}.page-head .actions{margin-top:12px}.cards,.two,.coach-grid,.vol-grid,.form-grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.toolbar{align-items:stretch;display:grid}.toolbar-left,.toolbar-right{flex-wrap:wrap}.search{min-width:0;width:100%}.session{grid-template-columns:1fr auto}.session>div:nth-child(2){grid-column:1/-1}.session .capacity{display:none}.session>div:nth-child(4){display:none}.workspace-main{display:block}.workspace-main .actions{margin-top:12px}.tabs{padding:0 6px}.weekdays{grid-template-columns:repeat(2,1fr)}.radio-cards{grid-template-columns:1fr}.preview-row{grid-template-columns:80px 100px 1fr}.preview-row>div:last-child{display:none}.persona{display:none}.mobile-nav{position:fixed;z-index:20;bottom:0;left:0;right:0;background:white;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding:6px}.mobile-nav button{border:0;background:transparent;padding:8px 2px;font-size:10px;font-weight:800;color:#667085}.mobile-nav button.active{color:#c2411a}.roll-row{grid-template-columns:1fr}.roll-actions{overflow:auto}}
 </style>
 </head>
 <body>
@@ -207,7 +214,7 @@ function changesTab(e){
 function startWizard(){
  state.screen="wizard";state.wizardStep=1;
  state.draft={
-  name:"",description:"",kind:"Clinic",season:"2026-2027 Club Season",audience:"Public",
+  name:"",description:"",kind:"Clinic",isTryout:false,season:"",audience:"Public",
   capacity:72,
   reservedLocations:["WPVC South Gym"],
   reservedCourts:{
@@ -228,9 +235,8 @@ function startWizard(){
   },
   additionalDaySessions:{Tue:[],Thu:[]},
   registrationWindow:true,registrationOpens:"2026-09-15T09:00",registrationCloses:"2026-10-05T21:00",
-  gender:"Any gender",
-  minAgeEnabled:false,maxAgeEnabled:false,minAge:12,maxAge:14,ageAsOf:"2027-07-01",
-  legalDocs:{liability:true,participant:true,media:false},
+  gender:"Any gender",ageRule:"none",minAge:12,maxAge:14,ageAsOf:"2027-07-01",
+  legalDocSearch:"",selectedLegalDocs:["liability-2027","participant-2027"],
   collectPrograms:false,programRequired:2,programMax:3,
   collectPositions:false,positionRequired:2,positionMax:3,
   offerResponseHours:48,
@@ -249,38 +255,47 @@ function startWizard(){
 }
 function setDraftKind(kind){
  state.draft.kind=kind;
- if(kind==="Tryout"){
-  state.draft.season=state.draft.season||"2026-2027 Club Season";
-  state.draft.audience="Club participants";
-  state.draft.gender="Female";
-  state.draft.maxAgeEnabled=true;
-  state.draft.maxAge=14;
-  state.draft.ageAsOf="2027-07-01";
-  state.draft.collectPrograms=true;
-  state.draft.collectPositions=true;
-  state.draft.signup="full";
-  state.draft.deposit=0;
-  state.draft.installments=false;
-  state.draft.capacity=120;
-  state.draft.offerResponseHours=48;
+ render()
+}
+function setTryoutMode(isTryout){
+ var d=state.draft;
+ d.isTryout=isTryout;
+ if(isTryout){
+  d.kind="Tryout";
+  d.season=d.season||"2026-2027 Club Season";
+  d.audience="Club participants";
+  d.gender="Female";
+  d.ageRule="max";
+  d.maxAge=14;
+  d.ageAsOf="2027-07-01";
+  d.collectPrograms=true;
+  d.collectPositions=true;
+  d.signup="full";
+  d.deposit=0;
+  d.installments=false;
+  d.capacity=120;
+  d.offerResponseHours=48
  } else {
-  state.draft.collectPrograms=false;
-  state.draft.collectPositions=false;
+  if(d.isTryout)d.kind="Clinic";
+  d.season="";
+  d.collectPrograms=false;
+  d.collectPositions=false
  }
  render()
 }
 function wizardView(){
- var d=state.draft||{};var labels=["Basics","Schedule","Registration","Pricing","Review"];
+ var d=state.draft||{},labels=["Basics","Schedule","Registration","Pricing","Review"];
  var steps='<div class="stepper">'+labels.map(function(l,i){var n=i+1;return '<div class="step '+(state.wizardStep===n?"active":state.wizardStep>n?"done":"")+'"><span class="num">'+n+'</span>'+l+'</div>'}).join("")+'</div>';
+ var context=d.isTryout?'<div class="tryout-context"><div><strong>Tryout</strong><div class="tiny">Season context applies throughout setup.</div></div><div class="season-select"><label class="tiny strong">Season</label><select class="input" onchange="state.draft.season=this.value;render()"><option '+(d.season==="2026-2027 Club Season"?"selected":"")+'>2026-2027 Club Season</option><option '+(d.season==="Summer 2027"?"selected":"")+'>Summer 2027</option></select></div></div>':"";
  var body=state.wizardStep===1?wizardBasics(d):state.wizardStep===2?wizardSchedule(d):state.wizardStep===3?wizardRegistration(d):state.wizardStep===4?wizardPricing(d):wizardReview(d);
- return '<main class="page"><div class="page-head"><div><div class="eyebrow">Create Event</div><h1>'+esc(d.name||"New Event")+'</h1><div class="sub">Use the common Event setup, then reveal registration and Tryout-only details only when they apply.</div></div><button class="btn" onclick="state.screen=\'list\';render()">Exit setup</button></div><div class="form-card">'+steps+body+wizardActions()+'</div></main>'
+ return '<main class="page"><div class="page-head"><div><div class="eyebrow">Create '+(d.isTryout?"Tryout":"Event")+'</div><h1>'+esc(d.name||(d.isTryout?"New Tryout":"New Event"))+'</h1></div><button class="btn" onclick="state.screen=\'list\';render()">Exit setup</button></div><div class="form-card">'+steps+context+body+wizardActions()+'</div></main>'
 }
 function wizardBasics(d){
  return '<div class="form-grid">'+
- '<div class="field full"><div class="panel" style="border-color:#ffcbb8;background:#fff8f5;padding:16px"><label style="font-size:14px">Season</label><select class="input" style="margin-top:8px;font-size:16px;padding:12px" onchange="state.draft.season=this.value"><option>Not tied to a season</option><option '+(d.season==="2026-2027 Club Season"?"selected":"")+'>2026-2027 Club Season</option><option>Summer 2027</option></select><small style="display:block;margin-top:7px">Season sets the context for Team Programs, Tryouts, season-aware discounts, and reporting.</small></div></div>'+
- '<div class="field full"><label>Event name</label><input class="input" value="'+esc(d.name)+'" placeholder="Example: 2027 Girls 14U Tryouts" oninput="state.draft.name=this.value"></div>'+
- '<div class="field full"><label>Description <span class="muted">· Parent facing</span></label><textarea class="input" rows="4" placeholder="Tell families what this Event is, who it is for, and what to expect." oninput="state.draft.description=this.value">'+esc(d.description)+'</textarea><small>This appears on the registration experience.</small></div>'+
- '<div class="field"><label>Activity</label><select class="input" onchange="setDraftKind(this.value)"><option '+(d.kind==="Clinic"?"selected":"")+'>Clinic</option><option '+(d.kind==="Camp"?"selected":"")+'>Camp</option><option '+(d.kind==="Meeting"?"selected":"")+'>Meeting</option><option '+(d.kind==="Tournament"?"selected":"")+'>Tournament</option><option '+(d.kind==="Tryout"?"selected":"")+'>Tryout</option></select></div>'+
+ '<div class="field full"><label>What are you creating?</label><div class="mode-cards"><div class="radio-card '+(!d.isTryout?"selected":"")+'" onclick="setTryoutMode(false)"><b>Event</b><span>Clinic, camp, meeting, tournament, or another club activity.</span></div><div class="radio-card '+(d.isTryout?"selected":"")+'" onclick="setTryoutMode(true)"><b>Tryout</b><span>Adds Season, Team Program preferences, positions, and Offer timing.</span></div></div></div>'+
+ '<div class="field full"><label>'+(d.isTryout?"Tryout name":"Event name")+'</label><input class="input" value="'+esc(d.name)+'" placeholder="'+(d.isTryout?"Example: 2027 Girls 14U Tryouts":"Example: Winter Skills Clinic")+'" oninput="state.draft.name=this.value"></div>'+
+ '<div class="field full"><label>Description <span class="muted">· Parent facing</span></label><textarea class="input" rows="4" placeholder="Tell families what this '+(d.isTryout?"Tryout":"Event")+' is and what to expect." oninput="state.draft.description=this.value">'+esc(d.description)+'</textarea></div>'+
+ (!d.isTryout?'<div class="field"><label>Activity</label><select class="input" onchange="setDraftKind(this.value)"><option '+(d.kind==="Clinic"?"selected":"")+'>Clinic</option><option '+(d.kind==="Camp"?"selected":"")+'>Camp</option><option '+(d.kind==="Meeting"?"selected":"")+'>Meeting</option><option '+(d.kind==="Tournament"?"selected":"")+'>Tournament</option></select></div>':'<div class="field"><label>Activity</label><div class="input" style="background:#f8f8f7">Tryout</div></div>')+
  '<div class="field"><label>Participant limit per Session</label><input class="input" type="number" min="1" value="'+esc(d.capacity)+'" oninput="state.draft.capacity=Number(this.value)||24"></div>'+
  '</div>'
 }
@@ -619,32 +634,53 @@ function schedulePreview(d){
  (p.length>12?'<div class="preview-row"><div>…</div><div>'+(p.length-12)+' more</div><div></div><div></div></div>':"")+'</div>'
 }
 function wizardRegistration(d){
- var tryout=d.kind==="Tryout";
- var eligibilityText=[];
- if(d.gender!=="Any gender") eligibilityText.push(d.gender+" participants");
- if(d.minAgeEnabled) eligibilityText.push("at least "+d.minAge);
- if(d.maxAgeEnabled) eligibilityText.push("no older than "+d.maxAge);
- var plain=eligibilityText.length?eligibilityText.join(", ")+" as of "+d.ageAsOf:"No age or gender restriction beyond audience rules";
- return '<div class="grid two"><div class="grid">'+
- '<section class="panel"><h2>Registration window</h2><label class="participant-card"><div><div class="strong">Use opening and closing date/time</div><div class="tiny">Normal online registration is available only inside this window.</div></div><input type="checkbox" '+(d.registrationWindow?"checked":"")+' onchange="state.draft.registrationWindow=this.checked;render()"></label>'+
- (d.registrationWindow?'<div class="form-grid"><div class="field"><label>Opens</label><input class="input" type="datetime-local" value="'+esc(d.registrationOpens)+'" onchange="state.draft.registrationOpens=this.value"></div><div class="field"><label>Closes</label><input class="input" type="datetime-local" value="'+esc(d.registrationCloses)+'" onchange="state.draft.registrationCloses=this.value"></div></div>':'')+'</section>'+
- '<section class="panel"><h2>Eligibility</h2><div class="form-grid"><div class="field"><label>Audience</label><select class="input" onchange="state.draft.audience=this.value"><option '+(d.audience==="Public"?"selected":"")+'>Public</option><option '+(d.audience==="Club participants"?"selected":"")+'>Club participants</option><option>Selected Teams</option><option>Invited people</option></select></div><div class="field"><label>Gender</label><select class="input" onchange="state.draft.gender=this.value;render()"><option '+(d.gender==="Any gender"?"selected":"")+'>Any gender</option><option '+(d.gender==="Female"?"selected":"")+'>Female</option><option '+(d.gender==="Male"?"selected":"")+'>Male</option><option '+(d.gender==="Coed"?"selected":"")+'>Coed</option></select></div></div>'+
- '<div class="grid two" style="margin-top:12px"><label class="participant-card"><div><div class="strong">Minimum age</div><div class="tiny">No younger than</div></div><input type="checkbox" '+(d.minAgeEnabled?"checked":"")+' onchange="state.draft.minAgeEnabled=this.checked;render()"></label><label class="participant-card"><div><div class="strong">Maximum age</div><div class="tiny">No older than</div></div><input type="checkbox" '+(d.maxAgeEnabled?"checked":"")+' onchange="state.draft.maxAgeEnabled=this.checked;render()"></label></div>'+
- ((d.minAgeEnabled||d.maxAgeEnabled)?'<div class="form-grid" style="margin-top:10px">'+
- (d.minAgeEnabled?'<div class="field"><label>No younger than</label><input class="input" type="number" min="1" value="'+d.minAge+'" oninput="state.draft.minAge=Number(this.value)||1;render()"></div>':'')+
- (d.maxAgeEnabled?'<div class="field"><label>No older than</label><input class="input" type="number" min="1" value="'+d.maxAge+'" oninput="state.draft.maxAge=Number(this.value)||1;render()"></div>':'')+
- '<div class="field"><label>As of date</label><input class="input" type="date" value="'+esc(d.ageAsOf)+'" onchange="state.draft.ageAsOf=this.value;render()"></div></div>':'')+
- '<div class="attention blue"><div class="icon">✓</div><div><b>Staff sees the rule in plain English</b><span>'+esc(plain)+'. Staff can handle exceptional play-up situations manually. There is no automated Play-Up Registration Policy.</span></div></div></section>'+
- '<section class="panel"><h2>Legal documents</h2><label class="participant-card"><div><div class="strong">Liability Waiver Level 2026-2027</div><div class="tiny">Published Aug 4, 2026 · Required</div></div><input type="checkbox" '+(d.legalDocs.liability?"checked":"")+' onchange="state.draft.legalDocs.liability=this.checked"></label><label class="participant-card"><div><div class="strong">Participant Agreement</div><div class="tiny">Published Aug 4, 2026 · Required</div></div><input type="checkbox" '+(d.legalDocs.participant?"checked":"")+' onchange="state.draft.legalDocs.participant=this.checked"></label><label class="participant-card"><div><div class="strong">Photo & Media Consent</div><div class="tiny">Published Aug 4, 2026 · Optional</div></div><input type="checkbox" '+(d.legalDocs.media?"checked":"")+' onchange="state.draft.legalDocs.media=this.checked"></label><button class="btn small" onclick="toast(\'Would open existing Legal Documents setup\')">Manage published documents</button></section>'+
- '</div><aside class="grid">'+
- '<section class="panel"><h2>Registration preferences</h2><label class="participant-card"><div><div class="strong">Collect Team Program preferences</div><div class="tiny">Rank the Participant’s top choices.</div></div><input type="checkbox" '+(d.collectPrograms?"checked":"")+' onchange="state.draft.collectPrograms=this.checked;render()"></label>'+
- (d.collectPrograms?'<div class="form-grid"><div class="field"><label>Require top</label><select class="input" onchange="state.draft.programRequired=Number(this.value)"><option>1</option><option '+(d.programRequired===2?"selected":"")+'>2</option><option>3</option></select></div><div class="field"><label>Allow up to</label><select class="input" onchange="state.draft.programMax=Number(this.value)"><option>2</option><option '+(d.programMax===3?"selected":"")+'>3</option><option>4</option></select></div></div><div class="tiny" style="margin:8px 0">Example choices: Armour · Elite · National</div>':'')+
- '<label class="participant-card"><div><div class="strong">Collect positional preferences</div><div class="tiny">Rank the Participant’s top positions.</div></div><input type="checkbox" '+(d.collectPositions?"checked":"")+' onchange="state.draft.collectPositions=this.checked;render()"></label>'+
- (d.collectPositions?'<div class="form-grid"><div class="field"><label>Require top</label><select class="input" onchange="state.draft.positionRequired=Number(this.value)"><option>1</option><option '+(d.positionRequired===2?"selected":"")+'>2</option><option>3</option></select></div><div class="field"><label>Allow up to</label><select class="input" onchange="state.draft.positionMax=Number(this.value)"><option>2</option><option '+(d.positionMax===3?"selected":"")+'>3</option><option>4</option></select></div></div><div class="tiny" style="margin-top:8px">Setter · Outside · Middle · Opposite · Libero / DS</div>':'')+
- '<div class="tiny" style="margin-top:10px">These questions can be used by any Event. Tryouts will commonly enable both.</div></section>'+
- (tryout?'<section class="panel"><h2>Tryout offer response</h2><div class="field"><label>Default time to respond</label><div style="display:flex;gap:8px;align-items:center"><input class="input" style="max-width:120px" type="number" min="1" value="'+d.offerResponseHours+'" oninput="state.draft.offerResponseHours=Number(this.value)||1"><span class="tiny">hours</span></div><small>Example: 48 hours. Each Team Offer gets an exact expiration date/time when sent.</small></div><div class="attention blue"><div class="icon">↻</div><div><b>Staff can extend an individual Offer</b><span>Extending the deadline does not require changing the Event default.</span></div></div></section>':'')+
- '<section class="panel"><h2>Season alignment</h2><div class="row"><div class="k">Season</div><div class="v">'+esc(d.season)+'</div></div><div class="tiny" style="margin-top:8px">Supports Team Programs, same-season history, eligibility context, discounts, and reporting.</div></section>'+
- '</aside></div>'
+ var tryout=d.isTryout;
+ return '<div class="grid '+(tryout?"two":"")+'"><div class="grid">'+
+ '<section class="panel"><h2>Registration window</h2><div class="form-grid"><div class="field"><label>Opens</label><input class="input" type="datetime-local" value="'+esc(d.registrationOpens)+'" onchange="state.draft.registrationOpens=this.value"></div><div class="field"><label>Closes</label><input class="input" type="datetime-local" value="'+esc(d.registrationCloses)+'" onchange="state.draft.registrationCloses=this.value"></div></div></section>'+
+ '<section class="panel"><h2>Participant eligibility</h2><div class="form-grid"><div class="field"><label>Participant</label><select class="input" onchange="state.draft.audience=this.value"><option '+(d.audience==="Public"?"selected":"")+'>Public</option><option '+(d.audience==="Club participants"?"selected":"")+'>Club participants</option><option '+(d.audience==="Selected Teams"?"selected":"")+'>Selected Teams</option><option '+(d.audience==="Invited people"?"selected":"")+'>Invited people</option></select></div><div class="field"><label>Gender</label><select class="input" onchange="state.draft.gender=this.value;render()"><option '+(d.gender==="Any gender"?"selected":"")+'>Any gender</option><option '+(d.gender==="Female"?"selected":"")+'>Girls / Female</option><option '+(d.gender==="Male"?"selected":"")+'>Boys / Male</option><option '+(d.gender==="Coed"?"selected":"")+'>Coed</option></select></div>'+
+ '<div class="field"><label>Age eligibility</label><select class="input" onchange="state.draft.ageRule=this.value;render()"><option value="none" '+(d.ageRule==="none"?"selected":"")+'>No age restriction</option><option value="min" '+(d.ageRule==="min"?"selected":"")+'>No younger than</option><option value="max" '+(d.ageRule==="max"?"selected":"")+'>No older than</option><option value="range" '+(d.ageRule==="range"?"selected":"")+'>Between ages</option></select></div>'+
+ (d.ageRule==="none"?"":'<div class="field"><label>As of</label><input class="input" type="date" value="'+esc(d.ageAsOf)+'" onchange="state.draft.ageAsOf=this.value;render()"></div>')+
+ (d.ageRule==="min"||d.ageRule==="range"?'<div class="field"><label>No younger than</label><input class="input" type="number" min="1" value="'+d.minAge+'" oninput="state.draft.minAge=Number(this.value)||1;render()"></div>':'')+
+ (d.ageRule==="max"||d.ageRule==="range"?'<div class="field"><label>No older than</label><input class="input" type="number" min="1" value="'+d.maxAge+'" oninput="state.draft.maxAge=Number(this.value)||1;render()"></div>':'')+
+ '</div>'+ageRuleSummary(d)+'</section>'+
+ '<section class="panel"><h2>Legal documents</h2><div class="field"><label>Search published documents</label><input class="input" placeholder="Search waivers, consents, agreements..." value="'+esc(d.legalDocSearch||"")+'" oninput="state.draft.legalDocSearch=this.value;render()"></div><div class="legal-search-results">'+filteredLegalDocuments(d).map(function(doc){var selected=d.selectedLegalDocs.indexOf(doc.id)>=0;return '<div class="legal-result '+(selected?"selected":"")+'"><div><div class="strong">'+esc(doc.name)+'</div><div class="tiny">'+esc(doc.meta)+'</div></div><button class="btn small '+(selected?"primary":"")+'" onclick="toggleLegalDocument(\''+doc.id+'\')">'+(selected?"Attached":"Attach")+'</button></div>'}).join("")+'</div></section>'+
+ '</div>'+
+ (tryout?'<aside class="grid"><section class="panel"><h2>Tryout registration</h2>'+
+ '<label class="participant-card"><div><div class="strong">Collect Team Program preferences</div><div class="tiny">Rank the Player’s program choices.</div></div><input type="checkbox" '+(d.collectPrograms?"checked":"")+' onchange="state.draft.collectPrograms=this.checked;render()"></label>'+
+ (d.collectPrograms?'<div class="form-grid"><div class="field"><label>Minimum required</label><select class="input" onchange="state.draft.programRequired=Number(this.value)"><option>1</option><option '+(d.programRequired===2?"selected":"")+'>2</option><option>3</option></select></div><div class="field"><label>Allow up to</label><select class="input" onchange="state.draft.programMax=Number(this.value)"><option>2</option><option '+(d.programMax===3?"selected":"")+'>3</option><option>4</option></select></div></div>':'')+
+ '<label class="participant-card"><div><div class="strong">Collect positional preferences</div><div class="tiny">Rank the Player’s preferred positions.</div></div><input type="checkbox" '+(d.collectPositions?"checked":"")+' onchange="state.draft.collectPositions=this.checked;render()"></label>'+
+ (d.collectPositions?'<div class="form-grid"><div class="field"><label>Minimum required</label><select class="input" onchange="state.draft.positionRequired=Number(this.value)"><option>1</option><option '+(d.positionRequired===2?"selected":"")+'>2</option><option>3</option></select></div><div class="field"><label>Allow up to</label><select class="input" onchange="state.draft.positionMax=Number(this.value)"><option>2</option><option '+(d.positionMax===3?"selected":"")+'>3</option><option>4</option></select></div></div>':'')+
+ '<div class="field" style="margin-top:12px"><label>Offer response window</label><div class="repeat-inline"><input class="input" style="width:100px" type="number" min="1" value="'+d.offerResponseHours+'" oninput="state.draft.offerResponseHours=Number(this.value)||1"><span class="tiny">hours</span></div><small>Staff can extend an individual Offer later.</small></div>'+
+ '</section></aside>':'')+
+ '</div>'
+}
+function ageRuleSummary(d){
+ if(d.ageRule==="none")return '<div class="tiny" style="margin-top:10px">No age restriction.</div>';
+ var text=d.ageRule==="min"?"Participants must be at least "+d.minAge:
+          d.ageRule==="max"?"Participants must be no older than "+d.maxAge:
+          "Participants must be between "+d.minAge+" and "+d.maxAge;
+ return '<div class="attention blue" style="margin-top:10px"><div class="icon">✓</div><div><b>'+esc(text)+'</b><span>Age is measured as of '+esc(d.ageAsOf)+'. Play-up exceptions are handled manually.</span></div></div>'
+}
+function legalDocumentOptions(){
+ return [
+  {id:"liability-2027",name:"Liability Waiver 2026-2027",meta:"Published Aug 4, 2026 · Waiver"},
+  {id:"participant-2027",name:"Participant Agreement",meta:"Published Aug 4, 2026 · Agreement"},
+  {id:"media-2027",name:"Photo & Media Consent",meta:"Published Aug 4, 2026 · Consent"},
+  {id:"medical-2027",name:"Medical Treatment Authorization",meta:"Published Aug 9, 2026 · Consent"},
+  {id:"concussion-2027",name:"Concussion & Safety Acknowledgment",meta:"Published Aug 12, 2026 · Acknowledgment"},
+  {id:"facility-2027",name:"Facility Rules Agreement",meta:"Published Aug 20, 2026 · Agreement"},
+  {id:"travel-2027",name:"Travel Event Waiver",meta:"Published Sep 1, 2026 · Waiver"},
+  {id:"tryout-2027",name:"Tryout Participation Waiver",meta:"Published Sep 10, 2026 · Waiver"}
+ ]
+}
+function filteredLegalDocuments(d){
+ var q=(d.legalDocSearch||"").trim().toLowerCase();
+ return legalDocumentOptions().filter(function(doc){return !q||doc.name.toLowerCase().indexOf(q)>=0||doc.meta.toLowerCase().indexOf(q)>=0})
+}
+function toggleLegalDocument(id){
+ var a=state.draft.selectedLegalDocs,i=a.indexOf(id);
+ if(i>=0)a.splice(i,1);else a.push(id);
+ render()
 }
 function wizardPricing(d){
  if(d.free){
@@ -675,17 +711,19 @@ function editDiscountRule(i){
  renderModal()
 }
 function wizardReview(d){
- var p=generatedPreview(d),legal=[d.legalDocs.liability?"Liability Waiver":"",d.legalDocs.participant?"Participant Agreement":"",d.legalDocs.media?"Photo & Media Consent":""].filter(Boolean);
- var resourceCount=0;Object.keys(d.reservedCourts).forEach(function(k){resourceCount+=(d.reservedCourts[k]||[]).length});
- var ageText=[];
- if(d.minAgeEnabled)ageText.push("No younger than "+d.minAge);
- if(d.maxAgeEnabled)ageText.push("No older than "+d.maxAge);
+ var p=generatedPreview(d),age=ageRuleSummaryText(d);
  return '<div class="grid two"><div class="grid">'+
- '<section class="panel"><h2>Basics</h2><div class="row"><div class="k">Name</div><div class="v">'+esc(d.name||"Untitled Event")+'</div></div><div class="row"><div class="k">Description</div><div class="v">'+esc(d.description||"No description yet")+'</div></div><div class="row"><div class="k">Activity</div><div class="v">'+esc(d.kind)+'</div></div><div class="row"><div class="k">Season</div><div class="v">'+esc(d.season)+'</div></div><div class="row"><div class="k">Schedule</div><div class="v">'+p.length+' finite Sessions</div></div></section>'+
- '<section class="panel"><h2>Registration</h2><div class="row"><div class="k">Window</div><div class="v">'+(d.registrationWindow?esc(d.registrationOpens)+' → '+esc(d.registrationCloses):"No configured window")+'</div></div><div class="row"><div class="k">Gender</div><div class="v">'+esc(d.gender)+'</div></div><div class="row"><div class="k">Age</div><div class="v">'+(ageText.length?esc(ageText.join(" · ")+" as of "+d.ageAsOf):"No restriction")+'</div></div><div class="row"><div class="k">Legal documents</div><div class="v">'+(legal.length?legal.length+" attached":"None")+'</div></div><div class="row"><div class="k">Team Program preferences</div><div class="v">'+(d.collectPrograms?"Top "+d.programRequired+" required · up to "+d.programMax:"Off")+'</div></div><div class="row"><div class="k">Position preferences</div><div class="v">'+(d.collectPositions?"Top "+d.positionRequired+" required · up to "+d.positionMax:"Off")+'</div></div></section>'+
+ '<section class="panel"><h2>Basics</h2><div class="row"><div class="k">Name</div><div class="v">'+esc(d.name||"Untitled "+(d.isTryout?"Tryout":"Event"))+'</div></div><div class="row"><div class="k">Type</div><div class="v">'+(d.isTryout?"Tryout":esc(d.kind))+'</div></div>'+(d.isTryout?'<div class="row"><div class="k">Season</div><div class="v">'+esc(d.season)+'</div></div>':'')+'<div class="row"><div class="k">Schedule</div><div class="v">'+p.length+' Sessions</div></div></section>'+
+ '<section class="panel"><h2>Registration</h2><div class="row"><div class="k">Window</div><div class="v">'+esc(d.registrationOpens)+' → '+esc(d.registrationCloses)+'</div></div><div class="row"><div class="k">Participant</div><div class="v">'+esc(d.audience)+'</div></div><div class="row"><div class="k">Gender</div><div class="v">'+esc(d.gender)+'</div></div><div class="row"><div class="k">Age</div><div class="v">'+esc(age)+'</div></div><div class="row"><div class="k">Legal documents</div><div class="v">'+d.selectedLegalDocs.length+' attached</div></div>'+(d.isTryout?'<div class="row"><div class="k">Team Program preferences</div><div class="v">'+(d.collectPrograms?"Minimum "+d.programRequired+" · up to "+d.programMax:"Off")+'</div></div><div class="row"><div class="k">Position preferences</div><div class="v">'+(d.collectPositions?"Minimum "+d.positionRequired+" · up to "+d.positionMax:"Off")+'</div></div>':'')+'</section>'+
  '</div><aside class="grid"><section class="panel"><h2>Pricing</h2><div class="row"><div class="k">Price tiers</div><div class="v">'+(d.free?0:d.priceTiers.length)+'</div></div><div class="row"><div class="k">Opening ACH price</div><div class="v">'+(d.free?"Free":"$"+d.priceTiers[0].ach)+'</div></div><div class="row"><div class="k">Discount rules</div><div class="v">'+(d.free?0:d.discounts.length)+'</div></div></section>'+
- (d.kind==="Tryout"?'<section class="panel"><h2>Tryout details</h2><div class="row"><div class="k">Offer response window</div><div class="v">'+d.offerResponseHours+' hours</div></div><div class="tiny" style="margin-top:8px">Staff may extend an individual Team Offer after it is sent. Play-up exceptions are handled manually.</div></section>':'')+
+ (d.isTryout?'<section class="panel"><h2>Tryout details</h2><div class="row"><div class="k">Season</div><div class="v">'+esc(d.season)+'</div></div><div class="row"><div class="k">Offer response window</div><div class="v">'+d.offerResponseHours+' hours</div></div><div class="tiny" style="margin-top:8px">Staff may extend an individual Team Offer after it is sent.</div></section>':'')+
  '<div class="attention blue"><div class="icon">✓</div><div><b>Ready to publish in the prototype</b><span>Review the setup, then publish to browser memory only.</span></div></div></aside></div>'+schedulePreview(d)
+}
+function ageRuleSummaryText(d){
+ if(d.ageRule==="none")return "No restriction";
+ if(d.ageRule==="min")return "No younger than "+d.minAge+" as of "+d.ageAsOf;
+ if(d.ageRule==="max")return "No older than "+d.maxAge+" as of "+d.ageAsOf;
+ return "Ages "+d.minAge+"–"+d.maxAge+" as of "+d.ageAsOf
 }
 function wizardActions(){
  return '<div class="wizard-actions"><button class="btn" '+(state.wizardStep===1?'style="visibility:hidden"':"")+' onclick="state.wizardStep--;render()">Back</button>'+(state.wizardStep<5?'<button class="btn primary" onclick="nextWizard()">Continue</button>':'<button class="btn primary" onclick="publishDraft()">Publish Event</button>')+'</div>'
@@ -694,8 +732,8 @@ function nextWizard(){if(state.wizardStep===1&&!state.draft.name.trim()){state.d
 function publishDraft(){
  var d=state.draft,id="new"+Date.now(),p=generatedPreview(d),locs=[];
  p.forEach(function(x){if(locs.indexOf(x.location)<0)locs.push(x.location)});
- events.push({id:id,name:d.name||"Winter Skills Clinic",kind:d.kind,status:"Active",accent:d.kind==="Tryout"?"violet":"green",date:p.length===1?p[0].date:p[0].date+" + "+(p.length-1)+" more",location:locs.length>1?"Multiple locations":locs[0],sessions:p.length,registered:0,capacity:d.capacity,price:d.free?"Free":d.kind==="Tryout"?"$"+d.achFull+" tryout fee":"$"+d.achFull+" full · $"+d.achDrop+"/day",audience:d.audience,attention:0});
- p.forEach(function(x,i){sessions.push({id:id+"s"+i,eventId:id,date:x.date,time:x.time,location:x.location,court:x.courts,registered:0,cap:d.capacity,status:"Scheduled",label:d.kind==="Tryout"?(i===p.length-1?"Makeup":"Regular"):undefined})});
+ events.push({id:id,name:d.name||"Winter Skills Clinic",kind:d.kind,status:"Active",accent:d.isTryout?"violet":"green",date:p.length===1?p[0].date:p[0].date+" + "+(p.length-1)+" more",location:locs.length>1?"Multiple locations":locs[0],sessions:p.length,registered:0,capacity:d.capacity,price:d.free?"Free":d.isTryout?"$"+d.achFull+" tryout fee":"$"+d.achFull+" full · $"+d.achDrop+"/day",audience:d.audience,attention:0});
+ p.forEach(function(x,i){sessions.push({id:id+"s"+i,eventId:id,date:x.date,time:x.time,location:x.location,court:x.courts,registered:0,cap:d.capacity,status:"Scheduled",label:d.isTryout?(i===p.length-1?"Makeup":"Regular"):undefined})});
  state.eventId=id;state.screen="workspace";state.eventTab="overview";toast("Event published in prototype");render()
 }
 function launchSignup(){resetSignup(false);state.persona="participant";state.screen="signup";render()}
