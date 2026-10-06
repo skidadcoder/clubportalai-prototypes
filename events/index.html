@@ -338,37 +338,6 @@ function wizardSchedule(d){
  schedulePreview(d)
  )+'</div>'
 }
-function wizardSchedule(d){
- var allDays=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],ds=d.days||{};
- if(!d.reservedLocations.length)d.reservedLocations.push("WPVC South Gym");
- var selected=allDays.filter(function(day){return ds[day]&&ds[day].on});
- if(selected.length&&selected.indexOf(d.activeScheduleDay)<0)d.activeScheduleDay=selected[0];
- var active=d.activeScheduleDay&&ds[d.activeScheduleDay]?ds[d.activeScheduleDay]:null;
- return '<div>'+
- '<div class="radio-cards"><div class="radio-card '+(d.schedule==="one"?"selected":"")+'" onclick="state.draft.schedule=\'one\';render()"><b>One day</b><span>One Session.</span></div><div class="radio-card '+(d.schedule==="repeat"?"selected":"")+'" onclick="state.draft.schedule=\'repeat\';render()"><b>Multiple sessions</b><span>Set the schedule once, then configure each selected weekday only when it differs.</span></div></div>'+
- (d.schedule==="repeat"?
- '<div class="recurrence-box">'+
- '<div class="recurrence-row"><div class="recurrence-label">Starts</div><div><input class="input" style="max-width:220px" type="date" value="'+esc(d.startDate)+'" onchange="state.draft.startDate=this.value;render()"></div></div>'+
- '<div class="recurrence-row"><div class="recurrence-label">Repeats every</div><div class="repeat-inline"><input class="input" style="width:72px" type="number" min="1" max="12" value="'+d.repeatEvery+'" oninput="state.draft.repeatEvery=Number(this.value)||1;render()"><select class="input" disabled><option>Week</option></select></div></div>'+
- '<div class="recurrence-row"><div class="recurrence-label">On</div><div class="schedule-days">'+allDays.map(function(day){var on=ds[day]&&ds[day].on;return '<button type="button" class="btn small '+(on?"primary":"")+'" onclick="toggleDay(\''+day+'\')">'+day+'</button>'}).join("")+'</div></div>'+
- '<div class="recurrence-row"><div class="recurrence-label">Ends</div><div class="grid" style="gap:8px">'+
- '<label class="repeat-inline"><input type="radio" name="endmode" '+(d.endMode==="on"?"checked":"")+' onchange="state.draft.endMode=\'on\';render()"> On <input class="input" style="max-width:220px" type="date" value="'+esc(d.endDate)+'" onchange="state.draft.endDate=this.value"></label>'+
- '<label class="repeat-inline"><input type="radio" name="endmode" '+(d.endMode==="after"?"checked":"")+' onchange="state.draft.endMode=\'after\';render()"> After <input class="input" style="width:82px" type="number" min="1" max="52" value="'+d.weeks+'" oninput="state.draft.weeks=Number(this.value)||1;render()"> week(s)</label>'+
- '</div></div>'+
- '<div class="recurrence-summary">'+esc(recurrenceSummary(d,selected))+'</div>'+
- '</div>'+
- (selected.length?
- '<div style="margin-top:18px"><div class="strong">Session setup by day</div><div class="tiny">Choose a day to edit. Copy its setup when the other selected days are the same.</div>'+
- '<div class="day-tabs">'+selected.map(function(day){return '<button class="btn small '+(d.activeScheduleDay===day?"primary":"")+'" onclick="state.draft.activeScheduleDay=\''+day+'\';render()">'+day+'</button>'}).join("")+'</div>'+
- dayDetailEditor(d.activeScheduleDay,active,d)+
- '</div>'
- :'<div class="empty">Choose at least one weekday.</div>')+
- '<div style="margin-top:12px"><button class="btn small" onclick="toggleParallelSession()">'+(d.parallelSession?"Remove simultaneous location example":"Add simultaneous location example")+'</button></div>'
- :
- oneDaySchedule(d)
- )+
- schedulePreview(d)+'</div>'
-}
 function recurrenceSummary(d,selected){
  var names={Mon:"Monday",Tue:"Tuesday",Wed:"Wednesday",Thu:"Thursday",Fri:"Friday",Sat:"Saturday",Sun:"Sunday"};
  var days=selected.map(function(x){return names[x]}).join(", ");
