@@ -35,7 +35,7 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}a{color:inherit}
 .form-card{background:white;border:1px solid var(--line);border-radius:14px;padding:18px}.stepper{display:flex;gap:0;margin-bottom:18px}.step{flex:1;position:relative;text-align:center;font-size:11px;color:#98a2b3;font-weight:800;padding-top:28px}.step:before{content:"";position:absolute;top:11px;left:0;right:0;height:2px;background:#e4e7ec}.step:first-child:before{left:50%}.step:last-child:before{right:50%}.step .num{position:absolute;top:1px;left:50%;transform:translateX(-50%);width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:#eaecf0;color:#667085;z-index:1}.step.active,.step.done{color:#175cd3}.step.active .num,.step.done .num{background:#2563eb;color:white}.step.done:before{background:#84adff}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field{display:grid;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:12px;font-weight:800;color:#344054}.field small{font-size:11px;color:#667085}.input{width:100%;border:1px solid #d0d5dd;border-radius:8px;padding:9px 10px;background:white;color:#18202a}.radio-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.radio-card{border:1px solid var(--line);border-radius:10px;padding:12px;cursor:pointer;background:white}.radio-card.selected{border-color:#84adff;background:#f5f8ff}.radio-card b{font-size:12px;display:block}.radio-card span{font-size:11px;color:var(--muted)}
 .recurrence-box{border:1px solid var(--line);border-radius:12px;background:#fff;padding:14px 16px;margin-top:14px}.recurrence-top{display:grid;grid-template-columns:minmax(190px,1fr) minmax(220px,1fr) minmax(280px,1.2fr);gap:14px;align-items:end}.recurrence-field{display:grid;gap:6px}.recurrence-label{font-size:11px;font-weight:800;color:#344054}.repeat-inline{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.repeat-inline .input{width:auto}.recurrence-days{display:flex;gap:10px;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid #eef1f4}.recurrence-summary{margin-top:10px;font-size:11px;color:var(--muted)}.day-tabs{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0}.day-detail{border:1px solid #dbe4ee;border-radius:12px;background:#fbfdff;padding:16px}.day-detail-grid{display:grid;grid-template-columns:160px 160px minmax(220px,1fr) minmax(180px,.8fr);gap:12px;align-items:end}
-.session-day-group{border:1px solid var(--line);border-radius:12px;background:#fbfcfd;padding:12px}.session-day-head{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:8px}.session-day-head .day-name{font-size:14px;font-weight:900}.session-group-list{display:grid;gap:7px}.session-setup-list{display:grid;gap:12px;margin-top:10px}
+.week-board-wrap{overflow-x:auto;margin-top:14px;padding-bottom:3px}.week-board{display:grid;grid-template-columns:repeat(7,minmax(145px,1fr));gap:8px;min-width:1050px}.week-day-card{border:1px solid var(--line);border-radius:11px;background:#fff;padding:10px;min-height:170px;display:flex;flex-direction:column;gap:8px}.week-day-card.inactive{background:#f5f6f7;color:#98a2b3}.week-day-card.active{border-color:#84adff;background:#fbfdff}.week-day-head{display:flex;justify-content:space-between;gap:6px;align-items:center}.week-day-name{font-size:13px;font-weight:900}.week-session-mini{border:1px solid #e4e7ec;border-radius:8px;background:#fff;padding:8px;display:grid;gap:4px}.week-session-mini .time{font-size:12px;font-weight:900}.week-session-mini .meta{font-size:10px;color:#667085;line-height:1.3}.week-day-actions{margin-top:auto;display:flex;gap:5px;flex-wrap:wrap}.week-day-actions .btn{flex:1}.session-day-group{border:1px solid var(--line);border-radius:12px;background:#fbfcfd;padding:12px}.session-day-head{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:8px}.session-day-head .day-name{font-size:14px;font-weight:900}.session-group-list{display:grid;gap:7px}.session-setup-list{display:grid;gap:12px;margin-top:10px}
 .session-setup-card{display:grid;grid-template-columns:150px minmax(220px,1fr) minmax(180px,.8fr) auto;gap:12px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:11px 12px;background:#fff}
 .session-setup-card .day-name{font-weight:900}
 .session-setup-card .value{font-size:12px;font-weight:700}
@@ -327,18 +327,40 @@ function wizardSchedule(d){
  (d.endMode==="after"?'<input class="input" style="width:82px" type="number" min="1" max="52" value="'+d.weeks+'" oninput="state.draft.weeks=Number(this.value)||1;render()"><span class="tiny">weeks</span>':'<input class="input" type="date" value="'+esc(d.endDate)+'" onchange="state.draft.endDate=this.value;render()">')+
  '</div></div>'+
  '</div>'+
- '<div class="recurrence-days"><div class="recurrence-label">On</div><div class="schedule-days">'+allDays.map(function(day){var on=ds[day]&&ds[day].on;return '<button type="button" class="btn small '+(on?"primary":"")+'" onclick="toggleDay(\''+day+'\')">'+day+'</button>'}).join("")+'</div></div>'+
- '<div class="recurrence-summary">'+esc(recurrenceSummary(d,selected))+'</div>'+
  '</div>'+
- (selected.length?
- '<div style="margin-top:18px"><div class="strong">Session setup</div><div class="tiny">Each selected weekday can contain one or more Sessions.</div>'+
- '<div class="session-setup-list">'+selected.map(function(day){return sessionDayGroup(day,d)}).join("")+'</div></div>'
- :'<div class="empty">Choose at least one weekday.</div>')+
+ '<div style="margin-top:16px"><div class="strong">Weekly Sessions</div><div class="tiny">Add Sessions directly to the days they occur.</div>'+
+ '<div class="week-board-wrap"><div class="week-board">'+allDays.map(function(day){return weekDayCard(day,d)}).join("")+'</div></div></div>'+
  collapsedSessionPreview(d)
  :
  oneDateSchedule(d)
  )+
  '</div>'
+}
+function weekDayCard(day,d){
+ var x=d.days[day],active=x&&x.on,extras=(d.additionalDaySessions&&d.additionalDaySessions[day])||[];
+ if(!active){
+  return '<div class="week-day-card inactive"><div class="week-day-head"><div class="week-day-name">'+day+'</div></div><div class="tiny">No Sessions</div><div class="week-day-actions"><button class="btn small" onclick="activateScheduleDay(\''+day+'\')">+ Add Session</button></div></div>'
+ }
+ var configs=[x].concat(extras);
+ return '<div class="week-day-card active"><div class="week-day-head"><div><div class="week-day-name">'+day+'</div><div class="tiny">'+configs.length+' Session'+(configs.length===1?"":"s")+'</div></div><button class="btn ghost small" title="Remove all '+day+' Sessions" onclick="deactivateScheduleDay(\''+day+'\')">×</button></div>'+
+ configs.map(function(cfg,index){return weekSessionMini(day,index,cfg)}).join("")+
+ '<div class="week-day-actions"><button class="btn small" onclick="addDaySession(\''+day+'\')">+ Add Session</button></div></div>'
+}
+function weekSessionMini(day,index,x){
+ var selections=sessionLocationSelections(x),locations=Object.keys(selections).filter(function(loc){return (selections[loc]||[]).length}),courtCount=locations.reduce(function(n,loc){return n+selections[loc].length},0);
+ return '<div class="week-session-mini"><div class="time">'+esc(x.start)+' – '+esc(x.end)+'</div><div class="meta">'+esc(locations.length?locations.join(", "):"No location")+'</div><div class="meta">'+courtCount+' court'+(courtCount===1?"":"s")+'</div><div class="actions"><button class="btn small" onclick="openSessionSetup(\''+day+'\','+index+')">Edit</button>'+(index>0?'<button class="btn ghost small" onclick="removeDaySession(\''+day+'\','+index+')">Remove</button>':'')+'</div></div>'
+}
+function activateScheduleDay(day){
+ if(!state.draft.days[day]){
+  state.draft.days[day]={on:true,start:"17:00",end:"19:00",location:"WPVC South Gym",courts:["Court 1","Court 2"]}
+ } else state.draft.days[day].on=true;
+ if(!state.draft.additionalDaySessions[day])state.draft.additionalDaySessions[day]=[];
+ render()
+}
+function deactivateScheduleDay(day){
+ if(state.draft.days[day])state.draft.days[day].on=false;
+ state.draft.additionalDaySessions[day]=[];
+ render()
 }
 function oneDateSchedule(d){
  var locations=allLocations();
@@ -491,21 +513,16 @@ function oneDaySchedule(d){
 }
 function timeOptions(selected){var arr=["08:00","09:00","10:00","12:00","15:00","16:00","17:00","18:00","19:00","20:00","20:30","21:00"];return arr.map(function(t){return '<option value="'+t+'" '+(selected===t?"selected":"")+'>'+t+'</option>'}).join("")}
 function toggleDay(day){
- if(!state.draft.days[day]){
-  state.draft.days[day]={on:false,start:"17:00",end:"19:00",location:"WPVC South Gym",courts:["Court 1","Court 2"]}
- }
- if(!state.draft.additionalDaySessions[day])state.draft.additionalDaySessions[day]=[];
- state.draft.days[day].on=!state.draft.days[day].on;
- render()
+ if(state.draft.days[day]&&state.draft.days[day].on)deactivateScheduleDay(day);
+ else activateScheduleDay(day)
 }
 function selectAllDays(){
  ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].forEach(function(day){
-  if(!state.draft.days[day]){
-   var loc=state.draft.reservedLocations[0]||"WPVC South Gym";
-   state.draft.days[day]={start:"17:00",end:"19:00",location:loc,courts:(state.draft.reservedCourts[loc]||[]).slice()}
-  }
-  state.draft.days[day].on=true
- });render()
+  if(!state.draft.days[day])state.draft.days[day]={on:true,start:"17:00",end:"19:00",location:"WPVC South Gym",courts:["Court 1","Court 2"]};
+  state.draft.days[day].on=true;
+  if(!state.draft.additionalDaySessions[day])state.draft.additionalDaySessions[day]=[]
+ });
+ render()
 }
 function setDayTime(day,k,v){state.draft.days[day][k]=v;render()}
 function normalizeDayCourts(value){
