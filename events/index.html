@@ -317,7 +317,7 @@ function wizardSchedule(d){
  var allDays=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],ds=d.days||{};
  var selected=allDays.filter(function(day){return ds[day]&&ds[day].on});
  return '<div>'+
- '<div class="radio-cards"><div class="radio-card '+(d.schedule==="one"?"selected":"")+'" onclick="state.draft.schedule=\'one\';render()"><b>One date</b><span>One date and time, using one or more locations.</span></div><div class="radio-card '+(d.schedule==="repeat"?"selected":"")+'" onclick="state.draft.schedule=\'repeat\';render()"><b>Multiple dates</b><span>Create a finite weekly schedule, then adjust only the days that differ.</span></div></div>'+
+ '<div class="radio-cards"><div class="radio-card '+(d.schedule==="one"?"selected":"")+'" onclick="state.draft.schedule=\'one\';render()"><b>One Session</b><span>One date and time, using one or more locations.</span></div><div class="radio-card '+(d.schedule==="repeat"?"selected":"")+'" onclick="state.draft.schedule=\'repeat\';render()"><b>Multiple Sessions</b><span>Create a finite weekly schedule, then adjust only the days that differ.</span></div></div>'+
  (d.schedule==="repeat"?
  '<div class="recurrence-box">'+
  '<div class="recurrence-row"><div class="recurrence-label">Starts</div><div><input class="input" style="max-width:220px" type="date" value="'+esc(d.startDate)+'" onchange="state.draft.startDate=this.value;render()"></div></div>'+
@@ -375,13 +375,25 @@ function sessionDayGroup(day,d){
  '</div>'
 }
 function sessionSetupCard(day,index,x){
- var courts=normalizeDayCourts(x.courts);
+ var selections=sessionLocationSelections(x);
+ var locationNames=Object.keys(selections).filter(function(loc){return selections[loc].length});
+ var courtCount=locationNames.reduce(function(total,loc){return total+selections[loc].length},0);
  return '<div class="session-setup-card">'+
  '<div class="time-col"><div class="label">Time</div><div class="value">'+esc(x.start)+' – '+esc(x.end)+'</div></div>'+
- '<div class="place-col"><div class="label">Location</div><div class="value">'+esc(x.location||"Choose location")+'</div></div>'+
- '<div class="courts-col"><div class="label">Courts</div><div class="value">'+esc(courts.length?courts.join(", "):"Choose courts")+'</div></div>'+
+ '<div class="place-col"><div class="label">Locations</div><div class="value">'+esc(locationNames.length?locationNames.join(", "):"Choose locations")+'</div></div>'+
+ '<div class="courts-col"><div class="label">Courts</div><div class="value">'+(courtCount?courtCount+" selected":"Choose courts")+'</div></div>'+
  '<div class="actions"><button class="btn small" onclick="openSessionSetup(\''+day+'\','+index+')">Edit</button>'+(index>0?'<button class="btn small" onclick="removeDaySession(\''+day+'\','+index+')">Remove</button>':'')+'</div>'+
  '</div>'
+}
+function sessionLocationSelections(x){
+ if(x.locationCourts)return x.locationCourts;
+ var selections={};
+ allLocations().forEach(function(loc){selections[loc]=[]});
+ if(x.location){
+  selections[x.location]=normalizeDayCourts(x.courts).slice()
+ }
+ x.locationCourts=selections;
+ return selections
 }
 function sessionRef(day,index){
  if(index===0)return state.draft.days[day];
@@ -390,9 +402,10 @@ function sessionRef(day,index){
 }
 function addDaySession(day){
  if(!state.draft.additionalDaySessions[day])state.draft.additionalDaySessions[day]=[];
- var base=state.draft.days[day],used=[base].concat(state.draft.additionalDaySessions[day]).map(function(x){return x.location});
- var nextLoc=allLocations().find(function(loc){return used.indexOf(loc)<0})||base.location||"WPVC South Gym";
- state.draft.additionalDaySessions[day].push({start:base.start,end:base.end,location:nextLoc,courts:allFacilityCourts(nextLoc).slice()});
+ var base=state.draft.days[day],selections={};
+ allLocations().forEach(function(loc){selections[loc]=[]});
+ selections["WPVC South Gym"]=["Court 1","Court 2"];
+ state.draft.additionalDaySessions[day].push({start:base.start,end:base.end,locationCourts:selections});
  render()
 }
 function removeDaySession(day,index){
@@ -412,18 +425,33 @@ function allLocations(){return ["WPVC South Gym","WPVC North Gym","Lake Brantley
 function openSessionSetup(day,index){
  var x=sessionRef(day,index);
  if(!x)return;
- var courts=normalizeDayCourts(x.courts),courtText=courts.length?courts.join(", "):"Choose courts";
+ var selections=sessionLocationSelections(x);
  state.modal={
   title:day+" · Session "+(index+1),
-  body:'<div class="form-grid"><div class="field"><label>Start</label><select class="input" onchange="sessionRef(\''+day+'\','+index+').start=this.value">'+timeOptions(x.start)+'</select></div><div class="field"><label>End</label><select class="input" onchange="sessionRef(\''+day+'\','+index+').end=this.value">'+timeOptions(x.end)+'</select></div><div class="field full"><label>Location</label><select class="input" onchange="changeSessionLocation(\''+day+'\','+index+',this.value)">'+allLocations().map(function(loc){return '<option value="'+esc(loc)+'" '+(x.location===loc?"selected":"")+'>'+esc(loc)+'</option>'}).join("")+'</select></div><div class="field full"><label>Courts</label><button class="btn" style="width:100%;text-align:left" onclick="openCourtPicker(\''+day+'\','+index+',true)">'+esc(courtText)+'</button></div></div>',
+  body:'<div class="form-grid"><div class="field"><label>Start</label><select class="input" onchange="sessionRef(\''+day+'\','+index+').start=this.value">'+timeOptions(x.start)+'</select></div><div class="field"><label>End</label><select class="input" onchange="sessionRef(\''+day+'\','+index+').end=this.value">'+timeOptions(x.end)+'</select></div></div>'+
+   '<div style="margin-top:16px"><div class="strong">Locations & courts</div><div class="tiny">Select the courts this Session uses. Choosing a court automatically includes that location.</div>'+
+   '<div class="location-court-grid">'+allLocations().map(function(loc){return multiSessionLocationCard(day,index,loc,selections)}).join("")+'</div></div>',
   actions:'<button class="btn" onclick="copyDayToRemaining(\''+day+'\');closeModal()">Copy entire '+day+' setup to other days</button><button class="btn primary" onclick="closeModal();render()">Done</button>'
  };
  renderModal()
 }
+function multiSessionLocationCard(day,index,loc,selections){
+ var selected=selections[loc]||[],all=allFacilityCourts(loc);
+ return '<div class="location-court-card '+(selected.length?"active":"")+'"><div class="location-court-head"><div><div class="strong">'+esc(loc)+'</div><div class="tiny">'+(selected.length?selected.length+" court"+(selected.length===1?"":"s")+" selected":"No courts selected")+'</div></div>'+(selected.length?badge("Included","blue"):"")+'</div>'+
+ '<div class="court-buttons">'+all.map(function(c){var on=selected.indexOf(c)>=0;return '<button type="button" class="btn small '+(on?"primary":"")+'" onclick="toggleMultiSessionCourt(\''+day+'\','+index+',\''+loc.replace(/'/g,"\\'")+'\',\''+c.replace(/'/g,"\\'")+'\')">'+esc(c)+'</button>'}).join("")+'</div></div>'
+}
+function toggleMultiSessionCourt(day,index,loc,court){
+ var x=sessionRef(day,index),selections=sessionLocationSelections(x),a=selections[loc]||[],i=a.indexOf(court);
+ if(i>=0)a.splice(i,1);else a.push(court);
+ selections[loc]=a;
+ x.locationCourts=selections;
+ openSessionSetup(day,index)
+}
 function changeSessionLocation(day,index,loc){
- var x=sessionRef(day,index);
- x.location=loc;
- x.courts=[];
+ var x=sessionRef(day,index),selections=sessionLocationSelections(x);
+ allLocations().forEach(function(name){selections[name]=[]});
+ selections[loc]=allFacilityCourts(loc).slice();
+ x.locationCourts=selections;
  openSessionSetup(day,index)
 }
 function oneSessionCard(d){
@@ -517,19 +545,22 @@ function clearScheduleCourts(day,index,returnToEditor){
  openCourtPicker(day,index,returnToEditor)
 }
 function openOneDayCourtPicker(){toast("One-day court picker uses the same checklist pattern")}
+function cloneSessionConfig(src){
+ var selections=sessionLocationSelections(src),copy={};
+ Object.keys(selections).forEach(function(loc){copy[loc]=(selections[loc]||[]).slice()});
+ return {start:src.start,end:src.end,locationCourts:copy}
+}
 function copyDayToRemaining(day){
  var primary=state.draft.days[day],extras=(state.draft.additionalDaySessions[day]||[]),count=0;
  Object.keys(state.draft.days).forEach(function(targetDay){
   if(targetDay===day)return;
   var target=state.draft.days[targetDay];
   if(!target||!target.on)return;
-  target.location=primary.location;
-  target.courts=normalizeDayCourts(primary.courts).slice();
-  target.start=primary.start;
-  target.end=primary.end;
-  state.draft.additionalDaySessions[targetDay]=extras.map(function(x){
-   return {start:x.start,end:x.end,location:x.location,courts:normalizeDayCourts(x.courts).slice()}
-  });
+  var primaryClone=cloneSessionConfig(primary);
+  target.start=primaryClone.start;
+  target.end=primaryClone.end;
+  target.locationCourts=primaryClone.locationCourts;
+  state.draft.additionalDaySessions[targetDay]=extras.map(cloneSessionConfig);
   count++
  });
  toast(count?"Copied "+(1+extras.length)+" Session"+(extras.length?"s":"")+" to "+count+" other selected day"+(count===1?"":"s"):"No other selected days");
@@ -549,8 +580,12 @@ function generatedPreview(d){
   on.forEach(function(day){
    var configs=[d.days[day]].concat((d.additionalDaySessions&&d.additionalDaySessions[day])||[]);
    configs.forEach(function(x){
-    var courts=normalizeDayCourts(x.courts);
-    out.push({date:day+", occurrence "+w,time:x.start+" - "+x.end,location:x.location||"WPVC South Gym",courts:courts.join(", ")})
+    var selections=sessionLocationSelections(x);
+    Object.keys(selections).forEach(function(loc){
+     var courts=selections[loc]||[];
+     if(!courts.length)return;
+     out.push({date:day+", occurrence "+w,time:x.start+" - "+x.end,location:loc,courts:courts.join(", ")})
+    })
    })
   })
  }
