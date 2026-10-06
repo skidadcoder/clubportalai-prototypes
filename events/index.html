@@ -252,36 +252,91 @@ function wizardView(){
  return '<main class="page"><div class="page-head"><div><div class="eyebrow">Create Event</div><h1>'+esc(d.name||"New Event")+'</h1><div class="sub">Use the common Event setup, then reveal registration and Tryout-only details only when they apply.</div></div><button class="btn" onclick="state.screen=\'list\';render()">Exit setup</button></div><div class="form-card">'+steps+body+wizardActions()+'</div></main>'
 }
 function wizardBasics(d){
- var locations=["WPVC South Gym","WPVC North Gym","Lake Brantley High School"];
- function locCard(loc,courts){
-  var selected=d.reservedLocations.indexOf(loc)>=0;
-  return '<div class="panel" style="padding:13px"><label class="participant-card '+(selected?"selected":"")+'" style="margin:0"><div><div class="strong">'+esc(loc)+'</div><div class="tiny">'+(selected?"Reserved for this Event":"Not reserved")+'</div></div><input type="checkbox" '+(selected?"checked":"")+' onchange="toggleEventLocation(\''+loc.replace(/'/g,"\\'")+'\')"></label>'+
-   (selected?'<div class="actions" style="margin-top:9px">'+courts.map(function(c){var on=(d.reservedCourts[loc]||[]).indexOf(c)>=0;return '<button type="button" class="btn small '+(on?"primary":"")+'" onclick="toggleEventCourt(\''+loc.replace(/'/g,"\\'")+'\',\''+c.replace(/'/g,"\\'")+'\')">'+esc(c)+'</button>'}).join("")+'</div>':'')+
-  '</div>'
- }
  return '<div class="form-grid">'+
  '<div class="field full"><div class="panel" style="border-color:#b2ddff;background:#f5faff;padding:16px"><label style="font-size:14px">Season</label><select class="input" style="margin-top:8px;font-size:16px;padding:12px" onchange="state.draft.season=this.value"><option>Not tied to a season</option><option '+(d.season==="2026-2027 Club Season"?"selected":"")+'>2026-2027 Club Season</option><option>Summer 2027</option></select><small style="display:block;margin-top:7px">Season sets the context for Team Programs, Tryouts, season-aware discounts, and reporting.</small></div></div>'+
  '<div class="field full"><label>Event name</label><input class="input" value="'+esc(d.name)+'" placeholder="Example: 2027 Girls 14U Tryouts" oninput="state.draft.name=this.value"></div>'+
  '<div class="field full"><label>Description <span class="muted">· Parent facing</span></label><textarea class="input" rows="4" placeholder="Tell families what this Event is, who it is for, and what to expect." oninput="state.draft.description=this.value">'+esc(d.description)+'</textarea><small>This appears on the registration experience.</small></div>'+
  '<div class="field"><label>Activity</label><select class="input" onchange="setDraftKind(this.value)"><option '+(d.kind==="Clinic"?"selected":"")+'>Clinic</option><option '+(d.kind==="Camp"?"selected":"")+'>Camp</option><option '+(d.kind==="Meeting"?"selected":"")+'>Meeting</option><option '+(d.kind==="Tournament"?"selected":"")+'>Tournament</option><option '+(d.kind==="Tryout"?"selected":"")+'>Tryout</option></select></div>'+
  '<div class="field"><label>Participant limit per Session</label><input class="input" type="number" min="1" value="'+esc(d.capacity)+'" oninput="state.draft.capacity=Number(this.value)||24"></div>'+
- '<div class="field full"><label>Locations & courts reserved for this Event</label><small>An Event may reserve resources at several facilities. Schedule assigns those resources to the actual Sessions.</small><div class="grid three" style="margin-top:8px">'+
- locCard("WPVC South Gym",["Court 1","Court 2","Court 3","Court 4"])+
- locCard("WPVC North Gym",["Court A","Court B","Court C"])+
- locCard("Lake Brantley High School",["Court 1","Court 2","Court 3","Court 4","Court 5","Court 6"])+
- '</div></div>'+
  '</div>'
 }
 function toggleEventLocation(loc){
- var a=state.draft.reservedLocations,i=a.indexOf(loc);
- if(i>=0){a.splice(i,1);state.draft.reservedCourts[loc]=[]}
- else {a.push(loc);if(!(loc in state.draft.reservedCourts))state.draft.reservedCourts[loc]=[]}
+ var d=state.draft,a=d.reservedLocations,i=a.indexOf(loc);
+ if(i>=0){
+  a.splice(i,1);
+  d.reservedCourts[loc]=[];
+  var fallback=a[0]||"";
+  Object.keys(d.days||{}).forEach(function(day){
+   var x=d.days[day];
+   if(x.location===loc){
+    x.location=fallback;
+    x.courts=fallback?(d.reservedCourts[fallback]||[]).slice():[]
+   }
+  })
+ } else {
+  a.push(loc);
+  if(!(loc in d.reservedCourts))d.reservedCourts[loc]=[]
+ }
  render()
 }
 function toggleEventCourt(loc,court){
- var a=state.draft.reservedCourts[loc]||[],i=a.indexOf(court);
- if(i>=0)a.splice(i,1);else a.push(court);
- state.draft.reservedCourts[loc]=a;render()
+ var d=state.draft,a=d.reservedCourts[loc]||[],i=a.indexOf(court);
+ if(i>=0){
+  a.splice(i,1);
+  Object.keys(d.days||{}).forEach(function(day){
+   var x=d.days[day];
+   if(x.location===loc)x.courts=normalizeDayCourts(x.courts).filter(function(c){return c!==court})
+  })
+ } else a.push(court);
+ d.reservedCourts[loc]=a;
+ render()
+}
+function scheduleResourcePicker(d){
+ function locCard(loc,courts){
+  var selected=d.reservedLocations.indexOf(loc)>=0;
+  return '<div class="panel" style="padding:13px"><label class="participant-card '+(selected?"selected":"")+'" style="margin:0"><div><div class="strong">'+esc(loc)+'</div><div class="tiny">'+(selected?"Available to this Event":"Not selected")+'</div></div><input type="checkbox" '+(selected?"checked":"")+' onchange="toggleEventLocation(\''+loc.replace(/'/g,"\\'")+'\')"></label>'+
+   (selected?'<div class="actions" style="margin-top:9px">'+courts.map(function(c){var on=(d.reservedCourts[loc]||[]).indexOf(c)>=0;return '<button type="button" class="btn small '+(on?"primary":"")+'" onclick="toggleEventCourt(\''+loc.replace(/'/g,"\\'")+'\',\''+c.replace(/'/g,"\\'")+'\')">'+esc(c)+'</button>'}).join("")+'</div>':'')+
+  '</div>'
+ }
+ return '<section class="panel" style="margin-bottom:16px"><div><h2>Locations & courts</h2><div class="sub">Choose the facilities and courts this Event can use. Sessions below are assigned from this set.</div></div><div class="grid three" style="margin-top:12px">'+
+  locCard("WPVC South Gym",["Court 1","Court 2","Court 3","Court 4"])+
+  locCard("WPVC North Gym",["Court A","Court B","Court C"])+
+  locCard("Lake Brantley High School",["Court 1","Court 2","Court 3","Court 4","Court 5","Court 6"])+
+ '</div></section>'
+}
+function wizardSchedule(d){
+ var allDays=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],ds=d.days||{};
+ var selected=allDays.filter(function(day){return ds[day]&&ds[day].on});
+ if(selected.length&&selected.indexOf(d.activeScheduleDay)<0)d.activeScheduleDay=selected[0];
+ var active=d.activeScheduleDay&&ds[d.activeScheduleDay]?ds[d.activeScheduleDay]:null;
+ return '<div>'+scheduleResourcePicker(d)+
+ (!d.reservedLocations.length?
+ '<div class="attention"><div class="icon">!</div><div><b>Choose at least one location</b><span>Sessions need a location before the schedule can be configured.</span></div></div>'
+ :
+ '<div class="radio-cards"><div class="radio-card '+(d.schedule==="one"?"selected":"")+'" onclick="state.draft.schedule=\'one\';render()"><b>One day</b><span>One Session.</span></div><div class="radio-card '+(d.schedule==="repeat"?"selected":"")+'" onclick="state.draft.schedule=\'repeat\';render()"><b>Multiple sessions</b><span>Set the schedule once, then configure each selected weekday only when it differs.</span></div></div>'+
+ (d.schedule==="repeat"?
+ '<div class="recurrence-box">'+
+ '<div class="recurrence-row"><div class="recurrence-label">Starts</div><div><input class="input" style="max-width:220px" type="date" value="'+esc(d.startDate)+'" onchange="state.draft.startDate=this.value;render()"></div></div>'+
+ '<div class="recurrence-row"><div class="recurrence-label">Repeats every</div><div class="repeat-inline"><input class="input" style="width:72px" type="number" min="1" max="12" value="'+d.repeatEvery+'" oninput="state.draft.repeatEvery=Number(this.value)||1;render()"><select class="input" disabled><option>Week</option></select></div></div>'+
+ '<div class="recurrence-row"><div class="recurrence-label">On</div><div class="schedule-days">'+allDays.map(function(day){var on=ds[day]&&ds[day].on;return '<button type="button" class="btn small '+(on?"primary":"")+'" onclick="toggleDay(\''+day+'\')">'+day+'</button>'}).join("")+'</div></div>'+
+ '<div class="recurrence-row"><div class="recurrence-label">Ends</div><div class="grid" style="gap:8px">'+
+ '<label class="repeat-inline"><input type="radio" name="endmode" '+(d.endMode==="on"?"checked":"")+' onchange="state.draft.endMode=\'on\';render()"> On <input class="input" style="max-width:220px" type="date" value="'+esc(d.endDate)+'" onchange="state.draft.endDate=this.value"></label>'+
+ '<label class="repeat-inline"><input type="radio" name="endmode" '+(d.endMode==="after"?"checked":"")+' onchange="state.draft.endMode=\'after\';render()"> After <input class="input" style="width:82px" type="number" min="1" max="52" value="'+d.weeks+'" oninput="state.draft.weeks=Number(this.value)||1;render()"> week(s)</label>'+
+ '</div></div>'+
+ '<div class="recurrence-summary">'+esc(recurrenceSummary(d,selected))+'</div>'+
+ '</div>'+
+ (selected.length?
+ '<div style="margin-top:18px"><div class="strong">Session setup by day</div><div class="tiny">Choose a day to edit. Copy its setup when the other selected days are the same.</div>'+
+ '<div class="day-tabs">'+selected.map(function(day){return '<button class="btn small '+(d.activeScheduleDay===day?"primary":"")+'" onclick="state.draft.activeScheduleDay=\''+day+'\';render()">'+day+'</button>'}).join("")+'</div>'+
+ dayDetailEditor(d.activeScheduleDay,active,d)+
+ '</div>'
+ :'<div class="empty">Choose at least one weekday.</div>')+
+ '<div style="margin-top:12px"><button class="btn small" onclick="toggleParallelSession()">'+(d.parallelSession?"Remove simultaneous location example":"Add simultaneous location example")+'</button></div>'
+ :
+ oneDaySchedule(d)
+ )+
+ schedulePreview(d)
+ )+'</div>'
 }
 function wizardSchedule(d){
  var allDays=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],ds=d.days||{};
