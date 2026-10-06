@@ -41,6 +41,13 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}a{color:inherit}
 .session-setup-card .value{font-size:12px;font-weight:700}
 .session-setup-card .label{font-size:10px;color:var(--muted);margin-bottom:2px}
 .generated-summary{display:flex;justify-content:space-between;gap:14px;align-items:center;border:1px solid var(--line);border-radius:10px;background:#fff;padding:12px 14px;margin-top:16px}
+.one-date-form{display:grid;grid-template-columns:1.2fr .8fr .8fr;gap:12px;margin-top:16px}
+.location-court-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:14px}
+.location-court-card{border:1px solid var(--line);border-radius:12px;background:#fff;padding:14px}
+.location-court-card.active{border-color:#84adff;background:#f8fbff}
+.location-court-head{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:10px}
+.court-buttons{display:flex;gap:7px;flex-wrap:wrap}
+
 .schedule-days{display:flex;gap:7px;flex-wrap:wrap}.schedule-days button{min-width:54px}.schedule-patterns{display:grid;gap:10px;margin-top:12px}.schedule-pattern{border:1px solid var(--line);border-radius:11px;background:#fff;padding:12px;display:grid;grid-template-columns:72px minmax(150px,.8fr) minmax(170px,.9fr) minmax(210px,1fr) auto;gap:12px;align-items:end}.schedule-day-name{font-weight:900;font-size:14px;padding-top:8px}.schedule-times{display:grid;grid-template-columns:1fr 1fr;gap:7px}.schedule-field{display:grid;gap:5px}.schedule-place{display:grid;gap:7px}.location-buttons{display:flex;gap:6px;flex-wrap:wrap}.court-summary{display:flex;gap:7px;align-items:center;flex-wrap:wrap}.court-chip{display:inline-flex;padding:4px 7px;border-radius:999px;background:#f2f4f7;font-size:10px;font-weight:800;color:#475467}.court-value{display:block;width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:left;font-weight:700}.schedule-copy{display:grid;gap:6px}.weekdays{display:grid;grid-template-columns:repeat(7,1fr);gap:7px}.day{border:1px solid var(--line);border-radius:9px;padding:8px;text-align:center;background:white}.day.selected{border-color:#84adff;background:#f5f8ff}.day button{border:0;background:transparent;font-weight:800;font-size:11px;width:100%}.day .times{display:grid;gap:5px;margin-top:7px}.day select{width:100%;font-size:10px;border:1px solid #d0d5dd;border-radius:6px;padding:4px;background:white}
 .preview{margin-top:14px;border:1px solid var(--line);border-radius:10px;overflow:hidden}.preview-head{background:#f9fafb;padding:9px 11px;font-size:12px;font-weight:800;display:flex;justify-content:space-between}.preview-row{display:grid;grid-template-columns:100px 140px 1fr 90px;gap:10px;padding:8px 11px;border-top:1px solid #eef1f4;font-size:11px}
 .wizard-actions{display:flex;justify-content:space-between;margin-top:18px;padding-top:14px;border-top:1px solid var(--line)}
@@ -49,8 +56,8 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}a{color:inherit}
 .modal-backdrop{position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:40;display:grid;place-items:center;padding:20px}.modal{background:white;width:min(560px,100%);max-height:90vh;overflow:auto;border-radius:14px;box-shadow:0 24px 70px rgba(0,0,0,.25)}.modal-head{padding:16px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.modal-head h2{font-size:16px;margin:0}.modal-body{padding:18px}.modal-foot{padding:13px 18px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:8px}.x{border:0;background:transparent;font-size:20px;color:#667085}
 .toast{position:fixed;right:20px;bottom:20px;background:#101828;color:white;padding:11px 14px;border-radius:10px;box-shadow:var(--shadow);font-size:12px;font-weight:700;z-index:60}
 .empty{padding:32px;text-align:center;color:var(--muted);font-size:13px}.mobile-nav{display:none}
-@media(max-width:1050px){.session-setup-card{grid-template-columns:70px 130px 1fr auto}.session-setup-card .courts-col{grid-column:3}.day-detail-grid{grid-template-columns:1fr 1fr}.schedule-pattern{grid-template-columns:60px 1fr 1.4fr}.schedule-copy{grid-column:2/-1;grid-template-columns:auto auto;justify-content:start}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.three{grid-template-columns:1fr}.session{grid-template-columns:110px 1fr 100px auto}.session .capacity{display:none}.weekdays{grid-template-columns:repeat(4,1fr)}}
-@media(max-width:780px){.session-setup-card{grid-template-columns:1fr auto}.session-setup-card .time-col,.session-setup-card .place-col,.session-setup-card .courts-col{grid-column:1/-1}.recurrence-row{grid-template-columns:1fr}.day-detail-grid{grid-template-columns:1fr}.schedule-pattern{grid-template-columns:1fr}.schedule-day-name,.schedule-copy{grid-column:auto}.schedule-copy{display:flex;flex-wrap:wrap}.app{display:block}.sidebar{display:none}.topbar{padding:0 14px}.page{padding:18px 14px 86px}.page-head{display:block}.page-head .actions{margin-top:12px}.cards,.two,.coach-grid,.vol-grid,.form-grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.toolbar{align-items:stretch;display:grid}.toolbar-left,.toolbar-right{flex-wrap:wrap}.search{min-width:0;width:100%}.session{grid-template-columns:1fr auto}.session>div:nth-child(2){grid-column:1/-1}.session .capacity{display:none}.session>div:nth-child(4){display:none}.workspace-main{display:block}.workspace-main .actions{margin-top:12px}.tabs{padding:0 6px}.weekdays{grid-template-columns:repeat(2,1fr)}.radio-cards{grid-template-columns:1fr}.preview-row{grid-template-columns:80px 100px 1fr}.preview-row>div:last-child{display:none}.persona{display:none}.mobile-nav{position:fixed;z-index:20;bottom:0;left:0;right:0;background:white;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding:6px}.mobile-nav button{border:0;background:transparent;padding:8px 2px;font-size:10px;font-weight:800;color:#667085}.mobile-nav button.active{color:#175cd3}.roll-row{grid-template-columns:1fr}.roll-actions{overflow:auto}}
+@media(max-width:1050px){.location-court-grid{grid-template-columns:1fr 1fr}.session-setup-card{grid-template-columns:70px 130px 1fr auto}.session-setup-card .courts-col{grid-column:3}.day-detail-grid{grid-template-columns:1fr 1fr}.schedule-pattern{grid-template-columns:60px 1fr 1.4fr}.schedule-copy{grid-column:2/-1;grid-template-columns:auto auto;justify-content:start}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.three{grid-template-columns:1fr}.session{grid-template-columns:110px 1fr 100px auto}.session .capacity{display:none}.weekdays{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:780px){.one-date-form,.location-court-grid{grid-template-columns:1fr}.session-setup-card{grid-template-columns:1fr auto}.session-setup-card .time-col,.session-setup-card .place-col,.session-setup-card .courts-col{grid-column:1/-1}.recurrence-row{grid-template-columns:1fr}.day-detail-grid{grid-template-columns:1fr}.schedule-pattern{grid-template-columns:1fr}.schedule-day-name,.schedule-copy{grid-column:auto}.schedule-copy{display:flex;flex-wrap:wrap}.app{display:block}.sidebar{display:none}.topbar{padding:0 14px}.page{padding:18px 14px 86px}.page-head{display:block}.page-head .actions{margin-top:12px}.cards,.two,.coach-grid,.vol-grid,.form-grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.toolbar{align-items:stretch;display:grid}.toolbar-left,.toolbar-right{flex-wrap:wrap}.search{min-width:0;width:100%}.session{grid-template-columns:1fr auto}.session>div:nth-child(2){grid-column:1/-1}.session .capacity{display:none}.session>div:nth-child(4){display:none}.workspace-main{display:block}.workspace-main .actions{margin-top:12px}.tabs{padding:0 6px}.weekdays{grid-template-columns:repeat(2,1fr)}.radio-cards{grid-template-columns:1fr}.preview-row{grid-template-columns:80px 100px 1fr}.preview-row>div:last-child{display:none}.persona{display:none}.mobile-nav{position:fixed;z-index:20;bottom:0;left:0;right:0;background:white;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding:6px}.mobile-nav button{border:0;background:transparent;padding:8px 2px;font-size:10px;font-weight:800;color:#667085}.mobile-nav button.active{color:#175cd3}.roll-row{grid-template-columns:1fr}.roll-actions{overflow:auto}}
 </style>
 </head>
 <body>
@@ -206,6 +213,12 @@ function startWizard(){
    "Lake Brantley High School":[]
   },
   schedule:"repeat",repeatEvery:1,weeks:4,startDate:"2026-10-06",endMode:"after",endDate:"2026-10-29",activeScheduleDay:"Tue",showSessionPreview:false,parallelSession:false,
+  oneDate:"2026-10-12",oneStart:"18:00",oneEnd:"20:00",
+  oneDateCourts:{
+   "WPVC South Gym":["Court 1","Court 2"],
+   "WPVC North Gym":[],
+   "Lake Brantley High School":[]
+  },
   days:{
    Tue:{on:true,start:"17:00",end:"19:00",location:"WPVC South Gym",courts:["Court 1","Court 2"]},
    Thu:{on:true,start:"18:00",end:"20:30",location:"WPVC South Gym",courts:["Court 1","Court 2"]}
@@ -304,7 +317,7 @@ function wizardSchedule(d){
  var allDays=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],ds=d.days||{};
  var selected=allDays.filter(function(day){return ds[day]&&ds[day].on});
  return '<div>'+
- '<div class="radio-cards"><div class="radio-card '+(d.schedule==="one"?"selected":"")+'" onclick="state.draft.schedule=\'one\';render()"><b>One session</b><span>One date, time, location, and court selection.</span></div><div class="radio-card '+(d.schedule==="repeat"?"selected":"")+'" onclick="state.draft.schedule=\'repeat\';render()"><b>Multiple sessions</b><span>Create a finite weekly schedule, then adjust only the days that differ.</span></div></div>'+
+ '<div class="radio-cards"><div class="radio-card '+(d.schedule==="one"?"selected":"")+'" onclick="state.draft.schedule=\'one\';render()"><b>One date</b><span>One date and time, using one or more locations.</span></div><div class="radio-card '+(d.schedule==="repeat"?"selected":"")+'" onclick="state.draft.schedule=\'repeat\';render()"><b>Multiple dates</b><span>Create a finite weekly schedule, then adjust only the days that differ.</span></div></div>'+
  (d.schedule==="repeat"?
  '<div class="recurrence-box">'+
  '<div class="recurrence-row"><div class="recurrence-label">Starts</div><div><input class="input" style="max-width:220px" type="date" value="'+esc(d.startDate)+'" onchange="state.draft.startDate=this.value;render()"></div></div>'+
@@ -317,14 +330,42 @@ function wizardSchedule(d){
  '<div class="recurrence-summary">'+esc(recurrenceSummary(d,selected))+'</div>'+
  '</div>'+
  (selected.length?
- '<div style="margin-top:18px"><div class="strong">Session setup</div><div class="tiny">Each selected weekday can have its own time, location, and courts.</div>'+
+ '<div style="margin-top:18px"><div class="strong">Session setup</div><div class="tiny">Each selected weekday can contain one or more Sessions.</div>'+
  '<div class="session-setup-list">'+selected.map(function(day){return sessionDayGroup(day,d)}).join("")+'</div></div>'
  :'<div class="empty">Choose at least one weekday.</div>')+
  collapsedSessionPreview(d)
  :
- oneSessionCard(d)
+ oneDateSchedule(d)
  )+
  '</div>'
+}
+function oneDateSchedule(d){
+ var locations=allLocations();
+ return '<div>'+
+ '<div class="one-date-form">'+
+ '<div class="field"><label>Event date</label><input class="input" type="date" value="'+esc(d.oneDate)+'" onchange="state.draft.oneDate=this.value;render()"></div>'+
+ '<div class="field"><label>Start</label><input class="input" type="time" value="'+esc(d.oneStart)+'" onchange="state.draft.oneStart=this.value;render()"></div>'+
+ '<div class="field"><label>End</label><input class="input" type="time" value="'+esc(d.oneEnd)+'" onchange="state.draft.oneEnd=this.value;render()"></div>'+
+ '</div>'+
+ '<div style="margin-top:18px"><div class="strong">Locations & courts</div><div class="tiny">Select the courts this Event needs. Choosing a court automatically includes that location.</div>'+
+ '<div class="location-court-grid">'+locations.map(function(loc){return oneDateLocationCard(loc,d)}).join("")+'</div></div>'+
+ oneDateSummary(d)+
+ '</div>'
+}
+function oneDateLocationCard(loc,d){
+ var selected=(d.oneDateCourts[loc]||[]),all=allFacilityCourts(loc);
+ return '<div class="location-court-card '+(selected.length?"active":"")+'"><div class="location-court-head"><div><div class="strong">'+esc(loc)+'</div><div class="tiny">'+(selected.length?selected.length+" court"+(selected.length===1?"":"s")+" selected":"No courts selected")+'</div></div>'+(selected.length?badge("Included","blue"):"")+'</div>'+
+ '<div class="court-buttons">'+all.map(function(c){var on=selected.indexOf(c)>=0;return '<button type="button" class="btn small '+(on?"primary":"")+'" onclick="toggleOneDateCourt(\''+loc.replace(/'/g,"\\'")+'\',\''+c.replace(/'/g,"\\'")+'\')">'+esc(c)+'</button>'}).join("")+'</div></div>'
+}
+function toggleOneDateCourt(loc,court){
+ var a=state.draft.oneDateCourts[loc]||[],i=a.indexOf(court);
+ if(i>=0)a.splice(i,1);else a.push(court);
+ state.draft.oneDateCourts[loc]=a;
+ render()
+}
+function oneDateSummary(d){
+ var used=allLocations().filter(function(loc){return (d.oneDateCourts[loc]||[]).length});
+ return '<div class="generated-summary"><div><div class="strong">'+used.length+' location'+(used.length===1?"":"s")+'</div><div class="tiny">'+esc(d.oneDate)+' · '+esc(d.oneStart)+' – '+esc(d.oneEnd)+'</div></div><div class="tiny">'+(used.length?used.map(function(loc){return loc+": "+d.oneDateCourts[loc].join(", ")}).join(" · "):"Choose at least one court")+'</div></div>'
 }
 function sessionDayGroup(day,d){
  var primary=d.days[day],extras=(d.additionalDaySessions&&d.additionalDaySessions[day])||[];
@@ -497,7 +538,10 @@ function copyDayToRemaining(day){
 function toggleParallelSession(){state.draft.parallelSession=!state.draft.parallelSession;render()}
 function generatedPreview(d){
  if(d.schedule==="one"){
-  return [{date:"Mon, Oct 12",time:"18:00 - 20:00",location:"WPVC South Gym",courts:"Court 1, Court 2"}]
+  var used=allLocations().filter(function(loc){return (d.oneDateCourts[loc]||[]).length});
+  return used.map(function(loc){
+   return {date:d.oneDate,time:d.oneStart+" - "+d.oneEnd,location:loc,courts:d.oneDateCourts[loc].join(", ")}
+  })
  }
  var days=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],on=days.filter(function(x){return d.days[x]&&d.days[x].on}),out=[];
  var repetitions=d.endMode==="after"?Math.min(d.weeks,8):Math.min(d.weeks||4,8);
