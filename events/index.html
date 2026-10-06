@@ -190,20 +190,36 @@ function changesTab(e){
 function startWizard(){
  state.screen="wizard";state.wizardStep=1;
  state.draft={
-  name:"",kind:"Clinic",season:"2026-2027 Club Season",audience:"Public",
-  location:"WPVC South Gym",defaultCourts:"Court 1 + Court 2",capacity:24,
-  schedule:"repeat",weeks:4,parallelSession:false,
+  name:"",description:"",kind:"Clinic",season:"2026-2027 Club Season",audience:"Public",
+  capacity:72,
+  reservedLocations:["WPVC South Gym"],
+  reservedCourts:{
+   "WPVC South Gym":["Court 1","Court 2"],
+   "WPVC North Gym":[],
+   "Lake Brantley High School":[]
+  },
+  schedule:"repeat",weeks:2,parallelSession:false,
   days:{
    Tue:{on:true,start:"17:00",end:"19:00",location:"WPVC South Gym",courts:"Court 1 + Court 2"},
-   Thu:{on:true,start:"18:00",end:"20:30",location:"WPVC North Gym",courts:"Court A + Court B"}
+   Thu:{on:true,start:"18:00",end:"20:30",location:"WPVC South Gym",courts:"Court 1 + Court 2"}
   },
   registrationWindow:true,registrationOpens:"2026-09-15T09:00",registrationCloses:"2026-10-05T21:00",
-  gender:"Any gender",ageRule:"none",ageYears:14,ageAsOf:"2027-07-01",
+  gender:"Any gender",
+  minAgeEnabled:false,maxAgeEnabled:false,minAge:12,maxAge:14,ageAsOf:"2027-07-01",
   legalDocs:{liability:true,participant:true,media:false},
-  collectPrograms:false,programRequired:1,programMax:3,
-  collectPositions:false,positionMax:2,
-  free:false,signup:"both",achFull:325,cardFull:340,achDrop:70,cardDrop:74,
-  deposit:50,installments:true,discountCount:2
+  collectPrograms:false,programRequired:2,programMax:3,
+  collectPositions:false,positionRequired:2,positionMax:3,
+  offerResponseHours:48,
+  free:false,signup:"both",deposit:50,installments:true,
+  priceTiers:[
+   {label:"Opening price",starts:"Registration opens",ach:100,card:104},
+   {label:"Oct 1 price",starts:"2026-10-01T00:00",ach:125,card:130}
+  ],
+  discounts:[
+   {name:"Current rostered Player",eligibility:"Current rostered Player",type:"percent",value:10},
+   {name:"Coach / Staff",eligibility:"Coach or Staff",type:"fixed",value:15},
+   {name:"Previous Tryout or Event",eligibility:"Registered for selected earlier Event(s)",type:"fixed",value:25}
+  ]
  };
  render()
 }
@@ -213,14 +229,19 @@ function setDraftKind(kind){
   state.draft.season=state.draft.season||"2026-2027 Club Season";
   state.draft.audience="Club participants";
   state.draft.gender="Female";
-  state.draft.ageRule="younger";
-  state.draft.ageYears=14;
+  state.draft.maxAgeEnabled=true;
+  state.draft.maxAge=14;
+  state.draft.ageAsOf="2027-07-01";
   state.draft.collectPrograms=true;
   state.draft.collectPositions=true;
   state.draft.signup="full";
-  state.draft.achFull=65;state.draft.cardFull=68;state.draft.deposit=0;state.draft.installments=false;
+  state.draft.deposit=0;
+  state.draft.installments=false;
+  state.draft.capacity=120;
+  state.draft.offerResponseHours=48;
  } else {
-  state.draft.collectPrograms=false;state.draft.collectPositions=false;
+  state.draft.collectPrograms=false;
+  state.draft.collectPositions=false;
  }
  render()
 }
@@ -231,34 +252,56 @@ function wizardView(){
  return '<main class="page"><div class="page-head"><div><div class="eyebrow">Create Event</div><h1>'+esc(d.name||"New Event")+'</h1><div class="sub">Use the common Event setup, then reveal registration and Tryout-only details only when they apply.</div></div><button class="btn" onclick="state.screen=\'list\';render()">Exit setup</button></div><div class="form-card">'+steps+body+wizardActions()+'</div></main>'
 }
 function wizardBasics(d){
+ var locations=["WPVC South Gym","WPVC North Gym","Lake Brantley High School"];
+ function locCard(loc,courts){
+  var selected=d.reservedLocations.indexOf(loc)>=0;
+  return '<div class="panel" style="padding:13px"><label class="participant-card '+(selected?"selected":"")+'" style="margin:0"><div><div class="strong">'+esc(loc)+'</div><div class="tiny">'+(selected?"Reserved for this Event":"Not reserved")+'</div></div><input type="checkbox" '+(selected?"checked":"")+' onchange="toggleEventLocation(\''+loc.replace(/'/g,"\\'")+'\')"></label>'+
+   (selected?'<div class="actions" style="margin-top:9px">'+courts.map(function(c){var on=(d.reservedCourts[loc]||[]).indexOf(c)>=0;return '<button type="button" class="btn small '+(on?"primary":"")+'" onclick="toggleEventCourt(\''+loc.replace(/'/g,"\\'")+'\',\''+c.replace(/'/g,"\\'")+'\')">'+esc(c)+'</button>'}).join("")+'</div>':'')+
+  '</div>'
+ }
  return '<div class="form-grid">'+
- '<div class="field full"><label>Event name</label><input class="input" value="'+esc(d.name)+'" placeholder="Example: Winter Skills Clinic" oninput="state.draft.name=this.value"></div>'+
- '<div class="field"><label>Activity</label><select class="input" onchange="setDraftKind(this.value)"><option '+(d.kind==="Clinic"?"selected":"")+'>Clinic</option><option '+(d.kind==="Camp"?"selected":"")+'>Camp</option><option '+(d.kind==="Meeting"?"selected":"")+'>Meeting</option><option '+(d.kind==="Tournament"?"selected":"")+'>Tournament</option><option '+(d.kind==="Tryout"?"selected":"")+'>Tryout</option></select><small>Tryouts share the Event foundation but get Tryout-specific registration details.</small></div>'+
- '<div class="field"><label>Season</label><select class="input" onchange="state.draft.season=this.value"><option>Not tied to a season</option><option '+(d.season==="2026-2027 Club Season"?"selected":"")+'>2026-2027 Club Season</option><option>Summer 2027</option></select><small>Use a Season when eligibility, discounts, Team Programs, or reporting depend on it. Ordinary Events can remain unaligned.</small></div>'+
- '<div class="field"><label>Default location</label><select class="input" onchange="state.draft.location=this.value"><option '+(d.location==="WPVC South Gym"?"selected":"")+'>WPVC South Gym</option><option '+(d.location==="WPVC North Gym"?"selected":"")+'>WPVC North Gym</option><option>WPVC Classroom</option><option>Off-site location</option></select><small>Copied to new Sessions. Individual Sessions may use another location.</small></div>'+
- '<div class="field"><label>Default courts</label><select class="input" onchange="state.draft.defaultCourts=this.value"><option>Court 1</option><option '+(d.defaultCourts==="Court 1 + Court 2"?"selected":"")+'>Court 1 + Court 2</option><option>Court 2 + Court 3</option><option>All courts</option><option>No court reservation</option></select><small>A Session has one location but can reserve multiple named courts at that facility.</small></div>'+
- '<div class="field"><label>Participant limit per Session</label><input class="input" type="number" min="1" value="'+esc(d.capacity)+'" oninput="state.draft.capacity=Number(this.value)||24"><small>One Event-configured limit, checked independently for every Session.</small></div>'+
+ '<div class="field full"><label>Event name</label><input class="input" value="'+esc(d.name)+'" placeholder="Example: 2027 Girls 14U Tryouts" oninput="state.draft.name=this.value"></div>'+
+ '<div class="field full"><label>Description <span class="muted">· Parent facing</span></label><textarea class="input" rows="4" placeholder="Tell families what this Event is, who it is for, and what to expect." oninput="state.draft.description=this.value">'+esc(d.description)+'</textarea><small>This appears on the registration experience.</small></div>'+
+ '<div class="field"><label>Activity</label><select class="input" onchange="setDraftKind(this.value)"><option '+(d.kind==="Clinic"?"selected":"")+'>Clinic</option><option '+(d.kind==="Camp"?"selected":"")+'>Camp</option><option '+(d.kind==="Meeting"?"selected":"")+'>Meeting</option><option '+(d.kind==="Tournament"?"selected":"")+'>Tournament</option><option '+(d.kind==="Tryout"?"selected":"")+'>Tryout</option></select></div>'+
+ '<div class="field"><label>Season</label><select class="input" onchange="state.draft.season=this.value"><option>Not tied to a season</option><option '+(d.season==="2026-2027 Club Season"?"selected":"")+'>2026-2027 Club Season</option><option>Summer 2027</option></select><small>Optional for ordinary Events. Strongly useful for Tryouts and season-aware discounts.</small></div>'+
+ '<div class="field"><label>Participant limit per Session</label><input class="input" type="number" min="1" value="'+esc(d.capacity)+'" oninput="state.draft.capacity=Number(this.value)||24"></div>'+
+ '<div class="field full"><label>Locations & courts reserved for this Event</label><small>An Event may reserve resources at several facilities. Schedule assigns those resources to the actual Sessions.</small><div class="grid three" style="margin-top:8px">'+
+ locCard("WPVC South Gym",["Court 1","Court 2","Court 3","Court 4"])+
+ locCard("WPVC North Gym",["Court A","Court B","Court C"])+
+ locCard("Lake Brantley High School",["Court 1","Court 2","Court 3","Court 4","Court 5","Court 6"])+
+ '</div></div>'+
  '</div>'
 }
+function toggleEventLocation(loc){
+ var a=state.draft.reservedLocations,i=a.indexOf(loc);
+ if(i>=0){a.splice(i,1);state.draft.reservedCourts[loc]=[]}
+ else {a.push(loc);if(!(loc in state.draft.reservedCourts))state.draft.reservedCourts[loc]=[]}
+ render()
+}
+function toggleEventCourt(loc,court){
+ var a=state.draft.reservedCourts[loc]||[],i=a.indexOf(court);
+ if(i>=0)a.splice(i,1);else a.push(court);
+ state.draft.reservedCourts[loc]=a;render()
+}
 function wizardSchedule(d){
- var allDays=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];var ds=d.days||{};
+ var allDays=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];var ds=d.days||{};if(!d.reservedLocations.length)d.reservedLocations.push("WPVC South Gym");
  return '<div>'+
  '<div class="attention blue"><div class="icon">i</div><div><b>One place per Session, many places per Event</b><span>Each Session has one location and may reserve multiple courts. Different Sessions, including simultaneous alternatives, can use different facilities.</span></div></div>'+
  '<div class="radio-cards"><div class="radio-card '+(d.schedule==="one"?"selected":"")+'" onclick="state.draft.schedule=\'one\';render()"><b>One day</b><span>One Session with one clear signup choice.</span></div><div class="radio-card '+(d.schedule==="repeat"?"selected":"")+'" onclick="state.draft.schedule=\'repeat\';render()"><b>Repeating schedule</b><span>Select weekdays, times, locations, and court groups, then review the finite Sessions.</span></div></div>'+
- (d.schedule==="repeat"?'<div style="display:flex;justify-content:space-between;align-items:end;margin:16px 0 9px"><div class="field" style="width:160px"><label>Number of weeks</label><input class="input" type="number" min="1" max="12" value="'+d.weeks+'" oninput="state.draft.weeks=Number(this.value)||1;render()"></div><div class="actions"><button class="btn small" onclick="selectAllDays()">Select all days</button><button class="btn small" onclick="toggleParallelSession()">'+(d.parallelSession?"Remove parallel example":"Add parallel Session")+'</button></div></div><div class="weekdays">'+allDays.map(function(day){var x=ds[day]||{on:false,start:"17:00",end:"19:00",location:d.location,courts:d.defaultCourts};return '<div class="day '+(x.on?"selected":"")+'"><button onclick="toggleDay(\''+day+'\')">'+day+'</button>'+(x.on?'<div class="times"><select onchange="setDayTime(\''+day+'\',\'start\',this.value)">'+timeOptions(x.start)+'</select><select onchange="setDayTime(\''+day+'\',\'end\',this.value)">'+timeOptions(x.end)+'</select><select onchange="setDayPlace(\''+day+'\',\'location\',this.value)">'+locationOptions(x.location)+'</select><select onchange="setDayPlace(\''+day+'\',\'courts\',this.value)">'+courtOptions(x.courts)+'</select><button class="btn small" onclick="applyTimes(\''+day+'\')">Apply times to selected</button></div>':"")+'</div>'}).join("")+'</div>':
- '<div class="form-grid" style="margin-top:16px"><div class="field"><label>Date</label><input class="input" type="date" value="2026-10-12"></div><div class="field"><label>Time</label><div style="display:flex;gap:8px"><input class="input" type="time" value="18:00"><input class="input" type="time" value="20:00"></div></div><div class="field"><label>Location</label><select class="input">'+locationOptions(d.location)+'</select></div><div class="field"><label>Courts</label><select class="input">'+courtOptions(d.defaultCourts)+'</select></div></div>')+
+ (d.schedule==="repeat"?'<div style="display:flex;justify-content:space-between;align-items:end;margin:16px 0 9px"><div class="field" style="width:160px"><label>Number of weeks</label><input class="input" type="number" min="1" max="12" value="'+d.weeks+'" oninput="state.draft.weeks=Number(this.value)||1;render()"></div><div class="actions"><button class="btn small" onclick="selectAllDays()">Select all days</button><button class="btn small" onclick="toggleParallelSession()">'+(d.parallelSession?"Remove parallel example":"Add parallel Session")+'</button></div></div><div class="weekdays">'+allDays.map(function(day){var x=ds[day]||{on:false,start:"17:00",end:"19:00",location:d.reservedLocations[0],courts:(d.reservedCourts[d.reservedLocations[0]]||[]).join(" + ")};return '<div class="day '+(x.on?"selected":"")+'"><button onclick="toggleDay(\''+day+'\')">'+day+'</button>'+(x.on?'<div class="times"><select onchange="setDayTime(\''+day+'\',\'start\',this.value)">'+timeOptions(x.start)+'</select><select onchange="setDayTime(\''+day+'\',\'end\',this.value)">'+timeOptions(x.end)+'</select><select onchange="setDayPlace(\''+day+'\',\'location\',this.value)">'+locationOptions(x.location)+'</select><select onchange="setDayPlace(\''+day+'\',\'courts\',this.value)">'+courtOptions(x.courts)+'</select><button class="btn small" onclick="applyTimes(\''+day+'\')">Apply times to selected</button></div>':"")+'</div>'}).join("")+'</div>':
+ '<div class="form-grid" style="margin-top:16px"><div class="field"><label>Date</label><input class="input" type="date" value="2026-10-12"></div><div class="field"><label>Time</label><div style="display:flex;gap:8px"><input class="input" type="time" value="18:00"><input class="input" type="time" value="20:00"></div></div><div class="field"><label>Location</label><select class="input">'+locationOptions(d.reservedLocations[0])+'</select></div><div class="field"><label>Courts</label><select class="input">'+courtOptions((d.reservedCourts[d.reservedLocations[0]]||[]).join(" + "))+'</select></div></div>')+
  schedulePreview(d)+'</div>'
 }
 function locationOptions(selected){var a=["WPVC South Gym","WPVC North Gym","WPVC Classroom","Off-site location"];return a.map(function(v){return '<option '+(v===selected?"selected":"")+'>'+v+'</option>'}).join("")}
 function courtOptions(selected){var a=["Court 1","Court 1 + Court 2","Court 2 + Court 3","Court A + Court B","All courts","No court reservation"];return a.map(function(v){return '<option '+(v===selected?"selected":"")+'>'+v+'</option>'}).join("")}
 function timeOptions(selected){var arr=["08:00","09:00","10:00","12:00","15:00","16:00","17:00","18:00","19:00","20:00","20:30","21:00"];return arr.map(function(t){return '<option value="'+t+'" '+(selected===t?"selected":"")+'>'+t+'</option>'}).join("")}
 function toggleDay(day){
- if(!state.draft.days[day])state.draft.days[day]={on:false,start:"17:00",end:"19:00",location:state.draft.location,courts:state.draft.defaultCourts};
+ if(!state.draft.days[day])state.draft.days[day]={on:false,start:"17:00",end:"19:00",location:state.draft.reservedLocations[0],courts:(state.draft.reservedCourts[state.draft.reservedLocations[0]]||[]).join(" + ")};
  state.draft.days[day].on=!state.draft.days[day].on;render()
 }
 function selectAllDays(){
  ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].forEach(function(d){
-  if(!state.draft.days[d])state.draft.days[d]={start:"17:00",end:"19:00",location:state.draft.location,courts:state.draft.defaultCourts};
+  if(!state.draft.days[d])state.draft.days[d]={start:"17:00",end:"19:00",location:state.draft.reservedLocations[0],courts:(state.draft.reservedCourts[state.draft.reservedLocations[0]]||[]).join(" + ")};
   state.draft.days[d].on=true
  });render()
 }
@@ -267,12 +310,12 @@ function setDayPlace(day,k,v){state.draft.days[day][k]=v;render()}
 function toggleParallelSession(){state.draft.parallelSession=!state.draft.parallelSession;render()}
 function applyTimes(day){var src=state.draft.days[day];Object.keys(state.draft.days).forEach(function(d){if(state.draft.days[d].on){state.draft.days[d].start=src.start;state.draft.days[d].end=src.end}});toast("Times applied to selected days");render()}
 function generatedPreview(d){
- if(d.schedule==="one")return [{date:"Mon, Oct 12",time:"18:00 - 20:00",location:d.location,courts:d.defaultCourts}];
+ if(d.schedule==="one")return [{date:"Mon, Oct 12",time:"18:00 - 20:00",location:d.reservedLocations[0],courts:(d.reservedCourts[d.reservedLocations[0]]||[]).join(" + ")}];
  var days=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],on=days.filter(function(x){return d.days[x]&&d.days[x].on}),out=[];
  for(var w=1;w<=Math.min(d.weeks,6);w++){
   on.forEach(function(day){
    var x=d.days[day];
-   out.push({date:day+", week "+w,time:x.start+" - "+x.end,location:x.location||d.location,courts:x.courts||d.defaultCourts})
+   out.push({date:day+", week "+w,time:x.start+" - "+x.end,location:x.location||d.reservedLocations[0],courts:x.courts||(d.reservedCourts[d.reservedLocations[0]]||[]).join(" + ")})
   })
  }
  if(d.parallelSession&&out.length){
@@ -288,41 +331,72 @@ function schedulePreview(d){
 }
 function wizardRegistration(d){
  var tryout=d.kind==="Tryout";
+ var eligibilityText=[];
+ if(d.gender!=="Any gender") eligibilityText.push(d.gender+" participants");
+ if(d.minAgeEnabled) eligibilityText.push("at least "+d.minAge);
+ if(d.maxAgeEnabled) eligibilityText.push("no older than "+d.maxAge);
+ var plain=eligibilityText.length?eligibilityText.join(", ")+" as of "+d.ageAsOf:"No age or gender restriction beyond audience rules";
  return '<div class="grid two"><div class="grid">'+
- '<section class="panel"><h2>Registration window</h2><label class="participant-card"><div><div class="strong">Use opening and closing date/time</div><div class="tiny">Outside this window, ordinary online signup is closed. Staff-assisted exceptions still follow Event rules.</div></div><input type="checkbox" '+(d.registrationWindow?"checked":"")+' onchange="state.draft.registrationWindow=this.checked;render()"></label>'+
+ '<section class="panel"><h2>Registration window</h2><label class="participant-card"><div><div class="strong">Use opening and closing date/time</div><div class="tiny">Normal online registration is available only inside this window.</div></div><input type="checkbox" '+(d.registrationWindow?"checked":"")+' onchange="state.draft.registrationWindow=this.checked;render()"></label>'+
  (d.registrationWindow?'<div class="form-grid"><div class="field"><label>Opens</label><input class="input" type="datetime-local" value="'+esc(d.registrationOpens)+'" onchange="state.draft.registrationOpens=this.value"></div><div class="field"><label>Closes</label><input class="input" type="datetime-local" value="'+esc(d.registrationCloses)+'" onchange="state.draft.registrationCloses=this.value"></div></div>':'')+'</section>'+
- '<section class="panel"><h2>Who can register?</h2><div class="form-grid"><div class="field"><label>Audience</label><select class="input" onchange="state.draft.audience=this.value"><option '+(d.audience==="Public"?"selected":"")+'>Public</option><option '+(d.audience==="Club participants"?"selected":"")+'>Club participants</option><option>Selected Teams</option><option>Invited people</option></select></div><div class="field"><label>Gender</label><select class="input" onchange="state.draft.gender=this.value"><option '+(d.gender==="Any gender"?"selected":"")+'>Any gender</option><option '+(d.gender==="Female"?"selected":"")+'>Female</option><option '+(d.gender==="Male"?"selected":"")+'>Male</option><option>Coed</option></select></div><div class="field"><label>Age restriction</label><select class="input" onchange="state.draft.ageRule=this.value;render()"><option value="none" '+(d.ageRule==="none"?"selected":"")+'>No age restriction</option><option value="younger" '+(d.ageRule==="younger"?"selected":"")+'>No older than</option><option value="older" '+(d.ageRule==="older"?"selected":"")+'>No younger than</option></select></div>'+
- (d.ageRule!=="none"?'<div class="field"><label>Age</label><input class="input" type="number" min="1" value="'+d.ageYears+'" oninput="state.draft.ageYears=Number(this.value)||1"></div><div class="field"><label>As of date</label><input class="input" type="date" value="'+esc(d.ageAsOf)+'" onchange="state.draft.ageAsOf=this.value"></div>':'')+'</div><div class="tiny" style="margin-top:9px">This reuses ClubPortalAI eligibility: choose a maximum age or a minimum age. It does not invent a new age-range model.</div></section>'+
+ '<section class="panel"><h2>Eligibility</h2><div class="form-grid"><div class="field"><label>Audience</label><select class="input" onchange="state.draft.audience=this.value"><option '+(d.audience==="Public"?"selected":"")+'>Public</option><option '+(d.audience==="Club participants"?"selected":"")+'>Club participants</option><option>Selected Teams</option><option>Invited people</option></select></div><div class="field"><label>Gender</label><select class="input" onchange="state.draft.gender=this.value;render()"><option '+(d.gender==="Any gender"?"selected":"")+'>Any gender</option><option '+(d.gender==="Female"?"selected":"")+'>Female</option><option '+(d.gender==="Male"?"selected":"")+'>Male</option><option '+(d.gender==="Coed"?"selected":"")+'>Coed</option></select></div></div>'+
+ '<div class="grid two" style="margin-top:12px"><label class="participant-card"><div><div class="strong">Minimum age</div><div class="tiny">No younger than</div></div><input type="checkbox" '+(d.minAgeEnabled?"checked":"")+' onchange="state.draft.minAgeEnabled=this.checked;render()"></label><label class="participant-card"><div><div class="strong">Maximum age</div><div class="tiny">No older than</div></div><input type="checkbox" '+(d.maxAgeEnabled?"checked":"")+' onchange="state.draft.maxAgeEnabled=this.checked;render()"></label></div>'+
+ ((d.minAgeEnabled||d.maxAgeEnabled)?'<div class="form-grid" style="margin-top:10px">'+
+ (d.minAgeEnabled?'<div class="field"><label>No younger than</label><input class="input" type="number" min="1" value="'+d.minAge+'" oninput="state.draft.minAge=Number(this.value)||1;render()"></div>':'')+
+ (d.maxAgeEnabled?'<div class="field"><label>No older than</label><input class="input" type="number" min="1" value="'+d.maxAge+'" oninput="state.draft.maxAge=Number(this.value)||1;render()"></div>':'')+
+ '<div class="field"><label>As of date</label><input class="input" type="date" value="'+esc(d.ageAsOf)+'" onchange="state.draft.ageAsOf=this.value;render()"></div></div>':'')+
+ '<div class="attention blue"><div class="icon">✓</div><div><b>Staff sees the rule in plain English</b><span>'+esc(plain)+'. Staff can handle exceptional play-up situations manually. There is no automated Play-Up Registration Policy.</span></div></div></section>'+
  '<section class="panel"><h2>Legal documents</h2><label class="participant-card"><div><div class="strong">Liability Waiver Level 2026-2027</div><div class="tiny">Published Aug 4, 2026 · Required</div></div><input type="checkbox" '+(d.legalDocs.liability?"checked":"")+' onchange="state.draft.legalDocs.liability=this.checked"></label><label class="participant-card"><div><div class="strong">Participant Agreement</div><div class="tiny">Published Aug 4, 2026 · Required</div></div><input type="checkbox" '+(d.legalDocs.participant?"checked":"")+' onchange="state.draft.legalDocs.participant=this.checked"></label><label class="participant-card"><div><div class="strong">Photo & Media Consent</div><div class="tiny">Published Aug 4, 2026 · Optional</div></div><input type="checkbox" '+(d.legalDocs.media?"checked":"")+' onchange="state.draft.legalDocs.media=this.checked"></label><button class="btn small" onclick="toast(\'Would open existing Legal Documents setup\')">Manage published documents</button></section>'+
  '</div><aside class="grid">'+
- (tryout?'<section class="panel"><h2>Tryout registration details</h2><div class="sub">These controls appear only for Tryouts and reuse the existing Tryout preference concepts.</div><label class="participant-card"><div><div class="strong">Collect Team Program preferences</div><div class="tiny">Families rank the programs they would consider.</div></div><input type="checkbox" '+(d.collectPrograms?"checked":"")+' onchange="state.draft.collectPrograms=this.checked;render()"></label>'+(d.collectPrograms?'<div class="form-grid"><div class="field"><label>Top choices required</label><select class="input" onchange="state.draft.programRequired=Number(this.value)"><option>1</option><option '+(d.programRequired===2?"selected":"")+'>2</option></select></div><div class="field"><label>Allow up to</label><select class="input" onchange="state.draft.programMax=Number(this.value)"><option>2</option><option '+(d.programMax===3?"selected":"")+'>3</option><option>4</option></select></div></div><div class="tiny" style="margin:8px 0">Offered: Armour · Elite · National</div>':'')+'<label class="participant-card"><div><div class="strong">Collect positional preferences</div><div class="tiny">Use the club\'s existing volleyball positions.</div></div><input type="checkbox" '+(d.collectPositions?"checked":"")+' onchange="state.draft.collectPositions=this.checked;render()"></label>'+(d.collectPositions?'<div class="field"><label>Allow up to</label><select class="input" onchange="state.draft.positionMax=Number(this.value)"><option>1</option><option '+(d.positionMax===2?"selected":"")+'>2</option><option>3</option></select><small>Setter, Outside, Middle, Opposite, Libero / DS</small></div>':'')+'</section>':
- '<section class="panel"><h2>Keep ordinary Events ordinary</h2><div class="sub">Team Program and positional preferences are hidden here because they only make sense for Tryouts. Choosing Tryout as the Activity reveals them without burdening clinics, camps, meetings, or tournaments.</div></section>')+
- '<section class="panel"><h2>Season alignment</h2><div class="row"><div class="k">Season</div><div class="v">'+esc(d.season)+'</div></div><div class="tiny" style="margin-top:8px">Season alignment can drive same-season Tryout discounts, Team Program choices, age-group context, and reporting without making Season mandatory for every Event.</div></section>'+
+ '<section class="panel"><h2>Registration preferences</h2><label class="participant-card"><div><div class="strong">Collect Team Program preferences</div><div class="tiny">Rank the Participant’s top choices.</div></div><input type="checkbox" '+(d.collectPrograms?"checked":"")+' onchange="state.draft.collectPrograms=this.checked;render()"></label>'+
+ (d.collectPrograms?'<div class="form-grid"><div class="field"><label>Require top</label><select class="input" onchange="state.draft.programRequired=Number(this.value)"><option>1</option><option '+(d.programRequired===2?"selected":"")+'>2</option><option>3</option></select></div><div class="field"><label>Allow up to</label><select class="input" onchange="state.draft.programMax=Number(this.value)"><option>2</option><option '+(d.programMax===3?"selected":"")+'>3</option><option>4</option></select></div></div><div class="tiny" style="margin:8px 0">Example choices: Armour · Elite · National</div>':'')+
+ '<label class="participant-card"><div><div class="strong">Collect positional preferences</div><div class="tiny">Rank the Participant’s top positions.</div></div><input type="checkbox" '+(d.collectPositions?"checked":"")+' onchange="state.draft.collectPositions=this.checked;render()"></label>'+
+ (d.collectPositions?'<div class="form-grid"><div class="field"><label>Require top</label><select class="input" onchange="state.draft.positionRequired=Number(this.value)"><option>1</option><option '+(d.positionRequired===2?"selected":"")+'>2</option><option>3</option></select></div><div class="field"><label>Allow up to</label><select class="input" onchange="state.draft.positionMax=Number(this.value)"><option>2</option><option '+(d.positionMax===3?"selected":"")+'>3</option><option>4</option></select></div></div><div class="tiny" style="margin-top:8px">Setter · Outside · Middle · Opposite · Libero / DS</div>':'')+
+ '<div class="tiny" style="margin-top:10px">These questions can be used by any Event. Tryouts will commonly enable both.</div></section>'+
+ (tryout?'<section class="panel"><h2>Tryout offer response</h2><div class="field"><label>Default time to respond</label><div style="display:flex;gap:8px;align-items:center"><input class="input" style="max-width:120px" type="number" min="1" value="'+d.offerResponseHours+'" oninput="state.draft.offerResponseHours=Number(this.value)||1"><span class="tiny">hours</span></div><small>Example: 48 hours. Each Team Offer gets an exact expiration date/time when sent.</small></div><div class="attention blue"><div class="icon">↻</div><div><b>Staff can extend an individual Offer</b><span>Extending the deadline does not require changing the Event default.</span></div></div></section>':'')+
+ '<section class="panel"><h2>Season alignment</h2><div class="row"><div class="k">Season</div><div class="v">'+esc(d.season)+'</div></div><div class="tiny" style="margin-top:8px">Supports Team Programs, same-season history, eligibility context, discounts, and reporting.</div></section>'+
  '</aside></div>'
 }
 function wizardPricing(d){
- var tryout=d.kind==="Tryout";
- return '<div><div class="radio-cards"><div class="radio-card '+(d.free?"selected":"")+'" onclick="state.draft.free=true;render()"><b>Free</b><span>Registration and legal acceptance still apply.</span></div><div class="radio-card '+(!d.free?"selected":"")+'" onclick="state.draft.free=false;render()"><b>Paid</b><span>Use Event pricing, not a Season Tuition Plan.</span></div></div>'+
- (!d.free?'<div class="grid two" style="margin-top:16px"><div class="grid"><section class="panel"><h2>Payment choices</h2>'+
- (!tryout?'<div class="field"><label>Signup options</label><select class="input" onchange="state.draft.signup=this.value;render()"><option value="both" '+(d.signup==="both"?"selected":"")+'>Full Event + selected Sessions</option><option value="full" '+(d.signup==="full"?"selected":"")+'>Full Event only</option><option value="drop" '+(d.signup==="drop"?"selected":"")+'>Selected Sessions only</option></select></div>':'<div class="attention blue"><div class="icon">i</div><div><b>One Tryout Registration and fee</b><span>Regular, Callback, and Makeup Sessions do not create separate fees.</span></div></div>')+
- '<div class="form-grid"><div class="field"><label>'+(tryout?"Tryout fee · ACH":"Full Event · ACH")+'</label><input class="input" type="number" value="'+d.achFull+'" oninput="state.draft.achFull=Number(this.value)||0"></div><div class="field"><label>'+(tryout?"Tryout fee · Card":"Full Event · Card")+'</label><input class="input" type="number" value="'+d.cardFull+'" oninput="state.draft.cardFull=Number(this.value)||0"></div>'+
- (!tryout&&d.signup!=="full"?'<div class="field"><label>Drop-in · ACH</label><input class="input" type="number" value="'+d.achDrop+'" oninput="state.draft.achDrop=Number(this.value)||0"></div><div class="field"><label>Drop-in · Card</label><input class="input" type="number" value="'+d.cardDrop+'" oninput="state.draft.cardDrop=Number(this.value)||0"></div>':'')+'</div>'+
- (!tryout?'<div class="field" style="margin-top:12px"><label>Deposit</label><input class="input" type="number" min="0" value="'+d.deposit+'" oninput="state.draft.deposit=Number(this.value)||0"><small>Separate one-time charge above the Event Price.</small></div><label class="participant-card"><div><div class="strong">Offer one installment schedule</div><div class="tiny">Full-Event signup only. Choosing the plan authorizes the future schedule; no separate “autopay required” switch.</div></div><input type="checkbox" '+(d.installments?"checked":"")+' onchange="state.draft.installments=this.checked;render()"></label>'+(d.installments?'<div class="price-box"><div class="summary-line"><span>At registration</span><b>Deposit + $75</b></div><div class="summary-line"><span>Nov 1</span><b>$75</b></div><div class="summary-line"><span>Nov 15</span><b>$75</b></div><div class="summary-line"><span>Dec 1</span><b>Remaining balance</b></div></div>':''):'')+
- '</section></div><aside class="grid"><section class="panel"><div style="display:flex;justify-content:space-between;align-items:center"><h2>Discounts</h2><button class="btn small" onclick="state.draft.discountCount++;toast(\'Discount rule added in prototype\');render()">+ Add discount</button></div><div class="row"><div><div class="strong">Current Player</div><div class="tiny">10% · '+(tryout?"Tryout fee":"Full Event")+'</div></div>'+badge("Active","good")+'</div><div class="row"><div><div class="strong">Early signup</div><div class="tiny">$25 · before Oct 1 · '+(tryout?"Tryout fee":"Full Event")+'</div></div>'+badge("Active","good")+'</div>'+(d.discountCount>2?'<div class="row"><div><div class="strong">Coach family</div><div class="tiny">$15 · '+(tryout?"Tryout fee":"Full Event")+'</div></div>'+badge("Draft","")+'</div>':'')+'<div class="tiny" style="margin-top:8px">Eligible discounts do not stack. The single discount with the greatest dollar reduction wins. Full-Event and drop-in rules stay separate.</div></section><section class="panel"><h2>Why no surcharge controls?</h2><div class="sub">ACH and Card amounts are alternative published Event Prices. Keeping that rule avoids a second surcharge system and matches the settled Event pricing model.</div></section></aside></div>':'')+'</div>'
+ if(d.free){
+  return '<div><div class="radio-cards"><div class="radio-card selected"><b>Free</b><span>Registration and legal acceptance still apply.</span></div><div class="radio-card" onclick="state.draft.free=false;render()"><b>Paid</b><span>Use dated Event prices and discounts.</span></div></div></div>'
+ }
+ return '<div><div class="radio-cards"><div class="radio-card" onclick="state.draft.free=true;render()"><b>Free</b><span>Registration and legal acceptance still apply.</span></div><div class="radio-card selected"><b>Paid</b><span>Price can increase on configured dates to reward early registration.</span></div></div>'+
+ '<div class="grid two" style="margin-top:16px"><div class="grid">'+
+ '<section class="panel"><div style="display:flex;justify-content:space-between;align-items:center"><div><h2>Price tiers</h2><div class="tiny">The effective tier when the Registration is confirmed becomes its agreed price.</div></div><button class="btn small" onclick="addPriceTier()">+ Add price change</button></div>'+
+ '<div class="table-wrap" style="margin-top:10px"><table class="table"><thead><tr><th>Starts</th><th>ACH</th><th>Card</th><th></th></tr></thead><tbody>'+d.priceTiers.map(function(t,i){return '<tr><td>'+(i===0?'<b>Registration opens</b>':'<input class="input" style="min-width:180px" type="datetime-local" value="'+esc(t.starts)+'" onchange="state.draft.priceTiers['+i+'].starts=this.value"></td>')+'</td><td><input class="input" style="width:95px" type="number" value="'+t.ach+'" oninput="state.draft.priceTiers['+i+'].ach=Number(this.value)||0"></td><td><input class="input" style="width:95px" type="number" value="'+t.card+'" oninput="state.draft.priceTiers['+i+'].card=Number(this.value)||0"></td><td>'+(i?'<button class="btn small" onclick="removePriceTier('+i+')">Remove</button>':'')+'</td></tr>'}).join("")+'</tbody></table></div>'+
+ '<div class="attention blue"><div class="icon">$</div><div><b>Example</b><span>$100 when registration opens. On October 1 it becomes $125. Add as many future changes as the club needs.</span></div></div></section>'+
+ (d.kind!=="Tryout"?'<section class="panel"><h2>Payment choices</h2><div class="field"><label>Signup options</label><select class="input" onchange="state.draft.signup=this.value"><option value="both" '+(d.signup==="both"?"selected":"")+'>Full Event + selected Sessions</option><option value="full" '+(d.signup==="full"?"selected":"")+'>Full Event only</option><option value="drop" '+(d.signup==="drop"?"selected":"")+'>Selected Sessions only</option></select></div><div class="field" style="margin-top:10px"><label>Deposit</label><input class="input" type="number" min="0" value="'+d.deposit+'" oninput="state.draft.deposit=Number(this.value)||0"></div><label class="participant-card"><div><div class="strong">Offer one installment schedule</div><div class="tiny">Full-Event signup only.</div></div><input type="checkbox" '+(d.installments?"checked":"")+' onchange="state.draft.installments=this.checked;render()"></label></section>':'<section class="panel"><h2>Tryout payment</h2><div class="sub">One Registration and one Tryout fee covers Regular, Callback, and Makeup Sessions. No Session-specific Tryout fee.</div></section>')+
+ '</div><aside class="grid"><section class="panel"><div style="display:flex;justify-content:space-between;align-items:center"><div><h2>Discounts</h2><div class="tiny">Eligible discounts do not stack. The best dollar value wins.</div></div><button class="btn small" onclick="addDiscountRule()">+ Add discount</button></div>'+
+ d.discounts.map(function(x,i){return '<div class="participant-card"><div><div class="strong">'+esc(x.name)+'</div><div class="tiny">'+esc(x.eligibility)+' · '+(x.type==="percent"?x.value+"%":"$"+x.value)+'</div></div><button class="btn small" onclick="editDiscountRule('+i+')">Edit</button></div>'}).join("")+
+ '<div class="tiny" style="margin-top:8px">Supported eligibility examples: current rostered Player, Coach, Staff, prior same-season Tryout, or Registration in one or more selected previous Events.</div></section>'+
+ '<section class="panel"><h2>Published payment-method prices</h2><div class="sub">ACH and Card amounts are alternative Event prices, not a surcharge. Every dated tier may publish both amounts.</div></section></aside></div></div>'
 }
-function wizardPricing(d){
- return '<div><div class="radio-cards"><div class="radio-card '+(d.free?"selected":"")+'" onclick="state.draft.free=true;render()"><b>Free</b><span>Still uses Registration and email verification.</span></div><div class="radio-card '+(!d.free?"selected":"")+'" onclick="state.draft.free=false;render()"><b>Paid</b><span>Card and ACH can have different published prices.</span></div></div>'+
- (!d.free?'<div class="form-grid" style="margin-top:16px"><div class="field"><label>Signup options</label><select class="input" onchange="state.draft.signup=this.value;render()"><option value="both" '+(d.signup==="both"?"selected":"")+'>Full Event + selected Sessions</option><option value="full">Full Event only</option><option value="drop">Selected Sessions only</option></select></div><div class="field"><label>Deposit</label><input class="input" type="number" value="'+d.deposit+'" oninput="state.draft.deposit=Number(this.value)||0"><small>Separate one-time charge above the Event Price.</small></div><div class="field"><label>Full Event · ACH</label><input class="input" type="number" value="'+d.achFull+'" oninput="state.draft.achFull=Number(this.value)||0"></div><div class="field"><label>Full Event · Card</label><input class="input" type="number" value="'+d.cardFull+'" oninput="state.draft.cardFull=Number(this.value)||0"></div><div class="field"><label>Drop-in · ACH</label><input class="input" type="number" value="'+d.achDrop+'" oninput="state.draft.achDrop=Number(this.value)||0"></div><div class="field"><label>Drop-in · Card</label><input class="input" type="number" value="'+d.cardDrop+'" oninput="state.draft.cardDrop=Number(this.value)||0"></div><div class="field full"><label><input type="checkbox" '+(d.installments?"checked":"")+' onchange="state.draft.installments=this.checked"> Offer one installment schedule for full-Event signup</label><small>Selected-session signup always pays in full. No late-registration proration is configured here.</small></div></div>':'')+
- '<div class="attention blue" style="margin-top:14px"><div class="icon">$</div><div><b>Discounts stay simple</b><span>Full-Event and drop-in discounts are configured separately, one best eligible discount wins, and discounts never stack.</span></div></div></div>'
+function addPriceTier(){
+ var tiers=state.draft.priceTiers,last=tiers[tiers.length-1]||{ach:100,card:104};
+ tiers.push({label:"Price change",starts:"2026-10-15T00:00",ach:last.ach+25,card:last.card+26});render()
+}
+function removePriceTier(i){state.draft.priceTiers.splice(i,1);render()}
+function addDiscountRule(){
+ state.draft.discounts.push({name:"New discount",eligibility:"Current rostered Player",type:"percent",value:10});render()
+}
+function editDiscountRule(i){
+ var x=state.draft.discounts[i];
+ state.modal={title:"Edit discount",body:'<div class="field"><label>Name</label><input class="input" value="'+esc(x.name)+'" oninput="state.draft.discounts['+i+'].name=this.value"></div><div class="field" style="margin-top:10px"><label>Who qualifies?</label><select class="input" onchange="state.draft.discounts['+i+'].eligibility=this.value"><option>Current rostered Player</option><option>Coach</option><option>Staff</option><option>Coach or Staff</option><option>Prior same-season Tryout</option><option>Registered for selected earlier Event(s)</option></select></div><div class="form-grid" style="margin-top:10px"><div class="field"><label>Type</label><select class="input" onchange="state.draft.discounts['+i+'].type=this.value"><option value="percent">Percent</option><option value="fixed">Fixed amount</option></select></div><div class="field"><label>Value</label><input class="input" type="number" value="'+x.value+'" oninput="state.draft.discounts['+i+'].value=Number(this.value)||0"></div></div><div class="field" style="margin-top:10px"><label>Previous Events when applicable</label><select class="input" multiple size="4"><option>2027 Girls 13U Tryouts</option><option>Fall Skills Clinic</option><option>Advanced Serving Clinic</option><option>2026 Summer Camp</option></select><small>Simple explicit selection. No generic rule-builder.</small></div>',actions:'<button class="btn primary" onclick="closeModal();render()">Done</button>'};
+ renderModal()
 }
 function wizardReview(d){
  var p=generatedPreview(d),legal=[d.legalDocs.liability?"Liability Waiver":"",d.legalDocs.participant?"Participant Agreement":"",d.legalDocs.media?"Photo & Media Consent":""].filter(Boolean);
- var locations=[];p.forEach(function(x){if(locations.indexOf(x.location)<0)locations.push(x.location)});
- return '<div class="grid two"><div class="grid"><section class="panel"><h2>Event</h2><div class="row"><div class="k">Name</div><div class="v">'+esc(d.name||"Untitled Event")+'</div></div><div class="row"><div class="k">Activity</div><div class="v">'+esc(d.kind)+'</div></div><div class="row"><div class="k">Season</div><div class="v">'+esc(d.season)+'</div></div><div class="row"><div class="k">Schedule</div><div class="v">'+p.length+' Sessions · '+locations.length+' location'+(locations.length===1?"":"s")+'</div></div><div class="row"><div class="k">Courts</div><div class="v">Per Session · multiple allowed</div></div></section>'+
- '<section class="panel"><h2>Registration</h2><div class="row"><div class="k">Audience</div><div class="v">'+esc(d.audience)+'</div></div><div class="row"><div class="k">Window</div><div class="v">'+(d.registrationWindow?esc(d.registrationOpens)+' → '+esc(d.registrationCloses):"No configured window")+'</div></div><div class="row"><div class="k">Gender</div><div class="v">'+esc(d.gender)+'</div></div><div class="row"><div class="k">Age</div><div class="v">'+(d.ageRule==="none"?"No restriction":(d.ageRule==="younger"?"No older than ":"No younger than ")+d.ageYears+" as of "+esc(d.ageAsOf))+'</div></div><div class="row"><div class="k">Legal documents</div><div class="v">'+(legal.length?legal.length+" attached":"None")+'</div></div></section></div>'+
- '<aside class="grid"><section class="panel"><h2>Pricing</h2><div class="row"><div class="k">Published price</div><div class="v">'+(d.free?"Free":"ACH $"+d.achFull+" · Card $"+d.cardFull)+'</div></div><div class="row"><div class="k">Deposit</div><div class="v">'+(d.free||d.kind==="Tryout"?"None":"$"+d.deposit)+'</div></div><div class="row"><div class="k">Payment plan</div><div class="v">'+(!d.free&&d.kind!=="Tryout"&&d.installments?"One schedule offered":"No")+'</div></div><div class="row"><div class="k">Discount rules</div><div class="v">'+(!d.free?d.discountCount:0)+'</div></div></section>'+
- (d.kind==="Tryout"?'<section class="panel"><h2>Tryout details</h2><div class="row"><div class="k">Team Program preferences</div><div class="v">'+(d.collectPrograms?"Collect · top "+d.programRequired+" required":"Off")+'</div></div><div class="row"><div class="k">Position preferences</div><div class="v">'+(d.collectPositions?"Collect up to "+d.positionMax:"Off")+'</div></div><div class="tiny" style="margin-top:8px">Family availability for Regular dates and Callback responses remain part of the Tryout journey, not generic Event Attendance.</div></section>':'')+
- '<div class="attention blue"><div class="icon">✓</div><div><b>Ready to publish in the prototype</b><span>Publishing updates browser memory only. No real Event, Registration, document acceptance, or charge is created.</span></div></div></aside></div>'+schedulePreview(d)
+ var resourceCount=0;Object.keys(d.reservedCourts).forEach(function(k){resourceCount+=(d.reservedCourts[k]||[]).length});
+ var ageText=[];
+ if(d.minAgeEnabled)ageText.push("No younger than "+d.minAge);
+ if(d.maxAgeEnabled)ageText.push("No older than "+d.maxAge);
+ return '<div class="grid two"><div class="grid">'+
+ '<section class="panel"><h2>Basics</h2><div class="row"><div class="k">Name</div><div class="v">'+esc(d.name||"Untitled Event")+'</div></div><div class="row"><div class="k">Description</div><div class="v">'+esc(d.description||"No description yet")+'</div></div><div class="row"><div class="k">Activity</div><div class="v">'+esc(d.kind)+'</div></div><div class="row"><div class="k">Season</div><div class="v">'+esc(d.season)+'</div></div><div class="row"><div class="k">Reserved resources</div><div class="v">'+d.reservedLocations.length+' locations · '+resourceCount+' courts</div></div><div class="row"><div class="k">Schedule</div><div class="v">'+p.length+' finite Sessions</div></div></section>'+
+ '<section class="panel"><h2>Registration</h2><div class="row"><div class="k">Window</div><div class="v">'+(d.registrationWindow?esc(d.registrationOpens)+' → '+esc(d.registrationCloses):"No configured window")+'</div></div><div class="row"><div class="k">Gender</div><div class="v">'+esc(d.gender)+'</div></div><div class="row"><div class="k">Age</div><div class="v">'+(ageText.length?esc(ageText.join(" · ")+" as of "+d.ageAsOf):"No restriction")+'</div></div><div class="row"><div class="k">Legal documents</div><div class="v">'+(legal.length?legal.length+" attached":"None")+'</div></div><div class="row"><div class="k">Team Program preferences</div><div class="v">'+(d.collectPrograms?"Top "+d.programRequired+" required · up to "+d.programMax:"Off")+'</div></div><div class="row"><div class="k">Position preferences</div><div class="v">'+(d.collectPositions?"Top "+d.positionRequired+" required · up to "+d.positionMax:"Off")+'</div></div></section>'+
+ '</div><aside class="grid"><section class="panel"><h2>Pricing</h2><div class="row"><div class="k">Price tiers</div><div class="v">'+(d.free?0:d.priceTiers.length)+'</div></div><div class="row"><div class="k">Opening ACH price</div><div class="v">'+(d.free?"Free":"$"+d.priceTiers[0].ach)+'</div></div><div class="row"><div class="k">Discount rules</div><div class="v">'+(d.free?0:d.discounts.length)+'</div></div></section>'+
+ (d.kind==="Tryout"?'<section class="panel"><h2>Tryout details</h2><div class="row"><div class="k">Offer response window</div><div class="v">'+d.offerResponseHours+' hours</div></div><div class="tiny" style="margin-top:8px">Staff may extend an individual Team Offer after it is sent. Play-up exceptions are handled manually.</div></section>':'')+
+ '<div class="attention blue"><div class="icon">✓</div><div><b>Ready to publish in the prototype</b><span>Review the setup, then publish to browser memory only.</span></div></div></aside></div>'+schedulePreview(d)
 }
 function wizardActions(){
  return '<div class="wizard-actions"><button class="btn" '+(state.wizardStep===1?'style="visibility:hidden"':"")+' onclick="state.wizardStep--;render()">Back</button>'+(state.wizardStep<5?'<button class="btn primary" onclick="nextWizard()">Continue</button>':'<button class="btn primary" onclick="publishDraft()">Publish Event</button>')+'</div>'
