@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ClubPortalAI · Account Billing Workspace Prototype</title>
+<style>
+:root{
+  --bg:#f4f7fb;--panel:#fff;--panel2:#f8fafc;--ink:#15223b;--muted:#667085;--line:#dbe3ee;
+  --nav:#f7f9fc;--blue:#0b63ce;--blue2:#eaf3ff;--orange:#f36a21;--green:#0f8a5f;--green2:#e8f7f0;
+  --red:#d9342b;--red2:#fff0ef;--amber:#9a6700;--amber2:#fff7df;--shadow:0 8px 26px rgba(22,39,68,.07);
+}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font:14px/1.35 Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);background:var(--bg)}
+button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:none!important}
+.shell{min-height:100vh;display:grid;grid-template-columns:190px 1fr;grid-template-rows:58px 1fr}
+.sidebar{grid-row:1/3;background:var(--nav);border-right:1px solid var(--line);display:flex;flex-direction:column;position:sticky;top:0;height:100vh}
+.brand{height:58px;padding:12px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
+.brandmark{font-weight:900;font-style:italic;font-size:25px;letter-spacing:-2px;color:var(--orange)}.brandsub{font-size:8px;font-weight:800;color:#27364f;line-height:1.05}
+.nav{padding:12px 8px;display:flex;flex-direction:column;gap:3px}.nav button{border:0;background:transparent;text-align:left;padding:10px 11px;border-radius:8px;color:#34445d;display:flex;align-items:center;gap:10px;font-weight:600}
+.nav button:hover{background:#edf2f8}.nav button.active{background:#fff2ea;color:#c84b0c;box-shadow:inset 3px 0 0 var(--orange)}
+.nav .ico{width:18px;text-align:center;color:#64748b}.orgswitch{margin-top:auto;border-top:1px solid var(--line);padding:14px 12px;display:flex;align-items:center;gap:10px;font-weight:700}.orgdot{width:32px;height:32px;border-radius:50%;background:var(--orange);color:white;display:grid;place-items:center;font-size:11px}
+.topbar{grid-column:2;background:white;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 20px;gap:18px;position:sticky;top:0;z-index:5}
+.search{width:min(560px,55vw);height:36px;border:1px solid #ccd6e3;border-radius:7px;padding:0 12px 0 36px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%2364748b' stroke-width='2' viewBox='0 0 24 24'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m20 20-3-3'/%3E%3C/svg%3E") no-repeat 11px center}
+.topspacer{flex:1}.toplink{color:#3c4b62;font-weight:650}.avatar{width:32px;height:32px;border-radius:50%;background:#135cba;color:white;display:grid;place-items:center;font-weight:800}.user{display:flex;gap:9px;align-items:center}
+.main{grid-column:2;padding:18px 22px 42px;min-width:0}.wrap{max-width:1420px;margin:auto}
+.proto{background:#15233d;color:#eef5ff;border-radius:9px;padding:9px 12px;margin-bottom:14px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow)}
+.proto b{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#adc8ec}.proto select{height:32px;border:1px solid #50627e;border-radius:6px;background:#fff;color:#1d2939;padding:0 28px 0 9px}.proto .spacer{flex:1}.proto button{height:32px;border:1px solid #64748b;border-radius:6px;background:#263754;color:#fff;padding:0 11px}.proto small{color:#bfcee2}
+.crumb{color:#376aa5;font-size:13px;font-weight:650;margin:4px 0 10px}.head{display:flex;align-items:flex-start;gap:18px;margin-bottom:16px}.head h1{font-size:30px;line-height:1;margin:0 0 10px;letter-spacing:-.03em}.badge{display:inline-flex;align-items:center;padding:4px 9px;border-radius:999px;font-size:12px;font-weight:750}.good{background:var(--green2);color:#137551}.bad{background:var(--red2);color:#b42318}.warn{background:var(--amber2);color:#7a5200}.info{background:var(--blue2);color:#235d9c}
+.contact{display:flex;flex-wrap:wrap;gap:18px;color:#4b5a70}.head-actions{margin-left:auto;display:flex;gap:8px;align-items:center}.btn{height:38px;border:1px solid #ccd6e3;border-radius:7px;padding:0 13px;background:#fff;color:#25364f;font-weight:700;display:inline-flex;align-items:center;gap:7px}.btn:hover{background:#f8fafc}.btn.primary{border-color:#d95513;background:var(--orange);color:#fff}.btn.primary:hover{background:#dc5b18}.btn.small{height:32px;padding:0 10px;font-size:12px}.btn.linkish{border:0;background:transparent;color:var(--blue);padding:0 4px}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:8px 0 16px}.kpi{background:#fff;border:1px solid var(--line);border-radius:9px;padding:15px;display:flex;gap:12px;min-height:98px;box-shadow:0 2px 10px rgba(22,39,68,.025)}.kpi.attn{background:#fff8f7}.kicon{width:42px;height:42px;border-radius:50%;background:var(--blue2);color:var(--blue);display:grid;place-items:center;font-size:20px;flex:none}.kpi.attn .kicon{background:#ffe5e2;color:var(--red)}.klabel{font-size:12px;font-weight:700;color:#5e6b7f}.kvalue{font-size:21px;font-weight:800;letter-spacing:-.02em;margin-top:2px}.khelp{font-size:12px;color:#68768a;margin-top:3px}.khelp a{color:var(--blue);font-weight:700;text-decoration:none}
+.tabs{display:flex;gap:3px;border-bottom:1px solid var(--line);margin-bottom:14px;overflow:auto}.tab{border:0;background:transparent;padding:11px 13px;color:#46566d;font-weight:700;white-space:nowrap;border-bottom:2px solid transparent}.tab:hover{color:#13233e}.tab.active{color:#d65113;border-color:var(--orange)}
+.workspace{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:14px;align-items:start}.card{background:#fff;border:1px solid var(--line);border-radius:9px;box-shadow:0 2px 10px rgba(22,39,68,.025);overflow:hidden}.card+.card{margin-top:12px}.cardhead{min-height:50px;padding:11px 15px;border-bottom:1px solid #e8edf3;display:flex;align-items:center;gap:10px}.cardhead h2,.cardhead h3{margin:0;font-size:17px}.cardhead h3{font-size:15px}.cardhead .spacer{flex:1}.cardbody{padding:14px 15px}
+.alert{border:1px solid #f0c2bd;background:#fff6f5;border-radius:8px;padding:12px 13px;margin-bottom:12px;display:flex;gap:11px;align-items:flex-start}.alert.amber{border-color:#ecd59c;background:#fffaf0}.alert.blue{border-color:#bdd5f3;background:#f4f9ff}.alert strong{display:block;margin-bottom:2px}.alert .grow{flex:1}
+.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:10px 14px;border-bottom:1px solid #e8edf3;background:#fbfcfe}.field,.select{height:34px;border:1px solid #ccd6e3;border-radius:6px;background:#fff;padding:0 10px;color:#2c3b50}.field{min-width:210px}.select{min-width:122px}.toolbar .spacer{flex:1}
+.tablewrap{overflow:auto}.table{width:100%;border-collapse:collapse;min-width:760px}.table th{font-size:11px;letter-spacing:.02em;color:#607087;background:#f7f9fc;text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}.table td{padding:9px 10px;border-bottom:1px solid #edf1f5;vertical-align:middle}.table tr:hover td{background:#fafcff}.table tr:last-child td{border-bottom:0}.num{text-align:right!important;font-variant-numeric:tabular-nums}.money{font-variant-numeric:tabular-nums;font-weight:700}.pos{color:#137551}.neg{color:#b42318}.muted{color:var(--muted)}.tiny{font-size:11px}.desc strong{display:block;color:#25364f}.desc small{color:#718096}.rowaction{border:0;background:transparent;color:#53647d;font-size:17px;padding:3px 7px;border-radius:5px}.rowaction:hover{background:#edf2f7}
+.ledger-summary{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--line);background:#fbfcfe}.ledger-summary div{padding:11px 14px}.ledger-summary div+div{border-left:1px solid var(--line)}.ledger-summary span{font-size:11px;color:#6a788c}.ledger-summary b{display:block;font-size:17px;margin-top:2px}
+.empty{padding:38px;text-align:center;color:#6b7788}.empty b{display:block;color:#334155;margin-bottom:4px}
+.rail .cardhead{padding-left:13px}.kv{display:grid;grid-template-columns:95px 1fr;gap:8px 10px;font-size:12px}.kv dt{color:#6b7788}.kv dd{margin:0;font-weight:650;color:#36465c}.person{display:flex;align-items:center;gap:10px;padding:9px 0}.person+.person{border-top:1px solid #edf1f5}.circle{width:34px;height:34px;border-radius:50%;background:#eee8ff;color:#6041a8;display:grid;place-items:center;font-weight:800;flex:none}.circle.alt{background:#e5f2ff;color:#2365a7}.person .grow{flex:1;min-width:0}.person b{display:block}.person small{display:block;color:#6e7b8e}
+.method{border:1px solid #e3e8ef;border-radius:7px;padding:10px;display:flex;gap:9px;align-items:center}.method+.method{margin-top:8px}.method .grow{flex:1}.quick{display:flex;flex-direction:column}.quick button{height:35px;border:0;border-top:1px solid #edf1f5;background:#fff;text-align:left;padding:0 13px;color:#33445b}.quick button:first-child{border-top:0}.quick button:hover{background:#f7f9fc;color:var(--blue)}
+.payergrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.payer{border:1px solid #e0e6ee;border-radius:8px;padding:12px}.payer h4{margin:0 0 4px}.payer .big{font-size:20px;font-weight:800}
+.itemlist{display:flex;flex-direction:column;gap:9px}.item{border:1px solid #e1e7ef;border-radius:8px;padding:11px 12px;display:flex;gap:12px;align-items:center}.item .grow{flex:1}.item strong{display:block}.item small{color:#6e7b8e}.statusdot{width:9px;height:9px;border-radius:50%;background:#94a3b8}.statusdot.good{background:#18a06d}.statusdot.bad{background:#df493f}.statusdot.warn{background:#d69a16}.statusdot.info{background:#3978c9}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.mini{border:1px solid #e2e8f0;border-radius:8px;padding:12px}.mini h4{margin:0 0 9px}.mini .line{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-top:1px solid #edf1f5}.mini .line:first-of-type{border-top:0}
+.note{padding:11px 0;border-bottom:1px solid #edf1f5}.note:last-child{border-bottom:0}.notehead{display:flex;gap:8px;align-items:center;margin-bottom:4px}.notehead strong{flex:1}.note p{margin:0;color:#4c5c70}.note small{color:#7a8799}
+.drawerback{position:fixed;inset:0;background:rgba(12,23,41,.38);z-index:20;display:flex;justify-content:flex-end}.drawer{width:min(470px,100vw);height:100%;background:white;box-shadow:-18px 0 40px rgba(12,23,41,.18);display:flex;flex-direction:column;animation:slide .18s ease-out}.drawerhead{height:62px;padding:0 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}.drawerhead h2{font-size:19px;margin:0}.drawerbody{padding:18px;overflow:auto;flex:1}.drawerfoot{border-top:1px solid var(--line);padding:12px 18px;display:flex;justify-content:flex-end;gap:8px}.x{margin-left:auto;border:0;background:transparent;font-size:23px;color:#64748b}
+.form{display:flex;flex-direction:column;gap:15px}.formrow{display:grid;grid-template-columns:1fr 1fr;gap:11px}.label{display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:750;color:#4a596f}.label input,.label select,.label textarea{border:1px solid #cbd5e1;border-radius:7px;padding:9px 10px;color:#1f2d42;background:#fff}.label textarea{min-height:86px;resize:vertical}.help{font-size:12px;color:#718096;font-weight:400}.callout{background:#f6f9fc;border:1px solid #dce4ee;border-radius:8px;padding:11px 12px;color:#4f5f74}.callout strong{color:#27364d}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#14233c;color:white;padding:11px 15px;border-radius:8px;box-shadow:0 10px 30px rgba(0,0,0,.22);z-index:50;font-weight:700}
+.menu{position:absolute;background:white;border:1px solid #d7e0eb;border-radius:8px;box-shadow:var(--shadow);padding:5px;min-width:190px;z-index:15}.menu button{width:100%;border:0;background:#fff;text-align:left;padding:8px;border-radius:5px;color:#35465d}.menu button:hover{background:#f2f6fb}
+@keyframes slide{from{transform:translateX(32px);opacity:.7}to{transform:none;opacity:1}}
+@media(max-width:1100px){.shell{grid-template-columns:70px 1fr}.brand{justify-content:center}.brandsub,.brandmark{display:none}.nav button{font-size:0;justify-content:center}.nav .ico{font-size:16px}.orgswitch{justify-content:center}.orgswitch span{display:none}.workspace{grid-template-columns:1fr}.rail{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.rail .card{margin:0}}
+@media(max-width:780px){.shell{display:block}.sidebar{display:none}.topbar{position:static}.main{padding:14px}.proto{align-items:flex-start;flex-wrap:wrap}.proto small{width:100%}.head{flex-wrap:wrap}.head-actions{margin-left:0;width:100%}.kpis{grid-template-columns:1fr 1fr}.workspace{display:block}.rail{display:block}.rail .card{margin-top:12px}.grid2,.payergrid{grid-template-columns:1fr}.contact{gap:9px 14px}.search{width:100%}.toplink,.user span{display:none}}
+@media(max-width:480px){.kpis{grid-template-columns:1fr}.formrow{grid-template-columns:1fr}.head h1{font-size:26px}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand"><div class="brandmark">WPVC</div><div class="brandsub">WINTER PARK<br>VOLLEYBALL ACADEMY</div></div>
+    <nav class="nav" id="nav">
+      <button data-nav="Dashboard"><span class="ico">▦</span>Dashboard</button>
+      <button class="active" data-nav="Accounts"><span class="ico">◎</span>Accounts</button>
+      <button data-nav="Players"><span class="ico">♙</span>Players</button>
+      <button data-nav="Teams"><span class="ico">▣</span>Teams</button>
+      <button data-nav="Season"><span class="ico">□</span>Season</button>
+      <button data-nav="Finance"><span class="ico">$</span>Finance</button>
+      <button data-nav="Events"><span class="ico">◫</span>Events</button>
+      <button data-nav="Communication"><span class="ico">◌</span>Communication</button>
+      <button data-nav="Reports"><span class="ico">▤</span>Reports</button>
+      <button data-nav="Club Settings"><span class="ico">⚙</span>Club Settings</button>
+    </nav>
+    <div class="orgswitch"><div class="orgdot">WPVC</div><span>WPVC<br><small class="muted">Switch organization</small></span></div>
+  </aside>
+  <header class="topbar">
+    <input class="search" id="globalSearch" placeholder="Search players, accounts, teams…">
+    <div class="topspacer"></div>
+    <span class="toplink">? Help</span><span class="toplink">🔔</span>
+    <div class="user"><div class="avatar">CW</div><span><b>Chris Wirth</b><br><small class="muted">Owner</small></span></div>
+  </header>
+  <main class="main"><div class="wrap">
+    <div class="proto">
+      <b>Prototype controls</b>
+      <small>Switch account states to pressure-test the workspace.</small>
+      <select id="scenario"></select>
+      <div class="spacer"></div>
+      <button id="reset">Reset fake data</button>
+    </div>
+
+    <div class="crumb">Accounts&nbsp;&nbsp;/&nbsp;&nbsp;<span id="crumbName"></span></div>
+    <section class="head">
+      <div>
+        <div style="display:flex;align-items:center;gap:10px"><h1 id="accountName"></h1><span id="accountBadge"></span></div>
+        <div class="contact" id="contact"></div>
+      </div>
+      <div class="head-actions">
+        <button class="btn" data-action="note">▤ Notes <span id="noteCount"></span></button>
+        <button class="btn primary" data-action="charge">＋ Add Charge</button>
+        <button class="btn" id="moreActions">More ▾</button>
+      </div>
+    </section>
+    <section class="kpis" id="kpis"></section>
+    <nav class="tabs" id="tabs"></nav>
+    <section class="workspace">
+      <div id="mainPanel"></div>
+      <aside class="rail" id="rail"></aside>
+    </section>
+  </div></main>
+</div>
+
+<div class="drawerback hidden" id="drawerBack"><section class="drawer"><div class="drawerhead"><h2 id="drawerTitle"></h2><button class="x" id="closeDrawer">×</button></div><div class="drawerbody" id="drawerBody"></div><div class="drawerfoot" id="drawerFoot"></div></section></div>
+<div class="toast hidden" id="toast"></div>
+<div class="menu hidden" id="moreMenu"></div>
+
+<script>
+const money=n=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(Number(n||0));
+const deep=x=>JSON.parse(JSON.stringify(x));
+const fmt=d=>new Date(d+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'2-digit',year:'numeric'});
+const today='2026-10-05';
+
+const fixtures={
+  healthy:{
+    label:'Healthy account',
+    name:'Jordan Blake',email:'jordan.blake@example.com',phone:'(407) 555-0134',city:'Winter Park, FL',id:'ACC-001234',status:'Active',
+    balance:4615,pastDue:0,nextAmount:525,nextDate:'2026-11-01',openItems:8,
+    players:[{name:'Avery Blake',team:'15 Elite',initials:'AB'},{name:'Mia Blake',team:'Practice Player',initials:'MB'}],
+    payers:[{name:'Jordan Blake',share:100,balance:4615,rail:'ACH',autopay:true}],
+    methods:[{id:'bank1',type:'ACH',label:'Chase Checking',last4:'6789',default:true,autopay:true},{id:'card1',type:'Card',label:'Visa',last4:'4242',default:false,autopay:false}],
+    installments:[
+      {id:'i1',date:'2026-08-01',player:'Avery Blake',label:'Season Tuition · Installment 1',amount:525,status:'Paid'},
+      {id:'i2',date:'2026-09-01',player:'Avery Blake',label:'Season Tuition · Installment 2',amount:525,status:'Paid'},
+      {id:'i3',date:'2026-11-01',player:'Avery Blake',label:'Season Tuition · Installment 3',amount:525,status:'Scheduled'},
+      {id:'i4',date:'2026-12-01',player:'Avery Blake',label:'Season Tuition · Installment 4',amount:525,status:'Scheduled'},
+      {id:'i5',date:'2027-01-01',player:'Avery Blake',label:'Season Tuition · Installment 5',amount:525,status:'Scheduled'},
+      {id:'i6',date:'2027-02-01',player:'Avery Blake',label:'Season Tuition · Installment 6',amount:525,status:'Scheduled'}
+    ],
+    charges:[
+      {id:'c1',group:'2026-27 Club Season · Avery Blake',label:'Season tuition',player:'Avery Blake',amount:4200,remaining:3675,status:'Active'},
+      {id:'c2',group:'2026-27 Club Season · Avery Blake',label:'Season deposit',player:'Avery Blake',amount:500,remaining:0,status:'Paid'},
+      {id:'c3',group:'2026-27 Club Season · Avery Blake',label:'Uniform package',player:'Avery Blake',amount:185,remaining:185,status:'Open'},
+      {id:'c4',group:'Summer Training · Mia Blake',label:'Training clinic',player:'Mia Blake',amount:300,remaining:300,status:'Open'}
+    ],
+    transactions:[
+      {date:'2026-10-01',type:'Payment',desc:'ACH Payment',detail:'AuthNet · XXXX6789',player:'Avery Blake',amount:-525},
+      {date:'2026-10-01',type:'Installment',desc:'Season Tuition · Installment 2',detail:'2026-27 Club Season',player:'Avery Blake',amount:525},
+      {date:'2026-09-15',type:'Payment',desc:'Card Payment',detail:'AuthNet · XXXX4242',player:'Avery Blake',amount:-525},
+      {date:'2026-09-01',type:'Installment',desc:'Season Tuition · Installment 1',detail:'2026-27 Club Season',player:'Avery Blake',amount:525},
+      {date:'2026-08-20',type:'Charge',desc:'Uniform Package',detail:'2026-27 Club Season',player:'Avery Blake',amount:185},
+      {date:'2026-08-15',type:'Payment',desc:'Deposit Payment',detail:'AuthNet · XXXX4242',player:'Avery Blake',amount:-500},
+      {date:'2026-08-15',type:'Charge',desc:'Season Deposit',detail:'2026-27 Club Season',player:'Avery Blake',amount:500},
+      {date:'2026-07-10',type:'Charge',desc:'Tryout Fee',detail:'2026-27 Club Season',player:'Avery Blake',amount:75},
+      {date:'2026-06-05',type:'Refund',desc:'Refund · Camp Credit',detail:'AuthNet · XXXX1111',player:'Mia Blake',amount:100},
+      {date:'2026-06-01',type:'Charge',desc:'Summer Camp',detail:'Summer Training',player:'Mia Blake',amount:300},
+      {date:'2026-05-20',type:'Payment',desc:'Card Payment',detail:'AuthNet · XXXX4242',player:'Mia Blake',amount:-300}
+    ],
+    notes:[{date:'2026-09-18',by:'Finance',text:'Parent confirmed ACH should remain the default for season tuition.'},{date:'2026-08-15',by:'Chris Wirth',text:'Deposit paid at enrollment. No follow-up needed.'}]
+  },
+  pastdue:{
+    label:'Past due · ACH returned',
+    name:'Taylor Morgan',email:'taylor.morgan@example.com',phone:'(407) 555-0187',city:'Maitland, FL',id:'ACC-002418',status:'Participation hold',
+    balance:1675,pastDue:565,nextAmount:525,nextDate:'2026-11-01',openItems:4,
+    players:[{name:'Riley Morgan',team:'14 Armour',initials:'RM'}],
+    payers:[{name:'Taylor Morgan',share:100,balance:1675,rail:'ACH blocked',autopay:false}],
+    methods:[{id:'bank1',type:'ACH',label:'Bank of America Checking',last4:'8821',default:false,autopay:false},{id:'card1',type:'Card',label:'Mastercard',last4:'6104',default:true,autopay:false}],
+    installments:[
+      {id:'i1',date:'2026-09-01',player:'Riley Morgan',label:'Season Tuition · Installment 1',amount:525,status:'Paid'},
+      {id:'i2',date:'2026-10-01',player:'Riley Morgan',label:'Season Tuition · Installment 2',amount:525,status:'Past due'},
+      {id:'i3',date:'2026-11-01',player:'Riley Morgan',label:'Season Tuition · Installment 3',amount:525,status:'Scheduled'}
+    ],
+    charges:[
+      {id:'c1',group:'2026-27 Club Season · Riley Morgan',label:'Season tuition',player:'Riley Morgan',amount:4200,remaining:1575,status:'Past due'},
+      {id:'c2',group:'Account fees',label:'NSF fee',player:'Riley Morgan',amount:40,remaining:40,status:'Open'},
+      {id:'c3',group:'Account fees',label:'Late fee',player:'Riley Morgan',amount:25,remaining:25,status:'Open'}
+    ],
+    transactions:[
+      {date:'2026-10-04',type:'Fee',desc:'NSF Fee',detail:'ACH return R03',player:'Riley Morgan',amount:40},
+      {date:'2026-10-04',type:'Return',desc:'ACH payment returned',detail:'R03 · No account/unable to locate',player:'Riley Morgan',amount:525},
+      {date:'2026-10-01',type:'Payment',desc:'ACH Payment',detail:'Returned Oct 4 · XXXX8821',player:'Riley Morgan',amount:-525},
+      {date:'2026-10-01',type:'Installment',desc:'Season Tuition · Installment 2',detail:'2026-27 Club Season',player:'Riley Morgan',amount:525},
+      {date:'2026-09-01',type:'Payment',desc:'Card Payment',detail:'AuthNet · XXXX6104',player:'Riley Morgan',amount:-525}
+    ],
+    notes:[{date:'2026-10-04',by:'System',text:'ACH return received. Autopay disabled and participation hold applied after second ACH failure.'}]
+  },
+  split:{
+    label:'Split payer · 70 / 30',
+    name:'Casey Rivera Household',email:'casey.rivera@example.com',phone:'(321) 555-0199',city:'Orlando, FL',id:'ACC-003902',status:'Active',
+    balance:2880,pastDue:0,nextAmount:367.5,nextDate:'2026-11-01',openItems:7,
+    players:[{name:'Sofia Rivera',team:'16 Elite',initials:'SR'}],
+    payers:[{name:'Casey Rivera',share:70,balance:2016,rail:'ACH',autopay:true},{name:'Drew Rivera',share:30,balance:864,rail:'Card',autopay:true}],
+    methods:[{id:'bank1',type:'ACH',label:'Casey · Wells Fargo Checking',last4:'2201',default:true,autopay:true},{id:'card1',type:'Card',label:'Drew · Visa',last4:'9090',default:false,autopay:true}],
+    installments:[
+      {id:'i1',date:'2026-10-01',player:'Sofia Rivera',label:'Casey share · Installment 2',amount:367.50,status:'Paid'},
+      {id:'i2',date:'2026-10-01',player:'Sofia Rivera',label:'Drew share · Installment 2',amount:157.50,status:'Paid'},
+      {id:'i3',date:'2026-11-01',player:'Sofia Rivera',label:'Casey share · Installment 3',amount:367.50,status:'Scheduled'},
+      {id:'i4',date:'2026-11-01',player:'Sofia Rivera',label:'Drew share · Installment 3',amount:157.50,status:'Scheduled'}
+    ],
+    charges:[{id:'c1',group:'2026-27 Club Season · Sofia Rivera',label:'Season tuition',player:'Sofia Rivera',amount:4200,remaining:2880,status:'Active'}],
+    transactions:[
+      {date:'2026-10-01',type:'Payment',desc:'Casey · ACH Payment',detail:'70% responsibility · XXXX2201',player:'Sofia Rivera',amount:-367.50},
+      {date:'2026-10-01',type:'Payment',desc:'Drew · Card Payment',detail:'30% responsibility · XXXX9090',player:'Sofia Rivera',amount:-157.50},
+      {date:'2026-10-01',type:'Installment',desc:'Season Tuition · Installment 2',detail:'Split 70 / 30',player:'Sofia Rivera',amount:525}
+    ],
+    notes:[{date:'2026-08-17',by:'Finance',text:'Payer responsibility confirmed at 70% Casey / 30% Drew.'}]
+  },
+  processing:{
+    label:'Interrupted payment · needs reconciliation',
+    name:'Alex Parker',email:'alex.parker@example.com',phone:'(407) 555-0160',city:'Oviedo, FL',id:'ACC-004701',status:'Payment review',
+    balance:2100,pastDue:0,nextAmount:525,nextDate:'2026-11-01',openItems:5,processing:525,
+    players:[{name:'Nora Parker',team:'15 Armour',initials:'NP'}],
+    payers:[{name:'Alex Parker',share:100,balance:2100,rail:'Card',autopay:true}],
+    methods:[{id:'card1',type:'Card',label:'Visa',last4:'1138',default:true,autopay:true}],
+    installments:[
+      {id:'i1',date:'2026-10-05',player:'Nora Parker',label:'Season Tuition · Installment 2',amount:525,status:'Processing'},
+      {id:'i2',date:'2026-11-01',player:'Nora Parker',label:'Season Tuition · Installment 3',amount:525,status:'Scheduled'}
+    ],
+    charges:[{id:'c1',group:'2026-27 Club Season · Nora Parker',label:'Season tuition',player:'Nora Parker',amount:4200,remaining:2100,status:'Active'}],
+    transactions:[
+      {date:'2026-10-05',type:'Processing',desc:'Card payment submitted',detail:'Processor result not yet recorded',player:'Nora Parker',amount:-525},
+      {date:'2026-10-05',type:'Installment',desc:'Season Tuition · Installment 2',detail:'Amount protected while processor result is unresolved',player:'Nora Parker',amount:525},
+      {date:'2026-09-01',type:'Payment',desc:'Card Payment',detail:'AuthNet · XXXX1138',player:'Nora Parker',amount:-525}
+    ],
+    notes:[{date:'2026-10-05',by:'System',text:'Payment dispatch interrupted after submission. $525 is protected from duplicate collection until reconciliation completes.'}]
+  }
+};
+
+let scenario=localStorage.getItem('cp-billing-scenario')||'healthy';
+let data=deep(fixtures[scenario]);
+let tab='Overview',action=null,filters={q:'',type:'All',player:'All'};
+const tabs=['Overview','Transactions','Installments','Charges & Credits','Payment Methods','Players','Notes'];
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+
+function badge(text,kind='info'){return '<span class="badge '+kind+'">'+text+'</span>'}
+function statusKind(s){s=s.toLowerCase();if(s.includes('paid')||s.includes('active')||s.includes('scheduled'))return 'good';if(s.includes('past')||s.includes('hold')||s.includes('returned')||s.includes('failed'))return 'bad';if(s.includes('processing')||s.includes('review'))return 'warn';return 'info'}
+function initials(name){return name.split(' ').map(x=>x[0]).join('').slice(0,2)}
+function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.remove('hidden');clearTimeout(window._toast);window._toast=setTimeout(()=>t.classList.add('hidden'),2500)}
+
+function init(){
+  const s=$('#scenario');s.innerHTML=Object.entries(fixtures).map(([k,v])=>'<option value="'+k+'">'+v.label+'</option>').join('');s.value=scenario;
+  s.onchange=e=>{scenario=e.target.value;localStorage.setItem('cp-billing-scenario',scenario);data=deep(fixtures[scenario]);tab='Overview';render()};
+  $('#reset').onclick=()=>{data=deep(fixtures[scenario]);render();toast('Fake account reset')};
+  $('#closeDrawer').onclick=closeDrawer;$('#drawerBack').addEventListener('click',e=>{if(e.target===e.currentTarget)closeDrawer()});
+  $('#nav').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return; if(b.dataset.nav!=='Accounts')toast(b.dataset.nav+' is outside this billing prototype')});
+  $('#globalSearch').addEventListener('keydown',e=>{if(e.key==='Enter')toast('Prototype search: try switching account scenarios above')});
+  $('#moreActions').onclick=e=>showMore(e.currentTarget);
+  document.addEventListener('click',e=>{if(!e.target.closest('#moreActions')&&!e.target.closest('#moreMenu'))$('#moreMenu').classList.add('hidden')});
+  render();
+}
+
+function render(){
+  $('#crumbName').textContent=data.name;$('#accountName').textContent=data.name;
+  $('#accountBadge').innerHTML=badge(data.status,statusKind(data.status));
+  $('#contact').innerHTML='<span>☎ '+data.phone+'</span><span>✉ '+data.email+'</span><span>⌖ '+data.city+'</span>';
+  $('#noteCount').textContent='('+data.notes.length+')';
+  renderKpis();renderTabs();renderMain();renderRail();
+  $$('[data-action]').forEach(b=>b.onclick=()=>openDrawer(b.dataset.action,b.dataset.id||''));
+}
+function renderKpis(){
+  const next=data.nextAmount?money(data.nextAmount):'—';
+  $('#kpis').innerHTML=[
+    ['＄','Total Balance',money(data.balance),'<a href="#" data-gotab="Transactions">View balance details →</a>',''],
+    ['◷','Past Due',money(data.pastDue),data.pastDue?'Needs attention':'Great! No past due balance.',data.pastDue?'attn':''],
+    ['▣','Next Payment',next,data.nextDate?'Due '+fmt(data.nextDate):'Nothing scheduled',''],
+    ['☷','Open Items',data.openItems,String(data.installments.filter(x=>x.status!=='Paid').length)+' installments · '+data.charges.filter(x=>x.remaining>0).length+' other charges','']
+  ].map(x=>'<div class="kpi '+x[4]+'"><div class="kicon">'+x[0]+'</div><div><div class="klabel">'+x[1]+'</div><div class="kvalue">'+x[2]+'</div><div class="khelp">'+x[3]+'</div></div></div>').join('');
+  $$('[data-gotab]').forEach(a=>a.onclick=e=>{e.preventDefault();tab=e.currentTarget.dataset.gotab;render()});
+}
+function renderTabs(){
+  $('#tabs').innerHTML=tabs.map(t=>'<button class="tab '+(t===tab?'active':'')+'" data-tab="'+t+'">'+t+'</button>').join('');
+  $$('.tab').forEach(b=>b.onclick=()=>{tab=b.dataset.tab;render()});
+}
+function attention(){
+  if(data.processing)return '<div class="alert blue"><div>⟳</div><div class="grow"><strong>'+money(data.processing)+' payment is unresolved</strong><span>ClubPortalAI is protecting this amount from another charge until the processor result is verified.</span></div><button class="btn small" id="reconcile">Check Authorize.Net</button></div>';
+  if(data.pastDue)return '<div class="alert"><div>!</div><div class="grow"><strong>'+money(data.pastDue)+' is past due</strong><span>ACH is unavailable after repeated returns. Collect by card or record an offline payment. Participation hold remains visible until the balance is resolved.</span></div><button class="btn small primary" data-action="payment">Recover payment</button></div>';
+  if(data.payers.length>1)return '<div class="alert amber"><div>⇄</div><div class="grow"><strong>Split payer account</strong><span>Each payment and installment stays with the responsible payer. Actions here must not change the other payer’s share.</span></div></div>';
+  return '';
+}
+function renderMain(){
+  const p=$('#mainPanel');
+  if(tab==='Overview')p.innerHTML=renderOverview();
+  if(tab==='Transactions')p.innerHTML=renderTransactions();
+  if(tab==='Installments')p.innerHTML=renderInstallments();
+  if(tab==='Charges & Credits')p.innerHTML=renderCharges();
+  if(tab==='Payment Methods')p.innerHTML=renderMethods();
+  if(tab==='Players')p.innerHTML=renderPlayers();
+  if(tab==='Notes')p.innerHTML=renderNotes();
+  const r=$('#reconcile');if(r)r.onclick=reconcile;
+  $$('[data-action]').forEach(b=>b.onclick=()=>openDrawer(b.dataset.action,b.dataset.id||''));
+  $$('[data-method-default]').forEach(b=>b.onclick=()=>setDefault(b.dataset.methodDefault));
+  const nt=$('#noteText');if(nt)$('#addNoteInline').onclick=()=>{if(!nt.value.trim())return;data.notes.unshift({date:today,by:'Chris Wirth',text:nt.value.trim()});nt.value='';render();toast('Note added')};
+}
+function renderOverview(){
+  const payerBlock=data.payers.length>1?'<div class="card"><div class="cardhead"><h2>Payer responsibility</h2></div><div class="cardbody"><div class="payergrid">'+data.payers.map(p=>'<div class="payer"><h4>'+p.name+' · '+p.share+'%</h4><div class="big">'+money(p.balance)+'</div><small class="muted">'+p.rail+' · '+(p.autopay?'Autopay on':'Autopay off')+'</small></div>').join('')+'</div></div></div>':'';
+  return attention()+
+  '<div class="card"><div class="cardhead"><h2>Account register</h2><span class="badge info">Ledger view</span><div class="spacer"></div><button class="btn small" data-action="statement">View statement</button></div>'+
+  '<div class="ledger-summary"><div><span>Account balance</span><b>'+money(data.balance)+'</b></div><div><span>Past due</span><b class="'+(data.pastDue?'neg':'')+'">'+money(data.pastDue)+'</b></div><div><span>Protected / processing</span><b>'+money(data.processing||0)+'</b></div></div>'+
+  registerTable(data.transactions.slice(0,8))+'</div>'+
+  '<div class="grid2" style="margin-top:12px"><div class="card"><div class="cardhead"><h3>Upcoming installments</h3><div class="spacer"></div><button class="btn linkish small" data-action="goto-installments">View all</button></div><div class="cardbody"><div class="itemlist">'+data.installments.filter(x=>x.status!=='Paid').slice(0,4).map(instItem).join('')+'</div></div></div>'+
+  '<div class="card"><div class="cardhead"><h3>Open charges</h3><div class="spacer"></div><button class="btn linkish small" data-action="charge">Add charge</button></div><div class="cardbody"><div class="itemlist">'+data.charges.filter(x=>x.remaining>0).slice(0,4).map(chargeItem).join('')+'</div></div></div></div>'+payerBlock;
+}
+function registerTable(rows){
+  let running=data.balance; 
+  return '<div class="tablewrap"><table class="table"><thead><tr><th>Date</th><th>Type</th><th>Description</th><th>Player</th><th class="num">Amount</th><th class="num">Current balance</th><th></th></tr></thead><tbody>'+
+    rows.map((r,i)=>'<tr><td>'+fmt(r.date)+'</td><td>'+badge(r.type,statusKind(r.type))+'</td><td class="desc"><strong>'+r.desc+'</strong><small>'+r.detail+'</small></td><td>'+r.player+'</td><td class="num money '+(r.amount<0?'pos':r.type==='Refund'||r.type==='Return'?'neg':'')+'">'+(r.amount<0?'-':'')+money(Math.abs(r.amount))+'</td><td class="num">'+(i===0?money(running):'')+'</td><td><button class="rowaction" data-action="transaction" data-id="'+i+'">⋮</button></td></tr>').join('')+
+    '</tbody></table></div>';
+}
+function renderTransactions(){
+  const types=['All',...new Set(data.transactions.map(x=>x.type))], players=['All',...data.players.map(x=>x.name)];
+  const rows=data.transactions.filter(r=>(filters.q===''||(r.desc+' '+r.detail).toLowerCase().includes(filters.q.toLowerCase()))&&(filters.type==='All'||r.type===filters.type)&&(filters.player==='All'||r.player===filters.player));
+  setTimeout(()=>{
+    const q=$('#txq'),ty=$('#txtype'),pl=$('#txplayer');if(q)q.oninput=e=>{filters.q=e.target.value;renderMain()};if(ty)ty.onchange=e=>{filters.type=e.target.value;renderMain()};if(pl)pl.onchange=e=>{filters.player=e.target.value;renderMain()};
+  },0);
+  return attention()+'<div class="card"><div class="cardhead"><h2>Transactions</h2><div class="spacer"></div><button class="btn small" data-action="statement">Export</button></div>'+
+    '<div class="toolbar"><input class="field" id="txq" placeholder="Search transactions…" value="'+filters.q+'"><select class="select" id="txtype">'+types.map(x=>'<option '+(filters.type===x?'selected':'')+'>'+x+'</option>').join('')+'</select><select class="select" id="txplayer">'+players.map(x=>'<option '+(filters.player===x?'selected':'')+'>'+x+'</option>').join('')+'</select><div class="spacer"></div><button class="btn small" data-action="payment">Record payment</button></div>'+
+    registerTable(rows)+'</div>';
+}
+function instItem(x){return '<div class="item"><span class="statusdot '+statusKind(x.status)+'"></span><div class="grow"><strong>'+x.label+'</strong><small>'+fmt(x.date)+' · '+x.player+'</small></div><div class="money">'+money(x.amount)+'</div>'+badge(x.status,statusKind(x.status))+'</div>'}
+function renderInstallments(){
+  return attention()+'<div class="card"><div class="cardhead"><h2>Installments</h2><div class="spacer"></div><button class="btn small" data-action="adjust">Adjust installment</button></div><div class="tablewrap"><table class="table"><thead><tr><th>Due date</th><th>Player</th><th>Installment</th><th>Status</th><th class="num">Amount</th><th>Collection</th><th></th></tr></thead><tbody>'+
+  data.installments.map(x=>'<tr><td>'+fmt(x.date)+'</td><td>'+x.player+'</td><td>'+x.label+'</td><td>'+badge(x.status,statusKind(x.status))+'</td><td class="num money">'+money(x.amount)+'</td><td>'+(x.status==='Scheduled'?'Autopay':x.status==='Past due'?'Manual recovery':x.status==='Processing'?'Protected':'—')+'</td><td><button class="rowaction" data-action="adjust" data-id="'+x.id+'">⋮</button></td></tr>').join('')+
+  '</tbody></table></div></div>';
+}
+function chargeItem(x){return '<div class="item"><span class="statusdot '+statusKind(x.status)+'"></span><div class="grow"><strong>'+x.label+'</strong><small>'+x.player+' · '+x.group+'</small></div><div><div class="money">'+money(x.remaining)+'</div><small class="muted">of '+money(x.amount)+'</small></div></div>'}
+function renderCharges(){
+  const groups=[...new Set(data.charges.map(x=>x.group))];
+  return '<div class="card"><div class="cardhead"><h2>Charges & credits</h2><div class="spacer"></div><button class="btn small primary" data-action="charge">＋ Add Charge</button></div><div class="cardbody">'+groups.map(g=>'<div class="mini" style="margin-bottom:10px"><h4>'+g+'</h4>'+data.charges.filter(x=>x.group===g).map(x=>'<div class="line"><span><b>'+x.label+'</b><br><small class="muted">'+x.player+' · '+x.status+'</small></span><span class="num"><b>'+money(x.remaining)+'</b><br><small class="muted">remaining</small></span></div>').join('')+'</div>').join('')+'</div></div>';
+}
+function renderMethods(){
+  return '<div class="card"><div class="cardhead"><h2>Payment methods</h2><div class="spacer"></div><button class="btn small primary" data-action="method">＋ Add payment method</button></div><div class="cardbody"><div class="itemlist">'+data.methods.map(m=>'<div class="item"><div class="kicon" style="width:36px;height:36px;font-size:15px">'+(m.type==='ACH'?'▤':'▰')+'</div><div class="grow"><strong>'+m.label+' ···· '+m.last4+'</strong><small>'+m.type+' · '+(m.autopay?'Used for autopay':'Not used for autopay')+'</small></div>'+(m.default?badge('Default','good'):'<button class="btn small" data-method-default="'+m.id+'">Set default</button>')+'</div>').join('')+'</div><div class="callout" style="margin-top:12px"><strong>Prototype behavior:</strong> changing the default method here only changes fake data for this page session.</div></div></div>';
+}
+function renderPlayers(){
+  return '<div class="card"><div class="cardhead"><h2>Players on account</h2></div><div class="cardbody"><div class="grid2">'+data.players.map((p,i)=>'<div class="mini"><div class="person"><div class="circle '+(i?'alt':'')+'">'+p.initials+'</div><div class="grow"><b>'+p.name+'</b><small>'+p.team+'</small></div></div><div class="line"><span>Billing balance</span><b>'+money(data.charges.filter(x=>x.player===p.name).reduce((a,x)=>a+x.remaining,0))+'</b></div><div class="line"><span>Past due</span><b>'+money(data.pastDue&&i===0?data.pastDue:0)+'</b></div><button class="btn small" style="margin-top:10px" data-action="player" data-id="'+i+'">Open player billing</button></div>').join('')+'</div></div></div>';
+}
+function renderNotes(){
+  return '<div class="card"><div class="cardhead"><h2>Account notes</h2></div><div class="cardbody"><label class="label">Add a note<textarea id="noteText" placeholder="Write an internal account note…"></textarea></label><div style="margin:8px 0 16px"><button class="btn small primary" id="addNoteInline">Add note</button></div>'+data.notes.map(n=>'<div class="note"><div class="notehead"><strong>'+n.by+'</strong><small>'+fmt(n.date)+'</small></div><p>'+n.text+'</p></div>').join('')+'</div></div>';
+}
+function renderRail(){
+  const p1=data.players[0];
+  $('#rail').innerHTML=
+  '<div class="card"><div class="cardhead"><h3>Account details</h3><div class="spacer"></div><button class="btn linkish small" data-action="account">Edit</button></div><div class="cardbody"><dl class="kv"><dt>Account ID</dt><dd>'+data.id+'</dd><dt>Type</dt><dd>Family</dd><dt>Status</dt><dd>'+data.status+'</dd><dt>Primary contact</dt><dd>'+data.name+'</dd><dt>Email</dt><dd>'+data.email+'</dd><dt>Phone</dt><dd>'+data.phone+'</dd></dl></div></div>'+
+  '<div class="card"><div class="cardhead"><h3>Players</h3><div class="spacer"></div><button class="btn linkish small" data-action="goto-players">Manage</button></div><div class="cardbody">'+data.players.map((p,i)=>'<div class="person"><div class="circle '+(i?'alt':'')+'">'+p.initials+'</div><div class="grow"><b>'+p.name+'</b><small>'+p.team+'</small></div><span>›</span></div>').join('')+'</div></div>'+
+  '<div class="card"><div class="cardhead"><h3>Payment methods</h3><div class="spacer"></div><button class="btn linkish small" data-action="goto-methods">Manage</button></div><div class="cardbody">'+data.methods.slice(0,2).map(m=>'<div class="method"><span>'+(m.type==='ACH'?'▤':'▰')+'</span><div class="grow"><b>'+m.label+'</b><small>···· '+m.last4+'</small></div>'+(m.autopay?badge('AutoPay','good'):'')+'</div>').join('')+'</div></div>'+
+  '<div class="card"><div class="cardhead"><h3>Quick actions</h3></div><div class="quick"><button data-action="payment">▤ Record a payment</button><button data-action="charge">◇ Add a charge</button><button data-action="refund">↶ Create a refund</button><button data-action="adjust">◴ Adjust an installment</button><button data-action="method">▰ Add payment method</button><button data-action="statement">▧ View / print statement</button></div></div>';
+  $$('#rail [data-action]').forEach(b=>b.onclick=()=>openDrawer(b.dataset.action,b.dataset.id||''));
+}
+function showMore(btn){
+  const m=$('#moreMenu'),r=btn.getBoundingClientRect();m.style.top=(r.bottom+6)+'px';m.style.left=Math.max(8,r.right-190)+'px';
+  m.innerHTML='<button data-action="payment">Record payment</button><button data-action="refund">Create refund</button><button data-action="adjust">Adjust installment</button><button data-action="method">Add payment method</button><button data-action="statement">View / print statement</button>';
+  m.classList.remove('hidden');$$('#moreMenu [data-action]').forEach(b=>b.onclick=()=>{m.classList.add('hidden');openDrawer(b.dataset.action)});
+}
+function closeDrawer(){action=null;$('#drawerBack').classList.add('hidden')}
+function openDrawer(a,id=''){
+  if(a==='goto-installments'){tab='Installments';render();return}
+  if(a==='goto-methods'){tab='Payment Methods';render();return}
+  if(a==='goto-players'){tab='Players';render();return}
+  if(a==='player'){tab='Charges & Credits';render();toast('Filtered to player in the real app');return}
+  action={type:a,id};const titles={payment:'Record a payment',charge:'Add a charge',refund:'Create a refund',adjust:'Adjust an installment',method:'Add payment method',note:'Add account note',statement:'Account statement',account:'Edit account details',transaction:'Transaction details'};
+  $('#drawerTitle').textContent=titles[a]||'Account action';$('#drawerBack').classList.remove('hidden');
+  let html='',foot='<button class="btn" id="cancelDrawer">Cancel</button>';
+  if(a==='payment'){
+    html='<div class="form"><div class="callout"><strong>Payment applies to eligible unpaid items only.</strong> The prototype reduces the account balance and past due amount immediately.</div><label class="label">Player<select id="fPlayer">'+data.players.map(p=>'<option>'+p.name+'</option>').join('')+'</select></label><div class="formrow"><label class="label">Amount<input id="fAmount" type="number" min="0" step=".01" value="'+(data.pastDue||data.nextAmount||0)+'"></label><label class="label">Method<select id="fMethod">'+data.methods.map(m=>'<option>'+m.label+' ···· '+m.last4+'</option>').join('')+'<option>Cash / check</option></select></label></div><label class="label">Staff note<textarea id="fNote" placeholder="Optional"></textarea></label></div>';foot+='<button class="btn primary" id="saveDrawer">Record payment</button>';
+  } else if(a==='charge'){
+    html='<div class="form"><label class="label">Player<select id="fPlayer">'+data.players.map(p=>'<option>'+p.name+'</option>').join('')+'</select></label><label class="label">Charge<select id="fDesc"><option>Uniform package</option><option>Tournament fee</option><option>Training clinic</option><option>Custom charge</option></select></label><div class="formrow"><label class="label">Amount<input id="fAmount" type="number" min="0" step=".01" value="125"></label><label class="label">Due date<input id="fDate" type="date" value="'+today+'"></label></div><label class="label">Collection<select id="fCollection"><option>Use saved payment setup</option><option>Finance managed / offline</option></select><span class="help">No real payment is created in this prototype.</span></label></div>';foot+='<button class="btn primary" id="saveDrawer">Add charge</button>';
+  } else if(a==='refund'){
+    const pays=data.transactions.filter(x=>x.type==='Payment');
+    html='<div class="form"><div class="callout"><strong>Refunds preserve original payment history.</strong> Choose a settled payment and enter the amount to return.</div><label class="label">Payment<select id="fPayment">'+pays.map((p,i)=>'<option value="'+i+'">'+fmt(p.date)+' · '+p.desc+' · '+money(Math.abs(p.amount))+'</option>').join('')+'</select></label><label class="label">Refund amount<input id="fAmount" type="number" min="0" step=".01" value="'+(pays[0]?Math.min(100,Math.abs(pays[0].amount)):0)+'"></label><label class="label">Reason<textarea id="fNote" placeholder="Reason for refund"></textarea></label></div>';foot+='<button class="btn primary" id="saveDrawer">Create fake refund</button>';
+  } else if(a==='adjust'){
+    const selected=data.installments.find(x=>x.id===id)||data.installments.find(x=>x.status!=='Paid')||data.installments[0];
+    html='<div class="form"><label class="label">Installment<select id="fInstallment">'+data.installments.map(x=>'<option value="'+x.id+'" '+(selected&&selected.id===x.id?'selected':'')+'>'+fmt(x.date)+' · '+x.label+'</option>').join('')+'</select></label><div class="formrow"><label class="label">Amount<input id="fAmount" type="number" step=".01" value="'+(selected?selected.amount:0)+'"></label><label class="label">Due date<input id="fDate" type="date" value="'+(selected?selected.date:today)+'"></label></div><label class="label">Adjustment note<textarea id="fNote" placeholder="Optional internal note"></textarea></label></div>';foot+='<button class="btn primary" id="saveDrawer">Save adjustment</button>';
+  } else if(a==='method'){
+    html='<div class="form"><div class="callout">This is fake data. Do not enter a real card or bank account.</div><label class="label">Method type<select id="fType"><option>Card</option><option>ACH</option></select></label><label class="label">Display label<input id="fLabel" value="Demo Visa"></label><label class="label">Last four digits<input id="fLast4" inputmode="numeric" maxlength="4" value="4242"></label></div>';foot+='<button class="btn primary" id="saveDrawer">Add fake method</button>';
+  } else if(a==='note'){
+    html='<div class="form"><label class="label">Internal note<textarea id="fNote" placeholder="Visible to staff only"></textarea></label></div>';foot+='<button class="btn primary" id="saveDrawer">Add note</button>';
+  } else if(a==='statement'){
+    html='<div class="form"><div class="callout"><strong>Statement preview</strong><br>'+data.name+'<br>'+data.id+'<br><br>Current balance: <b>'+money(data.balance)+'</b><br>Past due: <b>'+money(data.pastDue)+'</b><br><br>This prototype does not generate a real PDF.</div><label class="label">Statement range<select><option>All activity</option><option>Current season</option><option>Last 90 days</option></select></label></div>';foot+='<button class="btn primary" id="saveDrawer">Pretend to print</button>';
+  } else if(a==='account'){
+    html='<div class="form"><label class="label">Primary contact<input id="fName" value="'+data.name+'"></label><label class="label">Email<input id="fEmail" value="'+data.email+'"></label><label class="label">Phone<input id="fPhone" value="'+data.phone+'"></label><label class="label">City<input id="fCity" value="'+data.city+'"></label></div>';foot+='<button class="btn primary" id="saveDrawer">Save</button>';
+  } else {
+    const r=data.transactions[Number(id)]||data.transactions[0];html='<div class="form"><div class="callout"><strong>'+r.desc+'</strong><br>'+fmt(r.date)+' · '+r.player+'<br>'+r.detail+'<br><br>Amount: <b>'+money(Math.abs(r.amount))+'</b></div><div class="mini"><h4>Prototype next actions</h4><div class="line"><span>Open processor evidence</span><b>›</b></div><div class="line"><span>View related charge</span><b>›</b></div><div class="line"><span>Add account note</span><b>›</b></div></div></div>';
+  }
+  $('#drawerBody').innerHTML=html;$('#drawerFoot').innerHTML=foot;
+  $('#cancelDrawer').onclick=closeDrawer;const save=$('#saveDrawer');if(save)save.onclick=saveAction;
+}
+function saveAction(){
+  const a=action.type;
+  if(a==='payment'){
+    const amt=Math.max(0,Number($('#fAmount').value||0));if(!amt)return toast('Enter an amount');
+    const player=$('#fPlayer').value,method=$('#fMethod').value;data.balance=Math.max(0,data.balance-amt);data.pastDue=Math.max(0,data.pastDue-amt);data.openItems=Math.max(0,data.openItems-(data.pastDue===0?1:0));data.transactions.unshift({date:today,type:'Payment',desc:'Staff recorded payment',detail:method,player,amount:-amt});if(data.pastDue===0&&data.status==='Participation hold')data.status='Active';toast('Fake payment recorded');
+  }
+  if(a==='charge'){
+    const amt=Math.max(0,Number($('#fAmount').value||0)),player=$('#fPlayer').value,desc=$('#fDesc').value;data.balance+=amt;data.openItems++;data.charges.push({id:'c'+Date.now(),group:'Staff-added charges · '+player,label:desc,player,amount:amt,remaining:amt,status:'Open'});data.transactions.unshift({date:today,type:'Charge',desc,detail:'Staff-added charge',player,amount:amt});toast('Fake charge added');
+  }
+  if(a==='refund'){
+    const amt=Math.max(0,Number($('#fAmount').value||0));if(!amt)return toast('Enter a refund amount');const player=data.players[0].name;data.balance+=amt;data.transactions.unshift({date:today,type:'Refund',desc:'Refund created',detail:($('#fNote').value||'Staff refund'),player,amount:amt});toast('Fake refund created');
+  }
+  if(a==='adjust'){
+    const id=$('#fInstallment').value,x=data.installments.find(i=>i.id===id),amt=Math.max(0,Number($('#fAmount').value||0)),date=$('#fDate').value;if(x){const delta=amt-x.amount;x.amount=amt;x.date=date;if(x.status!=='Paid')data.balance=Math.max(0,data.balance+delta);toast('Installment adjusted')}}
+  if(a==='method'){
+    const type=$('#fType').value,label=$('#fLabel').value||'Demo method',last4=$('#fLast4').value||'0000';data.methods.push({id:'m'+Date.now(),type,label,last4,default:false,autopay:false});toast('Fake payment method added');
+  }
+  if(a==='note'){const text=$('#fNote').value.trim();if(text)data.notes.unshift({date:today,by:'Chris Wirth',text});toast('Note added')}
+  if(a==='statement'){toast('Print simulated')}
+  if(a==='account'){data.name=$('#fName').value;data.email=$('#fEmail').value;data.phone=$('#fPhone').value;data.city=$('#fCity').value;toast('Fake account details updated')}
+  closeDrawer();render();
+}
+function setDefault(id){data.methods.forEach(m=>m.default=m.id===id);render();toast('Default payment method changed')}
+function reconcile(){
+  if(!data.processing)return;const amt=data.processing;data.processing=0;const p=data.transactions.find(x=>x.type==='Processing');if(p){p.type='Payment';p.desc='Card payment verified';p.detail='Authorize.Net · settled after reconciliation'}const i=data.installments.find(x=>x.status==='Processing');if(i)i.status='Paid';data.balance=Math.max(0,data.balance-amt);data.status='Active';data.notes.unshift({date:today,by:'System',text:'Authorize.Net confirmed the '+money(amt)+' payment. Billing activity and balance were repaired exactly once.'});render();toast('Processor result verified and account repaired')}
+init();
+</script>
+</body>
+</html>
