@@ -34,7 +34,14 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}a{color:inherit}
 .rollcall{display:grid;gap:8px}.roll-row{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;border:1px solid var(--line);background:white;border-radius:10px;padding:10px 12px}.roll-actions{display:flex;gap:5px}.mark{border:1px solid #d0d5dd;background:white;border-radius:7px;padding:6px 8px;font-size:11px;font-weight:800;color:#667085}.mark.active.here{background:#ecfdf3;border-color:#abefc6;color:#067647}.mark.active.late{background:#fffaeb;border-color:#fedf89;color:#b54708}.mark.active.excused{background:#eff8ff;border-color:#b2ddff;color:#175cd3}.mark.active.absent{background:#fef3f2;border-color:#fecdca;color:#b42318}
 .form-card{background:white;border:1px solid var(--line);border-radius:14px;padding:18px}.stepper{display:flex;gap:0;margin-bottom:18px}.step{flex:1;position:relative;text-align:center;font-size:11px;color:#98a2b3;font-weight:800;padding-top:28px}.step:before{content:"";position:absolute;top:11px;left:0;right:0;height:2px;background:#e4e7ec}.step:first-child:before{left:50%}.step:last-child:before{right:50%}.step .num{position:absolute;top:1px;left:50%;transform:translateX(-50%);width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:#eaecf0;color:#667085;z-index:1}.step.active,.step.done{color:#175cd3}.step.active .num,.step.done .num{background:#2563eb;color:white}.step.done:before{background:#84adff}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field{display:grid;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:12px;font-weight:800;color:#344054}.field small{font-size:11px;color:#667085}.input{width:100%;border:1px solid #d0d5dd;border-radius:8px;padding:9px 10px;background:white;color:#18202a}.radio-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.radio-card{border:1px solid var(--line);border-radius:10px;padding:12px;cursor:pointer;background:white}.radio-card.selected{border-color:#84adff;background:#f5f8ff}.radio-card b{font-size:12px;display:block}.radio-card span{font-size:11px;color:var(--muted)}
-.recurrence-box{border:1px solid var(--line);border-radius:12px;background:#fff;padding:16px;margin-top:14px}.recurrence-row{display:grid;grid-template-columns:150px 1fr;gap:14px;align-items:center;padding:10px 0;border-bottom:1px solid #eef1f4}.recurrence-row:last-child{border-bottom:0}.recurrence-label{font-size:12px;font-weight:800;color:#344054}.repeat-inline{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.repeat-inline .input{width:auto}.day-tabs{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0}.day-detail{border:1px solid #dbe4ee;border-radius:12px;background:#fbfdff;padding:16px}.day-detail-grid{display:grid;grid-template-columns:160px 160px minmax(220px,1fr) minmax(180px,.8fr);gap:12px;align-items:end}.recurrence-summary{margin-top:12px;padding:11px 13px;background:#eff8ff;border:1px solid #b2ddff;border-radius:9px;font-size:12px;font-weight:700;color:#175cd3}.schedule-days{display:flex;gap:7px;flex-wrap:wrap}.schedule-days button{min-width:54px}.schedule-patterns{display:grid;gap:10px;margin-top:12px}.schedule-pattern{border:1px solid var(--line);border-radius:11px;background:#fff;padding:12px;display:grid;grid-template-columns:72px minmax(150px,.8fr) minmax(170px,.9fr) minmax(210px,1fr) auto;gap:12px;align-items:end}.schedule-day-name{font-weight:900;font-size:14px;padding-top:8px}.schedule-times{display:grid;grid-template-columns:1fr 1fr;gap:7px}.schedule-field{display:grid;gap:5px}.schedule-place{display:grid;gap:7px}.location-buttons{display:flex;gap:6px;flex-wrap:wrap}.court-summary{display:flex;gap:7px;align-items:center;flex-wrap:wrap}.court-chip{display:inline-flex;padding:4px 7px;border-radius:999px;background:#f2f4f7;font-size:10px;font-weight:800;color:#475467}.court-value{display:block;width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:left;font-weight:700}.schedule-copy{display:grid;gap:6px}.weekdays{display:grid;grid-template-columns:repeat(7,1fr);gap:7px}.day{border:1px solid var(--line);border-radius:9px;padding:8px;text-align:center;background:white}.day.selected{border-color:#84adff;background:#f5f8ff}.day button{border:0;background:transparent;font-weight:800;font-size:11px;width:100%}.day .times{display:grid;gap:5px;margin-top:7px}.day select{width:100%;font-size:10px;border:1px solid #d0d5dd;border-radius:6px;padding:4px;background:white}
+.recurrence-box{border:1px solid var(--line);border-radius:12px;background:#fff;padding:16px;margin-top:14px}.recurrence-row{display:grid;grid-template-columns:150px 1fr;gap:14px;align-items:center;padding:10px 0;border-bottom:1px solid #eef1f4}.recurrence-row:last-child{border-bottom:0}.recurrence-label{font-size:12px;font-weight:800;color:#344054}.repeat-inline{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.repeat-inline .input{width:auto}.day-tabs{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0}.day-detail{border:1px solid #dbe4ee;border-radius:12px;background:#fbfdff;padding:16px}.day-detail-grid{display:grid;grid-template-columns:160px 160px minmax(220px,1fr) minmax(180px,.8fr);gap:12px;align-items:end}.recurrence-summary{margin-top:12px;padding:11px 13px;background:#eff8ff;border:1px solid #b2ddff;border-radius:9px;font-size:12px;font-weight:700;color:#175cd3}
+.session-setup-list{display:grid;gap:9px;margin-top:10px}
+.session-setup-card{display:grid;grid-template-columns:90px 150px minmax(220px,1fr) minmax(180px,.8fr) auto;gap:12px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:11px 12px;background:#fff}
+.session-setup-card .day-name{font-weight:900}
+.session-setup-card .value{font-size:12px;font-weight:700}
+.session-setup-card .label{font-size:10px;color:var(--muted);margin-bottom:2px}
+.generated-summary{display:flex;justify-content:space-between;gap:14px;align-items:center;border:1px solid var(--line);border-radius:10px;background:#fff;padding:12px 14px;margin-top:16px}
+.schedule-days{display:flex;gap:7px;flex-wrap:wrap}.schedule-days button{min-width:54px}.schedule-patterns{display:grid;gap:10px;margin-top:12px}.schedule-pattern{border:1px solid var(--line);border-radius:11px;background:#fff;padding:12px;display:grid;grid-template-columns:72px minmax(150px,.8fr) minmax(170px,.9fr) minmax(210px,1fr) auto;gap:12px;align-items:end}.schedule-day-name{font-weight:900;font-size:14px;padding-top:8px}.schedule-times{display:grid;grid-template-columns:1fr 1fr;gap:7px}.schedule-field{display:grid;gap:5px}.schedule-place{display:grid;gap:7px}.location-buttons{display:flex;gap:6px;flex-wrap:wrap}.court-summary{display:flex;gap:7px;align-items:center;flex-wrap:wrap}.court-chip{display:inline-flex;padding:4px 7px;border-radius:999px;background:#f2f4f7;font-size:10px;font-weight:800;color:#475467}.court-value{display:block;width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:left;font-weight:700}.schedule-copy{display:grid;gap:6px}.weekdays{display:grid;grid-template-columns:repeat(7,1fr);gap:7px}.day{border:1px solid var(--line);border-radius:9px;padding:8px;text-align:center;background:white}.day.selected{border-color:#84adff;background:#f5f8ff}.day button{border:0;background:transparent;font-weight:800;font-size:11px;width:100%}.day .times{display:grid;gap:5px;margin-top:7px}.day select{width:100%;font-size:10px;border:1px solid #d0d5dd;border-radius:6px;padding:4px;background:white}
 .preview{margin-top:14px;border:1px solid var(--line);border-radius:10px;overflow:hidden}.preview-head{background:#f9fafb;padding:9px 11px;font-size:12px;font-weight:800;display:flex;justify-content:space-between}.preview-row{display:grid;grid-template-columns:100px 140px 1fr 90px;gap:10px;padding:8px 11px;border-top:1px solid #eef1f4;font-size:11px}
 .wizard-actions{display:flex;justify-content:space-between;margin-top:18px;padding-top:14px;border-top:1px solid var(--line)}
 .login-shell{min-height:calc(100vh - 33px);background:#f5f7fa;display:grid;place-items:center;padding:24px}.login-card{width:min(520px,100%);background:white;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:24px}.club-lockup{text-align:center;margin-bottom:18px}.club-logo{width:52px;height:52px;border-radius:14px;background:#16324f;color:white;display:grid;place-items:center;margin:0 auto 10px;font-weight:900}.login-card h1{font-size:22px;text-align:center;margin:0 0 6px}.login-card .sub{text-align:center;margin:auto}.flow-actions{display:flex;justify-content:space-between;gap:8px;margin-top:16px}.participant-card{border:1px solid var(--line);border-radius:10px;padding:12px;margin:8px 0;display:flex;justify-content:space-between;align-items:center;gap:12px}.participant-card.selected{border-color:#84adff;background:#f5f8ff}.price-box{background:#f8fafc;border:1px solid var(--line);border-radius:10px;padding:12px;margin-top:10px}.summary-line{display:flex;justify-content:space-between;gap:12px;padding:6px 0;font-size:12px}.summary-line.total{font-weight:900;font-size:14px;border-top:1px solid var(--line);margin-top:5px;padding-top:10px}
@@ -42,8 +49,8 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}a{color:inherit}
 .modal-backdrop{position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:40;display:grid;place-items:center;padding:20px}.modal{background:white;width:min(560px,100%);max-height:90vh;overflow:auto;border-radius:14px;box-shadow:0 24px 70px rgba(0,0,0,.25)}.modal-head{padding:16px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.modal-head h2{font-size:16px;margin:0}.modal-body{padding:18px}.modal-foot{padding:13px 18px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:8px}.x{border:0;background:transparent;font-size:20px;color:#667085}
 .toast{position:fixed;right:20px;bottom:20px;background:#101828;color:white;padding:11px 14px;border-radius:10px;box-shadow:var(--shadow);font-size:12px;font-weight:700;z-index:60}
 .empty{padding:32px;text-align:center;color:var(--muted);font-size:13px}.mobile-nav{display:none}
-@media(max-width:1050px){.day-detail-grid{grid-template-columns:1fr 1fr}.schedule-pattern{grid-template-columns:60px 1fr 1.4fr}.schedule-copy{grid-column:2/-1;grid-template-columns:auto auto;justify-content:start}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.three{grid-template-columns:1fr}.session{grid-template-columns:110px 1fr 100px auto}.session .capacity{display:none}.weekdays{grid-template-columns:repeat(4,1fr)}}
-@media(max-width:780px){.recurrence-row{grid-template-columns:1fr}.day-detail-grid{grid-template-columns:1fr}.schedule-pattern{grid-template-columns:1fr}.schedule-day-name,.schedule-copy{grid-column:auto}.schedule-copy{display:flex;flex-wrap:wrap}.app{display:block}.sidebar{display:none}.topbar{padding:0 14px}.page{padding:18px 14px 86px}.page-head{display:block}.page-head .actions{margin-top:12px}.cards,.two,.coach-grid,.vol-grid,.form-grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.toolbar{align-items:stretch;display:grid}.toolbar-left,.toolbar-right{flex-wrap:wrap}.search{min-width:0;width:100%}.session{grid-template-columns:1fr auto}.session>div:nth-child(2){grid-column:1/-1}.session .capacity{display:none}.session>div:nth-child(4){display:none}.workspace-main{display:block}.workspace-main .actions{margin-top:12px}.tabs{padding:0 6px}.weekdays{grid-template-columns:repeat(2,1fr)}.radio-cards{grid-template-columns:1fr}.preview-row{grid-template-columns:80px 100px 1fr}.preview-row>div:last-child{display:none}.persona{display:none}.mobile-nav{position:fixed;z-index:20;bottom:0;left:0;right:0;background:white;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding:6px}.mobile-nav button{border:0;background:transparent;padding:8px 2px;font-size:10px;font-weight:800;color:#667085}.mobile-nav button.active{color:#175cd3}.roll-row{grid-template-columns:1fr}.roll-actions{overflow:auto}}
+@media(max-width:1050px){.session-setup-card{grid-template-columns:70px 130px 1fr auto}.session-setup-card .courts-col{grid-column:3}.day-detail-grid{grid-template-columns:1fr 1fr}.schedule-pattern{grid-template-columns:60px 1fr 1.4fr}.schedule-copy{grid-column:2/-1;grid-template-columns:auto auto;justify-content:start}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.three{grid-template-columns:1fr}.session{grid-template-columns:110px 1fr 100px auto}.session .capacity{display:none}.weekdays{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:780px){.session-setup-card{grid-template-columns:1fr auto}.session-setup-card .time-col,.session-setup-card .place-col,.session-setup-card .courts-col{grid-column:1/-1}.recurrence-row{grid-template-columns:1fr}.day-detail-grid{grid-template-columns:1fr}.schedule-pattern{grid-template-columns:1fr}.schedule-day-name,.schedule-copy{grid-column:auto}.schedule-copy{display:flex;flex-wrap:wrap}.app{display:block}.sidebar{display:none}.topbar{padding:0 14px}.page{padding:18px 14px 86px}.page-head{display:block}.page-head .actions{margin-top:12px}.cards,.two,.coach-grid,.vol-grid,.form-grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.toolbar{align-items:stretch;display:grid}.toolbar-left,.toolbar-right{flex-wrap:wrap}.search{min-width:0;width:100%}.session{grid-template-columns:1fr auto}.session>div:nth-child(2){grid-column:1/-1}.session .capacity{display:none}.session>div:nth-child(4){display:none}.workspace-main{display:block}.workspace-main .actions{margin-top:12px}.tabs{padding:0 6px}.weekdays{grid-template-columns:repeat(2,1fr)}.radio-cards{grid-template-columns:1fr}.preview-row{grid-template-columns:80px 100px 1fr}.preview-row>div:last-child{display:none}.persona{display:none}.mobile-nav{position:fixed;z-index:20;bottom:0;left:0;right:0;background:white;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding:6px}.mobile-nav button{border:0;background:transparent;padding:8px 2px;font-size:10px;font-weight:800;color:#667085}.mobile-nav button.active{color:#175cd3}.roll-row{grid-template-columns:1fr}.roll-actions{overflow:auto}}
 </style>
 </head>
 <body>
@@ -198,7 +205,7 @@ function startWizard(){
    "WPVC North Gym":[],
    "Lake Brantley High School":[]
   },
-  schedule:"repeat",repeatEvery:1,weeks:4,startDate:"2026-10-06",endMode:"after",endDate:"2026-10-29",activeScheduleDay:"Tue",parallelSession:false,
+  schedule:"repeat",repeatEvery:1,weeks:4,startDate:"2026-10-06",endMode:"after",endDate:"2026-10-29",activeScheduleDay:"Tue",showSessionPreview:false,parallelSession:false,
   days:{
    Tue:{on:true,start:"17:00",end:"19:00",location:"WPVC South Gym",courts:["Court 1","Court 2"]},
    Thu:{on:true,start:"18:00",end:"20:30",location:"WPVC South Gym",courts:["Court 1","Court 2"]}
@@ -291,52 +298,75 @@ function toggleEventCourt(loc,court){
  d.reservedCourts[loc]=a;
  render()
 }
-function scheduleResourcePicker(d){
- function locCard(loc,courts){
-  var selected=d.reservedLocations.indexOf(loc)>=0;
-  return '<div class="panel" style="padding:13px"><label class="participant-card '+(selected?"selected":"")+'" style="margin:0"><div><div class="strong">'+esc(loc)+'</div><div class="tiny">'+(selected?"Available to this Event":"Not selected")+'</div></div><input type="checkbox" '+(selected?"checked":"")+' onchange="toggleEventLocation(\''+loc.replace(/'/g,"\\'")+'\')"></label>'+
-   (selected?'<div class="actions" style="margin-top:9px">'+courts.map(function(c){var on=(d.reservedCourts[loc]||[]).indexOf(c)>=0;return '<button type="button" class="btn small '+(on?"primary":"")+'" onclick="toggleEventCourt(\''+loc.replace(/'/g,"\\'")+'\',\''+c.replace(/'/g,"\\'")+'\')">'+esc(c)+'</button>'}).join("")+'</div>':'')+
-  '</div>'
- }
- return '<section class="panel" style="margin-bottom:16px"><div><h2>Locations & courts</h2><div class="sub">Choose the facilities and courts this Event can use. Sessions below are assigned from this set.</div></div><div class="grid three" style="margin-top:12px">'+
-  locCard("WPVC South Gym",["Court 1","Court 2","Court 3","Court 4"])+
-  locCard("WPVC North Gym",["Court A","Court B","Court C"])+
-  locCard("Lake Brantley High School",["Court 1","Court 2","Court 3","Court 4","Court 5","Court 6"])+
- '</div></section>'
-}
+function scheduleResourcePicker(d){return ""}
 function wizardSchedule(d){
  var allDays=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],ds=d.days||{};
  var selected=allDays.filter(function(day){return ds[day]&&ds[day].on});
- if(selected.length&&selected.indexOf(d.activeScheduleDay)<0)d.activeScheduleDay=selected[0];
- var active=d.activeScheduleDay&&ds[d.activeScheduleDay]?ds[d.activeScheduleDay]:null;
- return '<div>'+scheduleResourcePicker(d)+
- (!d.reservedLocations.length?
- '<div class="attention"><div class="icon">!</div><div><b>Choose at least one location</b><span>Sessions need a location before the schedule can be configured.</span></div></div>'
- :
- '<div class="radio-cards"><div class="radio-card '+(d.schedule==="one"?"selected":"")+'" onclick="state.draft.schedule=\'one\';render()"><b>One day</b><span>One Session.</span></div><div class="radio-card '+(d.schedule==="repeat"?"selected":"")+'" onclick="state.draft.schedule=\'repeat\';render()"><b>Multiple sessions</b><span>Set the schedule once, then configure each selected weekday only when it differs.</span></div></div>'+
+ return '<div>'+
+ '<div class="radio-cards"><div class="radio-card '+(d.schedule==="one"?"selected":"")+'" onclick="state.draft.schedule=\'one\';render()"><b>One session</b><span>One date, time, location, and court selection.</span></div><div class="radio-card '+(d.schedule==="repeat"?"selected":"")+'" onclick="state.draft.schedule=\'repeat\';render()"><b>Multiple sessions</b><span>Create a finite weekly schedule, then adjust only the days that differ.</span></div></div>'+
  (d.schedule==="repeat"?
  '<div class="recurrence-box">'+
  '<div class="recurrence-row"><div class="recurrence-label">Starts</div><div><input class="input" style="max-width:220px" type="date" value="'+esc(d.startDate)+'" onchange="state.draft.startDate=this.value;render()"></div></div>'+
  '<div class="recurrence-row"><div class="recurrence-label">Repeats every</div><div class="repeat-inline"><input class="input" style="width:72px" type="number" min="1" max="12" value="'+d.repeatEvery+'" oninput="state.draft.repeatEvery=Number(this.value)||1;render()"><select class="input" disabled><option>Week</option></select></div></div>'+
  '<div class="recurrence-row"><div class="recurrence-label">On</div><div class="schedule-days">'+allDays.map(function(day){var on=ds[day]&&ds[day].on;return '<button type="button" class="btn small '+(on?"primary":"")+'" onclick="toggleDay(\''+day+'\')">'+day+'</button>'}).join("")+'</div></div>'+
  '<div class="recurrence-row"><div class="recurrence-label">Ends</div><div class="grid" style="gap:8px">'+
- '<label class="repeat-inline"><input type="radio" name="endmode" '+(d.endMode==="on"?"checked":"")+' onchange="state.draft.endMode=\'on\';render()"> On <input class="input" style="max-width:220px" type="date" value="'+esc(d.endDate)+'" onchange="state.draft.endDate=this.value"></label>'+
+ '<label class="repeat-inline"><input type="radio" name="endmode" '+(d.endMode==="on"?"checked":"")+' onchange="state.draft.endMode=\'on\';render()"> On <input class="input" style="max-width:220px" type="date" value="'+esc(d.endDate)+'" onchange="state.draft.endDate=this.value;render()"></label>'+
  '<label class="repeat-inline"><input type="radio" name="endmode" '+(d.endMode==="after"?"checked":"")+' onchange="state.draft.endMode=\'after\';render()"> After <input class="input" style="width:82px" type="number" min="1" max="52" value="'+d.weeks+'" oninput="state.draft.weeks=Number(this.value)||1;render()"> week(s)</label>'+
  '</div></div>'+
  '<div class="recurrence-summary">'+esc(recurrenceSummary(d,selected))+'</div>'+
  '</div>'+
  (selected.length?
- '<div style="margin-top:18px"><div class="strong">Session setup by day</div><div class="tiny">Choose a day to edit. Copy its setup when the other selected days are the same.</div>'+
- '<div class="day-tabs">'+selected.map(function(day){return '<button class="btn small '+(d.activeScheduleDay===day?"primary":"")+'" onclick="state.draft.activeScheduleDay=\''+day+'\';render()">'+day+'</button>'}).join("")+'</div>'+
- dayDetailEditor(d.activeScheduleDay,active,d)+
- '</div>'
+ '<div style="margin-top:18px"><div class="strong">Session setup</div><div class="tiny">Each selected weekday can have its own time, location, and courts.</div>'+
+ '<div class="session-setup-list">'+selected.map(function(day){return sessionSetupCard(day,ds[day])}).join("")+'</div></div>'
  :'<div class="empty">Choose at least one weekday.</div>')+
- '<div style="margin-top:12px"><button class="btn small" onclick="toggleParallelSession()">'+(d.parallelSession?"Remove simultaneous location example":"Add simultaneous location example")+'</button></div>'
+ collapsedSessionPreview(d)
  :
- oneDaySchedule(d)
+ oneSessionCard(d)
  )+
- schedulePreview(d)
- )+'</div>'
+ '</div>'
+}
+function sessionSetupCard(day,x){
+ var courts=normalizeDayCourts(x.courts);
+ return '<div class="session-setup-card">'+
+ '<div><div class="day-name">'+day+'</div></div>'+
+ '<div class="time-col"><div class="label">Time</div><div class="value">'+esc(x.start)+' – '+esc(x.end)+'</div></div>'+
+ '<div class="place-col"><div class="label">Location</div><div class="value">'+esc(x.location||"Choose location")+'</div></div>'+
+ '<div class="courts-col"><div class="label">Courts</div><div class="value">'+esc(courts.length?courts.join(", "):"Choose courts")+'</div></div>'+
+ '<div><button class="btn small" onclick="openDaySetup(\''+day+'\')">Edit</button></div>'+
+ '</div>'
+}
+function allFacilityCourts(location){
+ var map={
+  "WPVC South Gym":["Court 1","Court 2","Court 3","Court 4"],
+  "WPVC North Gym":["Court A","Court B","Court C"],
+  "Lake Brantley High School":["Court 1","Court 2","Court 3","Court 4","Court 5","Court 6"]
+ };
+ return map[location]||[]
+}
+function allLocations(){return ["WPVC South Gym","WPVC North Gym","Lake Brantley High School"]}
+function openDaySetup(day){
+ var x=state.draft.days[day],courts=normalizeDayCourts(x.courts),courtText=courts.length?courts.join(", "):"Choose courts";
+ state.modal={
+  title:day+" Session setup",
+  body:'<div class="form-grid"><div class="field"><label>Start</label><select class="input" onchange="state.draft.days[\''+day+'\'].start=this.value">'+timeOptions(x.start)+'</select></div><div class="field"><label>End</label><select class="input" onchange="state.draft.days[\''+day+'\'].end=this.value">'+timeOptions(x.end)+'</select></div><div class="field full"><label>Location</label><select class="input" onchange="changeDayLocationFromModal(\''+day+'\',this.value)">'+allLocations().map(function(loc){return '<option value="'+esc(loc)+'" '+(x.location===loc?"selected":"")+'>'+esc(loc)+'</option>'}).join("")+'</select></div><div class="field full"><label>Courts</label><button class="btn" style="width:100%;text-align:left" onclick="openCourtPicker(\''+day+'\',true)">'+esc(courtText)+'</button></div></div>',
+  actions:'<button class="btn" onclick="copyDayToRemaining(\''+day+'\');closeModal()">Copy to other days</button><button class="btn primary" onclick="closeModal();render()">Done</button>'
+ };
+ renderModal()
+}
+function changeDayLocationFromModal(day,loc){
+ state.draft.days[day].location=loc;
+ state.draft.days[day].courts=[];
+ openDaySetup(day)
+}
+function oneSessionCard(d){
+ var loc=(d.oneLocation||"WPVC South Gym"),courts=d.oneCourts||["Court 1","Court 2"];
+ return '<div style="margin-top:16px"><div class="session-setup-card"><div><div class="day-name">Session</div></div><div class="time-col"><div class="label">Date & time</div><div class="value">Oct 12 · 18:00 – 20:00</div></div><div class="place-col"><div class="label">Location</div><div class="value">'+esc(loc)+'</div></div><div class="courts-col"><div class="label">Courts</div><div class="value">'+esc(courts.join(", "))+'</div></div><div><button class="btn small" onclick="toast(\'One-session editor uses the same pattern\')">Edit</button></div></div></div>'
+}
+function collapsedSessionPreview(d){
+ var p=generatedPreview(d);
+ var label=p.length+" Session"+(p.length===1?"":"s");
+ return '<div class="generated-summary"><div><div class="strong">'+label+'</div><div class="tiny">'+esc(recurrenceSummary(d,["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].filter(function(day){return d.days[day]&&d.days[day].on})))+'</div></div><button class="btn small" onclick="state.draft.showSessionPreview=!state.draft.showSessionPreview;render()">'+(d.showSessionPreview?"Hide Sessions":"View Sessions")+'</button></div>'+
+ (d.showSessionPreview?schedulePreview(d):"")
 }
 function recurrenceSummary(d,selected){
  var names={Mon:"Monday",Tue:"Tuesday",Wed:"Wednesday",Thu:"Thursday",Fri:"Friday",Sat:"Saturday",Sun:"Sunday"};
@@ -365,15 +395,9 @@ function oneDaySchedule(d){
 function timeOptions(selected){var arr=["08:00","09:00","10:00","12:00","15:00","16:00","17:00","18:00","19:00","20:00","20:30","21:00"];return arr.map(function(t){return '<option value="'+t+'" '+(selected===t?"selected":"")+'>'+t+'</option>'}).join("")}
 function toggleDay(day){
  if(!state.draft.days[day]){
-  var loc=state.draft.reservedLocations[0]||"WPVC South Gym";
-  state.draft.days[day]={on:false,start:"17:00",end:"19:00",location:loc,courts:(state.draft.reservedCourts[loc]||[]).slice()}
+  state.draft.days[day]={on:false,start:"17:00",end:"19:00",location:"WPVC South Gym",courts:["Court 1","Court 2"]}
  }
  state.draft.days[day].on=!state.draft.days[day].on;
- if(state.draft.days[day].on)state.draft.activeScheduleDay=day;
- else if(state.draft.activeScheduleDay===day){
-  var order=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
-  state.draft.activeScheduleDay=order.find(function(x){return state.draft.days[x]&&state.draft.days[x].on})||null
- }
  render()
 }
 function selectAllDays(){
@@ -397,30 +421,32 @@ function setScheduleLocation(day,loc){
  x.courts=(state.draft.reservedCourts[loc]||[]).slice();
  render()
 }
-function openCourtPicker(day){
- var x=state.draft.days[day],available=state.draft.reservedCourts[x.location]||[],selected=normalizeDayCourts(x.courts);
+function openCourtPicker(day,returnToEditor){
+ var x=state.draft.days[day],available=allFacilityCourts(x.location),selected=normalizeDayCourts(x.courts);
  state.modal={
   title:day+" · Courts at "+x.location,
-  body:'<div class="sub">Choose from the courts reserved for this Event at this location.</div>'+
-   '<div class="actions" style="margin:12px 0"><button class="btn small" onclick="selectAllScheduleCourts(\''+day+'\')">Select all</button><button class="btn small" onclick="clearScheduleCourts(\''+day+'\')">Clear</button></div>'+
-   '<div class="grid three">'+available.map(function(c){var on=selected.indexOf(c)>=0;return '<button class="btn '+(on?"primary":"")+'" onclick="toggleScheduleCourt(\''+day+'\',\''+c.replace(/'/g,"\\'")+'\')">'+esc(c)+'</button>'}).join("")+'</div>'+
-   (!available.length?'<div class="empty">No courts were reserved for this location in Basics.</div>':''),
-  actions:'<button class="btn primary" onclick="closeModal()">Done</button>'
+  body:'<div class="sub">Choose the courts this Session uses.</div>'+
+   '<div class="actions" style="margin:12px 0"><button class="btn small" onclick="selectAllScheduleCourts(\''+day+'\','+(returnToEditor?"true":"false")+')">Select all</button><button class="btn small" onclick="clearScheduleCourts(\''+day+'\','+(returnToEditor?"true":"false")+')">Clear</button></div>'+
+   '<div class="grid three">'+available.map(function(c){var on=selected.indexOf(c)>=0;return '<button class="btn '+(on?"primary":"")+'" onclick="toggleScheduleCourt(\''+day+'\',\''+c.replace(/'/g,"\\'")+'\','+(returnToEditor?"true":"false")+')">'+esc(c)+'</button>'}).join("")+'</div>',
+  actions:'<button class="btn primary" onclick="'+(returnToEditor?"openDaySetup(\\'"+day+"\\')":"closeModal()")+'">Done</button>'
  };
  renderModal()
 }
-function toggleScheduleCourt(day,court){
+function toggleScheduleCourt(day,court,returnToEditor){
  var x=state.draft.days[day],a=normalizeDayCourts(x.courts),i=a.indexOf(court);
  if(i>=0)a.splice(i,1);else a.push(court);
  x.courts=a;
- openCourtPicker(day)
+ openCourtPicker(day,returnToEditor)
 }
-function selectAllScheduleCourts(day){
+function selectAllScheduleCourts(day,returnToEditor){
  var x=state.draft.days[day];
- x.courts=(state.draft.reservedCourts[x.location]||[]).slice();
- openCourtPicker(day)
+ x.courts=allFacilityCourts(x.location).slice();
+ openCourtPicker(day,returnToEditor)
 }
-function clearScheduleCourts(day){state.draft.days[day].courts=[];openCourtPicker(day)}
+function clearScheduleCourts(day,returnToEditor){
+ state.draft.days[day].courts=[];
+ openCourtPicker(day,returnToEditor)
+}
 function openOneDayCourtPicker(){toast("One-day court picker uses the same checklist pattern")}
 function copyDayToRemaining(day){
  var order=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],src=state.draft.days[day],count=0;
@@ -440,20 +466,15 @@ function copyDayToRemaining(day){
 function toggleParallelSession(){state.draft.parallelSession=!state.draft.parallelSession;render()}
 function generatedPreview(d){
  if(d.schedule==="one"){
-  var loc=d.reservedLocations[0];
-  return [{date:"Mon, Oct 12",time:"18:00 - 20:00",location:loc,courts:(d.reservedCourts[loc]||[]).join(", ")}]
+  return [{date:"Mon, Oct 12",time:"18:00 - 20:00",location:"WPVC South Gym",courts:"Court 1, Court 2"}]
  }
  var days=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],on=days.filter(function(x){return d.days[x]&&d.days[x].on}),out=[];
  var repetitions=d.endMode==="after"?Math.min(d.weeks,8):Math.min(d.weeks||4,8);
  for(var w=1;w<=repetitions;w++){
   on.forEach(function(day){
    var x=d.days[day],courts=normalizeDayCourts(x.courts);
-   out.push({date:day+", occurrence "+w,time:x.start+" - "+x.end,location:x.location||d.reservedLocations[0],courts:courts.join(", ")})
+   out.push({date:day+", occurrence "+w,time:x.start+" - "+x.end,location:x.location||"WPVC South Gym",courts:courts.join(", ")})
   })
- }
- if(d.parallelSession&&out.length&&d.reservedLocations.length>1){
-  var first=out[0],alt=d.reservedLocations.find(function(x){return x!==first.location})||d.reservedLocations[0];
-  out.splice(1,0,{date:first.date,time:first.time,location:alt,courts:(d.reservedCourts[alt]||[]).join(", "),parallel:true})
  }
  return out
 }
@@ -526,7 +547,7 @@ function wizardReview(d){
  if(d.minAgeEnabled)ageText.push("No younger than "+d.minAge);
  if(d.maxAgeEnabled)ageText.push("No older than "+d.maxAge);
  return '<div class="grid two"><div class="grid">'+
- '<section class="panel"><h2>Basics</h2><div class="row"><div class="k">Name</div><div class="v">'+esc(d.name||"Untitled Event")+'</div></div><div class="row"><div class="k">Description</div><div class="v">'+esc(d.description||"No description yet")+'</div></div><div class="row"><div class="k">Activity</div><div class="v">'+esc(d.kind)+'</div></div><div class="row"><div class="k">Season</div><div class="v">'+esc(d.season)+'</div></div><div class="row"><div class="k">Reserved resources</div><div class="v">'+d.reservedLocations.length+' locations · '+resourceCount+' courts</div></div><div class="row"><div class="k">Schedule</div><div class="v">'+p.length+' finite Sessions</div></div></section>'+
+ '<section class="panel"><h2>Basics</h2><div class="row"><div class="k">Name</div><div class="v">'+esc(d.name||"Untitled Event")+'</div></div><div class="row"><div class="k">Description</div><div class="v">'+esc(d.description||"No description yet")+'</div></div><div class="row"><div class="k">Activity</div><div class="v">'+esc(d.kind)+'</div></div><div class="row"><div class="k">Season</div><div class="v">'+esc(d.season)+'</div></div><div class="row"><div class="k">Schedule</div><div class="v">'+p.length+' finite Sessions</div></div></section>'+
  '<section class="panel"><h2>Registration</h2><div class="row"><div class="k">Window</div><div class="v">'+(d.registrationWindow?esc(d.registrationOpens)+' → '+esc(d.registrationCloses):"No configured window")+'</div></div><div class="row"><div class="k">Gender</div><div class="v">'+esc(d.gender)+'</div></div><div class="row"><div class="k">Age</div><div class="v">'+(ageText.length?esc(ageText.join(" · ")+" as of "+d.ageAsOf):"No restriction")+'</div></div><div class="row"><div class="k">Legal documents</div><div class="v">'+(legal.length?legal.length+" attached":"None")+'</div></div><div class="row"><div class="k">Team Program preferences</div><div class="v">'+(d.collectPrograms?"Top "+d.programRequired+" required · up to "+d.programMax:"Off")+'</div></div><div class="row"><div class="k">Position preferences</div><div class="v">'+(d.collectPositions?"Top "+d.positionRequired+" required · up to "+d.positionMax:"Off")+'</div></div></section>'+
  '</div><aside class="grid"><section class="panel"><h2>Pricing</h2><div class="row"><div class="k">Price tiers</div><div class="v">'+(d.free?0:d.priceTiers.length)+'</div></div><div class="row"><div class="k">Opening ACH price</div><div class="v">'+(d.free?"Free":"$"+d.priceTiers[0].ach)+'</div></div><div class="row"><div class="k">Discount rules</div><div class="v">'+(d.free?0:d.discounts.length)+'</div></div></section>'+
  (d.kind==="Tryout"?'<section class="panel"><h2>Tryout details</h2><div class="row"><div class="k">Offer response window</div><div class="v">'+d.offerResponseHours+' hours</div></div><div class="tiny" style="margin-top:8px">Staff may extend an individual Team Offer after it is sent. Play-up exceptions are handled manually.</div></section>':'')+
