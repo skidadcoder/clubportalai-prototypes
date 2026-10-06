@@ -34,7 +34,7 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}a{color:inherit}
 .rollcall{display:grid;gap:8px}.roll-row{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;border:1px solid var(--line);background:white;border-radius:10px;padding:10px 12px}.roll-actions{display:flex;gap:5px}.mark{border:1px solid #d0d5dd;background:white;border-radius:7px;padding:6px 8px;font-size:11px;font-weight:800;color:#667085}.mark.active.here{background:#ecfdf3;border-color:#abefc6;color:#067647}.mark.active.late{background:#fffaeb;border-color:#fedf89;color:#b54708}.mark.active.excused{background:#eff8ff;border-color:#b2ddff;color:#175cd3}.mark.active.absent{background:#fef3f2;border-color:#fecdca;color:#b42318}
 .form-card{background:white;border:1px solid var(--line);border-radius:14px;padding:18px}.stepper{display:flex;gap:0;margin-bottom:18px}.step{flex:1;position:relative;text-align:center;font-size:11px;color:#98a2b3;font-weight:800;padding-top:28px}.step:before{content:"";position:absolute;top:11px;left:0;right:0;height:2px;background:#e4e7ec}.step:first-child:before{left:50%}.step:last-child:before{right:50%}.step .num{position:absolute;top:1px;left:50%;transform:translateX(-50%);width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:#eaecf0;color:#667085;z-index:1}.step.active,.step.done{color:#175cd3}.step.active .num,.step.done .num{background:#2563eb;color:white}.step.done:before{background:#84adff}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field{display:grid;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:12px;font-weight:800;color:#344054}.field small{font-size:11px;color:#667085}.input{width:100%;border:1px solid #d0d5dd;border-radius:8px;padding:9px 10px;background:white;color:#18202a}.radio-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.radio-card{border:1px solid var(--line);border-radius:10px;padding:12px;cursor:pointer;background:white}.radio-card.selected{border-color:#84adff;background:#f5f8ff}.radio-card b{font-size:12px;display:block}.radio-card span{font-size:11px;color:var(--muted)}
-.weekdays{display:grid;grid-template-columns:repeat(7,1fr);gap:7px}.day{border:1px solid var(--line);border-radius:9px;padding:8px;text-align:center;background:white}.day.selected{border-color:#84adff;background:#f5f8ff}.day button{border:0;background:transparent;font-weight:800;font-size:11px;width:100%}.day .times{display:grid;gap:5px;margin-top:7px}.day select{width:100%;font-size:10px;border:1px solid #d0d5dd;border-radius:6px;padding:4px;background:white}
+.schedule-days{display:flex;gap:7px;flex-wrap:wrap}.schedule-days button{min-width:54px}.schedule-patterns{display:grid;gap:10px;margin-top:12px}.schedule-pattern{border:1px solid var(--line);border-radius:11px;background:#fff;padding:12px;display:grid;grid-template-columns:70px minmax(230px,.8fr) minmax(320px,1.4fr) auto;gap:14px;align-items:start}.schedule-day-name{font-weight:900;font-size:14px;padding-top:8px}.schedule-times{display:grid;grid-template-columns:1fr 1fr;gap:7px}.schedule-place{display:grid;gap:7px}.location-buttons{display:flex;gap:6px;flex-wrap:wrap}.court-summary{display:flex;gap:7px;align-items:center;flex-wrap:wrap}.court-chip{display:inline-flex;padding:4px 7px;border-radius:999px;background:#f2f4f7;font-size:10px;font-weight:800;color:#475467}.schedule-copy{display:grid;gap:6px}.weekdays{display:grid;grid-template-columns:repeat(7,1fr);gap:7px}.day{border:1px solid var(--line);border-radius:9px;padding:8px;text-align:center;background:white}.day.selected{border-color:#84adff;background:#f5f8ff}.day button{border:0;background:transparent;font-weight:800;font-size:11px;width:100%}.day .times{display:grid;gap:5px;margin-top:7px}.day select{width:100%;font-size:10px;border:1px solid #d0d5dd;border-radius:6px;padding:4px;background:white}
 .preview{margin-top:14px;border:1px solid var(--line);border-radius:10px;overflow:hidden}.preview-head{background:#f9fafb;padding:9px 11px;font-size:12px;font-weight:800;display:flex;justify-content:space-between}.preview-row{display:grid;grid-template-columns:100px 140px 1fr 90px;gap:10px;padding:8px 11px;border-top:1px solid #eef1f4;font-size:11px}
 .wizard-actions{display:flex;justify-content:space-between;margin-top:18px;padding-top:14px;border-top:1px solid var(--line)}
 .login-shell{min-height:calc(100vh - 33px);background:#f5f7fa;display:grid;place-items:center;padding:24px}.login-card{width:min(520px,100%);background:white;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:24px}.club-lockup{text-align:center;margin-bottom:18px}.club-logo{width:52px;height:52px;border-radius:14px;background:#16324f;color:white;display:grid;place-items:center;margin:0 auto 10px;font-weight:900}.login-card h1{font-size:22px;text-align:center;margin:0 0 6px}.login-card .sub{text-align:center;margin:auto}.flow-actions{display:flex;justify-content:space-between;gap:8px;margin-top:16px}.participant-card{border:1px solid var(--line);border-radius:10px;padding:12px;margin:8px 0;display:flex;justify-content:space-between;align-items:center;gap:12px}.participant-card.selected{border-color:#84adff;background:#f5f8ff}.price-box{background:#f8fafc;border:1px solid var(--line);border-radius:10px;padding:12px;margin-top:10px}.summary-line{display:flex;justify-content:space-between;gap:12px;padding:6px 0;font-size:12px}.summary-line.total{font-weight:900;font-size:14px;border-top:1px solid var(--line);margin-top:5px;padding-top:10px}
@@ -42,8 +42,8 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}a{color:inherit}
 .modal-backdrop{position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:40;display:grid;place-items:center;padding:20px}.modal{background:white;width:min(560px,100%);max-height:90vh;overflow:auto;border-radius:14px;box-shadow:0 24px 70px rgba(0,0,0,.25)}.modal-head{padding:16px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.modal-head h2{font-size:16px;margin:0}.modal-body{padding:18px}.modal-foot{padding:13px 18px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:8px}.x{border:0;background:transparent;font-size:20px;color:#667085}
 .toast{position:fixed;right:20px;bottom:20px;background:#101828;color:white;padding:11px 14px;border-radius:10px;box-shadow:var(--shadow);font-size:12px;font-weight:700;z-index:60}
 .empty{padding:32px;text-align:center;color:var(--muted);font-size:13px}.mobile-nav{display:none}
-@media(max-width:1050px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.three{grid-template-columns:1fr}.session{grid-template-columns:110px 1fr 100px auto}.session .capacity{display:none}.weekdays{grid-template-columns:repeat(4,1fr)}}
-@media(max-width:780px){.app{display:block}.sidebar{display:none}.topbar{padding:0 14px}.page{padding:18px 14px 86px}.page-head{display:block}.page-head .actions{margin-top:12px}.cards,.two,.coach-grid,.vol-grid,.form-grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.toolbar{align-items:stretch;display:grid}.toolbar-left,.toolbar-right{flex-wrap:wrap}.search{min-width:0;width:100%}.session{grid-template-columns:1fr auto}.session>div:nth-child(2){grid-column:1/-1}.session .capacity{display:none}.session>div:nth-child(4){display:none}.workspace-main{display:block}.workspace-main .actions{margin-top:12px}.tabs{padding:0 6px}.weekdays{grid-template-columns:repeat(2,1fr)}.radio-cards{grid-template-columns:1fr}.preview-row{grid-template-columns:80px 100px 1fr}.preview-row>div:last-child{display:none}.persona{display:none}.mobile-nav{position:fixed;z-index:20;bottom:0;left:0;right:0;background:white;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding:6px}.mobile-nav button{border:0;background:transparent;padding:8px 2px;font-size:10px;font-weight:800;color:#667085}.mobile-nav button.active{color:#175cd3}.roll-row{grid-template-columns:1fr}.roll-actions{overflow:auto}}
+@media(max-width:1050px){.schedule-pattern{grid-template-columns:60px 1fr 1.4fr}.schedule-copy{grid-column:2/-1;grid-template-columns:auto auto;justify-content:start}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.three{grid-template-columns:1fr}.session{grid-template-columns:110px 1fr 100px auto}.session .capacity{display:none}.weekdays{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:780px){.schedule-pattern{grid-template-columns:1fr}.schedule-day-name,.schedule-copy{grid-column:auto}.schedule-copy{display:flex;flex-wrap:wrap}.app{display:block}.sidebar{display:none}.topbar{padding:0 14px}.page{padding:18px 14px 86px}.page-head{display:block}.page-head .actions{margin-top:12px}.cards,.two,.coach-grid,.vol-grid,.form-grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.toolbar{align-items:stretch;display:grid}.toolbar-left,.toolbar-right{flex-wrap:wrap}.search{min-width:0;width:100%}.session{grid-template-columns:1fr auto}.session>div:nth-child(2){grid-column:1/-1}.session .capacity{display:none}.session>div:nth-child(4){display:none}.workspace-main{display:block}.workspace-main .actions{margin-top:12px}.tabs{padding:0 6px}.weekdays{grid-template-columns:repeat(2,1fr)}.radio-cards{grid-template-columns:1fr}.preview-row{grid-template-columns:80px 100px 1fr}.preview-row>div:last-child{display:none}.persona{display:none}.mobile-nav{position:fixed;z-index:20;bottom:0;left:0;right:0;background:white;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding:6px}.mobile-nav button{border:0;background:transparent;padding:8px 2px;font-size:10px;font-weight:800;color:#667085}.mobile-nav button.active{color:#175cd3}.roll-row{grid-template-columns:1fr}.roll-actions{overflow:auto}}
 </style>
 </head>
 <body>
@@ -200,8 +200,8 @@ function startWizard(){
   },
   schedule:"repeat",weeks:2,parallelSession:false,
   days:{
-   Tue:{on:true,start:"17:00",end:"19:00",location:"WPVC South Gym",courts:"Court 1 + Court 2"},
-   Thu:{on:true,start:"18:00",end:"20:30",location:"WPVC South Gym",courts:"Court 1 + Court 2"}
+   Tue:{on:true,start:"17:00",end:"19:00",location:"WPVC South Gym",courts:["Court 1","Court 2"]},
+   Thu:{on:true,start:"18:00",end:"20:30",location:"WPVC South Gym",courts:["Court 1","Court 2"]}
   },
   registrationWindow:true,registrationOpens:"2026-09-15T09:00",registrationCloses:"2026-10-05T21:00",
   gender:"Any gender",
@@ -284,42 +284,120 @@ function toggleEventCourt(loc,court){
  state.draft.reservedCourts[loc]=a;render()
 }
 function wizardSchedule(d){
- var allDays=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];var ds=d.days||{};if(!d.reservedLocations.length)d.reservedLocations.push("WPVC South Gym");
+ var allDays=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],ds=d.days||{};
+ if(!d.reservedLocations.length)d.reservedLocations.push("WPVC South Gym");
+ var selected=allDays.filter(function(day){return ds[day]&&ds[day].on});
  return '<div>'+
- '<div class="attention blue"><div class="icon">i</div><div><b>One place per Session, many places per Event</b><span>Each Session has one location and may reserve multiple courts. Different Sessions, including simultaneous alternatives, can use different facilities.</span></div></div>'+
- '<div class="radio-cards"><div class="radio-card '+(d.schedule==="one"?"selected":"")+'" onclick="state.draft.schedule=\'one\';render()"><b>One day</b><span>One Session with one clear signup choice.</span></div><div class="radio-card '+(d.schedule==="repeat"?"selected":"")+'" onclick="state.draft.schedule=\'repeat\';render()"><b>Repeating schedule</b><span>Select weekdays, times, locations, and court groups, then review the finite Sessions.</span></div></div>'+
- (d.schedule==="repeat"?'<div style="display:flex;justify-content:space-between;align-items:end;margin:16px 0 9px"><div class="field" style="width:160px"><label>Number of weeks</label><input class="input" type="number" min="1" max="12" value="'+d.weeks+'" oninput="state.draft.weeks=Number(this.value)||1;render()"></div><div class="actions"><button class="btn small" onclick="selectAllDays()">Select all days</button><button class="btn small" onclick="toggleParallelSession()">'+(d.parallelSession?"Remove parallel example":"Add parallel Session")+'</button></div></div><div class="weekdays">'+allDays.map(function(day){var x=ds[day]||{on:false,start:"17:00",end:"19:00",location:d.reservedLocations[0],courts:(d.reservedCourts[d.reservedLocations[0]]||[]).join(" + ")};return '<div class="day '+(x.on?"selected":"")+'"><button onclick="toggleDay(\''+day+'\')">'+day+'</button>'+(x.on?'<div class="times"><select onchange="setDayTime(\''+day+'\',\'start\',this.value)">'+timeOptions(x.start)+'</select><select onchange="setDayTime(\''+day+'\',\'end\',this.value)">'+timeOptions(x.end)+'</select><select onchange="setDayPlace(\''+day+'\',\'location\',this.value)">'+locationOptions(x.location)+'</select><select onchange="setDayPlace(\''+day+'\',\'courts\',this.value)">'+courtOptions(x.courts)+'</select><button class="btn small" onclick="applyTimes(\''+day+'\')">Apply times to selected</button></div>':"")+'</div>'}).join("")+'</div>':
- '<div class="form-grid" style="margin-top:16px"><div class="field"><label>Date</label><input class="input" type="date" value="2026-10-12"></div><div class="field"><label>Time</label><div style="display:flex;gap:8px"><input class="input" type="time" value="18:00"><input class="input" type="time" value="20:00"></div></div><div class="field"><label>Location</label><select class="input">'+locationOptions(d.reservedLocations[0])+'</select></div><div class="field"><label>Courts</label><select class="input">'+courtOptions((d.reservedCourts[d.reservedLocations[0]]||[]).join(" + "))+'</select></div></div>')+
+ '<div class="attention blue"><div class="icon">i</div><div><b>Schedule uses the resources reserved in Basics</b><span>Each Session uses one location and any number of that location’s reserved courts. For simultaneous locations, create parallel Sessions.</span></div></div>'+
+ '<div class="radio-cards"><div class="radio-card '+(d.schedule==="one"?"selected":"")+'" onclick="state.draft.schedule=\'one\';render()"><b>One day</b><span>One Session.</span></div><div class="radio-card '+(d.schedule==="repeat"?"selected":"")+'" onclick="state.draft.schedule=\'repeat\';render()"><b>Repeating schedule</b><span>Choose days, then configure each pattern in a full-width row.</span></div></div>'+
+ (d.schedule==="repeat"?
+ '<div style="display:flex;justify-content:space-between;align-items:end;gap:12px;margin:16px 0 9px"><div class="field" style="width:160px"><label>Number of weeks</label><input class="input" type="number" min="1" max="12" value="'+d.weeks+'" oninput="state.draft.weeks=Number(this.value)||1;render()"></div><button class="btn small" onclick="selectAllDays()">Select all days</button></div>'+
+ '<div class="field"><label>Days</label><div class="schedule-days">'+allDays.map(function(day){var on=ds[day]&&ds[day].on;return '<button type="button" class="btn small '+(on?"primary":"")+'" onclick="toggleDay(\''+day+'\')">'+day+'</button>'}).join("")+'</div></div>'+
+ '<div class="schedule-patterns">'+selected.map(function(day){return schedulePatternRow(day,ds[day],d)}).join("")+'</div>'+
+ '<div style="margin-top:12px"><button class="btn small" onclick="toggleParallelSession()">'+(d.parallelSession?"Remove parallel example":"Add simultaneous location example")+'</button></div>'
+ :
+ oneDaySchedule(d)
+ )+
  schedulePreview(d)+'</div>'
 }
-function locationOptions(selected){var a=["WPVC South Gym","WPVC North Gym","WPVC Classroom","Off-site location"];return a.map(function(v){return '<option '+(v===selected?"selected":"")+'>'+v+'</option>'}).join("")}
-function courtOptions(selected){var a=["Court 1","Court 1 + Court 2","Court 2 + Court 3","Court A + Court B","All courts","No court reservation"];return a.map(function(v){return '<option '+(v===selected?"selected":"")+'>'+v+'</option>'}).join("")}
+function schedulePatternRow(day,x,d){
+ var courts=normalizeDayCourts(x.courts),reserved=d.reservedCourts[x.location]||[];
+ return '<div class="schedule-pattern">'+
+ '<div class="schedule-day-name">'+day+'</div>'+
+ '<div><div class="tiny" style="margin-bottom:5px">Time</div><div class="schedule-times"><select class="input" onchange="setDayTime(\''+day+'\',\'start\',this.value)">'+timeOptions(x.start)+'</select><select class="input" onchange="setDayTime(\''+day+'\',\'end\',this.value)">'+timeOptions(x.end)+'</select></div></div>'+
+ '<div class="schedule-place"><div class="tiny">Location</div><div class="location-buttons">'+d.reservedLocations.map(function(loc){return '<button type="button" class="btn small '+(x.location===loc?"primary":"")+'" onclick="setScheduleLocation(\''+day+'\',\''+loc.replace(/'/g,"\\'")+'\')">'+esc(loc)+'</button>'}).join("")+'</div>'+
+ '<div class="court-summary"><button type="button" class="btn small" onclick="openCourtPicker(\''+day+'\')">Courts · '+courts.length+' selected</button>'+
+ (courts.length?courts.slice(0,5).map(function(c){return '<span class="court-chip">'+esc(c)+'</span>'}).join("")+(courts.length>5?'<span class="court-chip">+'+(courts.length-5)+' more</span>':''):'<span class="tiny">'+(reserved.length?"Choose courts":"No courts reserved for this location")+'</span>')+
+ '</div></div>'+
+ '<div class="schedule-copy"><button class="btn small" onclick="applyTimes(\''+day+'\')">Apply time</button><button class="btn small" onclick="applyPlace(\''+day+'\')">Apply place</button></div>'+
+ '</div>'
+}
+function oneDaySchedule(d){
+ var loc=d.reservedLocations[0],courts=d.reservedCourts[loc]||[];
+ return '<div class="panel" style="margin-top:16px"><div class="form-grid"><div class="field"><label>Date</label><input class="input" type="date" value="2026-10-12"></div><div class="field"><label>Time</label><div style="display:flex;gap:8px"><input class="input" type="time" value="18:00"><input class="input" type="time" value="20:00"></div></div></div><div class="field" style="margin-top:12px"><label>Location</label><div class="location-buttons">'+d.reservedLocations.map(function(x){return '<button class="btn small '+(x===loc?"primary":"")+'">'+esc(x)+'</button>'}).join("")+'</div></div><div class="court-summary" style="margin-top:10px"><button class="btn small" onclick="openOneDayCourtPicker()">Courts · '+courts.length+' selected</button>'+courts.slice(0,6).map(function(c){return '<span class="court-chip">'+esc(c)+'</span>'}).join("")+'</div></div>'
+}
 function timeOptions(selected){var arr=["08:00","09:00","10:00","12:00","15:00","16:00","17:00","18:00","19:00","20:00","20:30","21:00"];return arr.map(function(t){return '<option value="'+t+'" '+(selected===t?"selected":"")+'>'+t+'</option>'}).join("")}
 function toggleDay(day){
- if(!state.draft.days[day])state.draft.days[day]={on:false,start:"17:00",end:"19:00",location:state.draft.reservedLocations[0],courts:(state.draft.reservedCourts[state.draft.reservedLocations[0]]||[]).join(" + ")};
+ if(!state.draft.days[day]){
+  var loc=state.draft.reservedLocations[0]||"WPVC South Gym";
+  state.draft.days[day]={on:false,start:"17:00",end:"19:00",location:loc,courts:(state.draft.reservedCourts[loc]||[]).slice()}
+ }
  state.draft.days[day].on=!state.draft.days[day].on;render()
 }
 function selectAllDays(){
- ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].forEach(function(d){
-  if(!state.draft.days[d])state.draft.days[d]={start:"17:00",end:"19:00",location:state.draft.reservedLocations[0],courts:(state.draft.reservedCourts[state.draft.reservedLocations[0]]||[]).join(" + ")};
-  state.draft.days[d].on=true
+ ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].forEach(function(day){
+  if(!state.draft.days[day]){
+   var loc=state.draft.reservedLocations[0]||"WPVC South Gym";
+   state.draft.days[day]={start:"17:00",end:"19:00",location:loc,courts:(state.draft.reservedCourts[loc]||[]).slice()}
+  }
+  state.draft.days[day].on=true
  });render()
 }
 function setDayTime(day,k,v){state.draft.days[day][k]=v;render()}
-function setDayPlace(day,k,v){state.draft.days[day][k]=v;render()}
+function normalizeDayCourts(value){
+ if(Array.isArray(value))return value;
+ if(!value)return [];
+ return String(value).split(" + ").filter(Boolean)
+}
+function setScheduleLocation(day,loc){
+ var x=state.draft.days[day];
+ x.location=loc;
+ x.courts=(state.draft.reservedCourts[loc]||[]).slice();
+ render()
+}
+function openCourtPicker(day){
+ var x=state.draft.days[day],available=state.draft.reservedCourts[x.location]||[],selected=normalizeDayCourts(x.courts);
+ state.modal={
+  title:day+" · Courts at "+x.location,
+  body:'<div class="sub">Choose from the courts reserved for this Event at this location.</div>'+
+   '<div class="actions" style="margin:12px 0"><button class="btn small" onclick="selectAllScheduleCourts(\''+day+'\')">Select all</button><button class="btn small" onclick="clearScheduleCourts(\''+day+'\')">Clear</button></div>'+
+   '<div class="grid three">'+available.map(function(c){var on=selected.indexOf(c)>=0;return '<button class="btn '+(on?"primary":"")+'" onclick="toggleScheduleCourt(\''+day+'\',\''+c.replace(/'/g,"\\'")+'\')">'+esc(c)+'</button>'}).join("")+'</div>'+
+   (!available.length?'<div class="empty">No courts were reserved for this location in Basics.</div>':''),
+  actions:'<button class="btn primary" onclick="closeModal()">Done</button>'
+ };
+ renderModal()
+}
+function toggleScheduleCourt(day,court){
+ var x=state.draft.days[day],a=normalizeDayCourts(x.courts),i=a.indexOf(court);
+ if(i>=0)a.splice(i,1);else a.push(court);
+ x.courts=a;
+ openCourtPicker(day)
+}
+function selectAllScheduleCourts(day){
+ var x=state.draft.days[day];
+ x.courts=(state.draft.reservedCourts[x.location]||[]).slice();
+ openCourtPicker(day)
+}
+function clearScheduleCourts(day){state.draft.days[day].courts=[];openCourtPicker(day)}
+function openOneDayCourtPicker(){toast("One-day court picker uses the same checklist pattern")}
+function applyTimes(day){
+ var src=state.draft.days[day];
+ Object.keys(state.draft.days).forEach(function(d){if(state.draft.days[d].on){state.draft.days[d].start=src.start;state.draft.days[d].end=src.end}});
+ toast("Time applied to selected days");render()
+}
+function applyPlace(day){
+ var src=state.draft.days[day];
+ Object.keys(state.draft.days).forEach(function(d){
+  if(state.draft.days[d].on){state.draft.days[d].location=src.location;state.draft.days[d].courts=normalizeDayCourts(src.courts).slice()}
+ });
+ toast("Location and courts applied to selected days");render()
+}
 function toggleParallelSession(){state.draft.parallelSession=!state.draft.parallelSession;render()}
-function applyTimes(day){var src=state.draft.days[day];Object.keys(state.draft.days).forEach(function(d){if(state.draft.days[d].on){state.draft.days[d].start=src.start;state.draft.days[d].end=src.end}});toast("Times applied to selected days");render()}
 function generatedPreview(d){
- if(d.schedule==="one")return [{date:"Mon, Oct 12",time:"18:00 - 20:00",location:d.reservedLocations[0],courts:(d.reservedCourts[d.reservedLocations[0]]||[]).join(" + ")}];
+ if(d.schedule==="one"){
+  var loc=d.reservedLocations[0];
+  return [{date:"Mon, Oct 12",time:"18:00 - 20:00",location:loc,courts:(d.reservedCourts[loc]||[]).join(", ")}]
+ }
  var days=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],on=days.filter(function(x){return d.days[x]&&d.days[x].on}),out=[];
  for(var w=1;w<=Math.min(d.weeks,6);w++){
   on.forEach(function(day){
-   var x=d.days[day];
-   out.push({date:day+", week "+w,time:x.start+" - "+x.end,location:x.location||d.reservedLocations[0],courts:x.courts||(d.reservedCourts[d.reservedLocations[0]]||[]).join(" + ")})
+   var x=d.days[day],courts=normalizeDayCourts(x.courts);
+   out.push({date:day+", week "+w,time:x.start+" - "+x.end,location:x.location||d.reservedLocations[0],courts:courts.join(", ")})
   })
  }
- if(d.parallelSession&&out.length){
-  out.splice(1,0,{date:out[0].date,time:out[0].time,location:out[0].location==="WPVC South Gym"?"WPVC North Gym":"WPVC South Gym",courts:out[0].location==="WPVC South Gym"?"Court A + Court B":"Court 1 + Court 2",parallel:true})
+ if(d.parallelSession&&out.length&&d.reservedLocations.length>1){
+  var first=out[0],alt=d.reservedLocations.find(function(x){return x!==first.location})||d.reservedLocations[0];
+  out.splice(1,0,{date:first.date,time:first.time,location:alt,courts:(d.reservedCourts[alt]||[]).join(", "),parallel:true})
  }
  return out
 }
