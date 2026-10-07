@@ -505,6 +505,34 @@ function recurrenceSummary(d,selected){
  var ending=d.endMode==="on"?"through "+shortDate(d.endDate):"for "+d.weeks+" week"+(d.weeks===1?"":"s");
  return "Repeats "+repeat+(days?" on "+days:"")+" "+ending+"."
 }
+
+function weekDayCard(day,d){
+ var x=d.days[day],active=x&&x.on,extras=(d.additionalDaySessions&&d.additionalDaySessions[day])||[];
+ if(!active){
+  return '<div class="week-day-card inactive"><div class="week-day-head"><div class="week-day-name">'+day+'</div></div><div class="tiny">No Sessions</div><div class="week-day-actions"><button class="btn small" onclick="activateScheduleDay(\''+day+'\')">+ Add Session</button></div></div>'
+ }
+ var configs=[x].concat(extras);
+ return '<div class="week-day-card active"><div class="week-day-head"><div><div class="week-day-name">'+day+'</div><div class="tiny">'+configs.length+' Session'+(configs.length===1?"":"s")+'</div></div><button class="btn ghost small" title="Remove all '+day+' Sessions" onclick="deactivateScheduleDay(\''+day+'\')">×</button></div>'+
+ configs.map(function(cfg,index){return weekSessionMini(day,index,cfg)}).join("")+
+ '<div class="week-day-actions"><button class="btn small" onclick="addDaySession(\''+day+'\')">+ Add Session</button></div></div>'
+}
+function weekSessionMini(day,index,x){
+ var selections=sessionLocationSelections(x),locations=Object.keys(selections).filter(function(loc){return (selections[loc]||[]).length}),courtCount=locations.reduce(function(n,loc){return n+selections[loc].length},0);
+ if(x.offsiteEnabled&&x.offsiteAddress)locations.push(x.offsiteVenue||"Off-site");
+ return '<div class="week-session-mini"><div class="time">'+esc(x.start)+' – '+esc(x.end)+'</div><div class="meta">'+esc(locations.length?locations.join(", "):"No location")+'</div><div class="meta">'+(courtCount?courtCount+' court'+(courtCount===1?"":"s"):(x.offsiteEnabled?"Off-site":"No courts"))+'</div><div class="actions"><button class="btn small" onclick="openSessionSetup(\''+day+'\','+index+')">Edit</button>'+(index>0?'<button class="btn ghost small" onclick="removeDaySession(\''+day+'\','+index+')">Remove</button>':'')+'</div></div>'
+}
+function activateScheduleDay(day){
+ if(!state.draft.days[day]){
+  state.draft.days[day]={on:true,start:"17:00",end:"19:00",location:"WPVC South Gym",courts:["Court 1","Court 2"],offsiteEnabled:false,offsiteVenue:"",offsiteAddress:""}
+ } else state.draft.days[day].on=true;
+ if(!state.draft.additionalDaySessions[day])state.draft.additionalDaySessions[day]=[];
+ render()
+}
+function deactivateScheduleDay(day){
+ if(state.draft.days[day])state.draft.days[day].on=false;
+ state.draft.additionalDaySessions[day]=[];
+ render()
+}
 function timeOptions(selected){var arr=["08:00","09:00","10:00","12:00","15:00","16:00","17:00","18:00","19:00","20:00","20:30","21:00"];return arr.map(function(t){return '<option value="'+t+'" '+(selected===t?"selected":"")+'>'+t+'</option>'}).join("")}
 function toggleDay(day){
  if(state.draft.days[day]&&state.draft.days[day].on)deactivateScheduleDay(day);
