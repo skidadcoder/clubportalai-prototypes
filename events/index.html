@@ -51,6 +51,7 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}a{color:inherit}
 .session-setup-card .value{font-size:12px;font-weight:700}
 .session-setup-card .label{font-size:10px;color:var(--muted);margin-bottom:2px}
 .generated-summary{display:flex;justify-content:space-between;gap:14px;align-items:center;border:0;border-top:1px solid var(--line);border-radius:0;background:transparent;padding:14px 0 0;margin-top:18px}
+.wizard-layout{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:16px;align-items:start}.live-summary{position:sticky;top:76px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:15px}.live-summary h3{margin:0 0 4px;font-size:14px}.live-summary .sum-row{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid #eee;font-size:11px}.live-summary .sum-row:last-child{border-bottom:0}.live-summary .sum-label{color:var(--muted)}.live-summary .sum-value{text-align:right;font-weight:800}.preview-switch{display:flex;gap:5px;background:#f2f4f7;border-radius:8px;padding:3px}.preview-switch button{border:0;background:transparent;border-radius:6px;padding:6px 9px;font-size:11px;font-weight:800;color:#667085}.preview-switch button.active{background:#fff;color:#1f2933;box-shadow:0 1px 3px rgba(16,24,40,.08)}.calendar-preview{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:12px;margin-top:10px}.mini-month{border:1px solid var(--line);border-radius:10px;padding:10px;background:#fff}.mini-month-head{font-size:12px;font-weight:900;margin-bottom:8px}.mini-cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}.mini-cal-dow{font-size:9px;color:#98a2b3;text-align:center;font-weight:800;padding:2px}.mini-cal-day{min-height:31px;border-radius:6px;padding:4px;font-size:10px;color:#667085}.mini-cal-day.active{background:var(--choice-active-bg);color:#1f2933;font-weight:900;border:1px solid #ffd7c7}.mini-cal-count{display:block;font-size:8px;color:var(--brand);margin-top:1px}.offsite-card{border:1px dashed #cfd4d9;background:#fcfcfb}.offsite-card.active{border-style:solid;border-color:var(--choice-active-border);background:var(--choice-active-bg)}.offsite-fields{display:grid;gap:7px;margin-top:10px}.offsite-fields .input{font-size:12px;padding:8px}
 .one-date-form{display:grid;grid-template-columns:1.2fr .8fr .8fr;gap:12px;margin-top:16px}
 .location-court-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:14px}
 .location-court-card{width:100%;border:1px solid var(--choice-border);border-radius:var(--choice-radius);background:var(--choice-bg);padding:var(--choice-pad);min-height:122px}
@@ -59,13 +60,14 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}a{color:inherit}
 .court-buttons{display:flex;gap:7px;flex-wrap:wrap}
 
 .schedule-days{display:flex;gap:7px;flex-wrap:wrap}.schedule-days button{min-width:54px}.schedule-patterns{display:grid;gap:10px;margin-top:12px}.schedule-pattern{border:1px solid var(--line);border-radius:11px;background:#fff;padding:12px;display:grid;grid-template-columns:72px minmax(150px,.8fr) minmax(170px,.9fr) minmax(210px,1fr) auto;gap:12px;align-items:end}.schedule-day-name{font-weight:900;font-size:14px;padding-top:8px}.schedule-times{display:grid;grid-template-columns:1fr 1fr;gap:7px}.schedule-field{display:grid;gap:5px}.schedule-place{display:grid;gap:7px}.location-buttons{display:flex;gap:6px;flex-wrap:wrap}.court-summary{display:flex;gap:7px;align-items:center;flex-wrap:wrap}.court-chip{display:inline-flex;padding:4px 7px;border-radius:999px;background:#f2f4f7;font-size:10px;font-weight:800;color:#475467}.court-value{display:block;width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:left;font-weight:700}.schedule-copy{display:grid;gap:6px}.weekdays{display:grid;grid-template-columns:repeat(7,1fr);gap:7px}.day{border:1px solid var(--choice-border);border-radius:var(--choice-radius);padding:var(--choice-pad);text-align:center;background:var(--choice-bg)}.day.selected{border-color:var(--choice-active-border);background:var(--choice-active-bg)}.day button{border:0;background:transparent;font-weight:800;font-size:11px;width:100%}.day .times{display:grid;gap:5px;margin-top:7px}.day select{width:100%;font-size:10px;border:1px solid #d0d5dd;border-radius:6px;padding:4px;background:white}
-.preview{margin-top:14px;border:1px solid var(--line);border-radius:10px;overflow:hidden}.preview-head{background:#f9fafb;padding:9px 11px;font-size:12px;font-weight:800;display:flex;justify-content:space-between}.preview-row{display:grid;grid-template-columns:100px 140px 1fr 90px;gap:10px;padding:8px 11px;border-top:1px solid #eef1f4;font-size:11px}
+.preview{margin-top:14px;border:1px solid var(--line);border-radius:10px;overflow:hidden}.preview-head{background:#f9fafb;padding:9px 11px;font-size:12px;font-weight:800;display:flex;justify-content:space-between}.preview-row{display:grid;grid-template-columns:130px 120px 1fr;gap:10px;padding:8px 11px;border-top:1px solid #eef1f4;font-size:11px}
 .wizard-actions{display:flex;justify-content:space-between;margin-top:18px;padding-top:14px;border-top:1px solid var(--line)}
 .login-shell{min-height:calc(100vh - 33px);background:#f5f7fa;display:grid;place-items:center;padding:24px}.login-card{width:min(520px,100%);background:white;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:24px}.club-lockup{text-align:center;margin-bottom:18px}.club-logo{width:52px;height:52px;border-radius:14px;background:#16324f;color:white;display:grid;place-items:center;margin:0 auto 10px;font-weight:900}.login-card h1{font-size:22px;text-align:center;margin:0 0 6px}.login-card .sub{text-align:center;margin:auto}.flow-actions{display:flex;justify-content:space-between;gap:8px;margin-top:16px}.participant-card{width:100%;border:1px solid var(--choice-border);border-radius:var(--choice-radius);padding:var(--choice-pad);margin:8px 0;display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--choice-bg)}.participant-card.selected{border-color:var(--choice-active-border);background:var(--choice-active-bg)}.price-box{background:#f8fafc;border:1px solid var(--line);border-radius:10px;padding:12px;margin-top:10px}.summary-line{display:flex;justify-content:space-between;gap:12px;padding:6px 0;font-size:12px}.summary-line.total{font-weight:900;font-size:14px;border-top:1px solid var(--line);margin-top:5px;padding-top:10px}
 .coach-grid,.vol-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.assignment{background:white;border:1px solid var(--line);border-radius:12px;padding:15px}.assignment-top{display:flex;justify-content:space-between;gap:12px}.assignment h2{font-size:16px;margin:0 0 5px}.assignment .when{font-size:12px;color:var(--muted)}.assignment-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:13px}
 .modal-backdrop{position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:40;display:grid;place-items:center;padding:20px}.modal{background:white;width:min(560px,100%);max-height:90vh;overflow:auto;border-radius:14px;box-shadow:0 24px 70px rgba(0,0,0,.25)}.modal-head{padding:16px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.modal-head h2{font-size:16px;margin:0}.modal-body{padding:18px}.modal-foot{padding:13px 18px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:8px}.x{border:0;background:transparent;font-size:20px;color:#667085}
 .toast{position:fixed;right:20px;bottom:20px;background:#101828;color:white;padding:11px 14px;border-radius:10px;box-shadow:var(--shadow);font-size:12px;font-weight:700;z-index:60}
 .empty{padding:32px;text-align:center;color:var(--muted);font-size:13px}.mobile-nav{display:none}
+@media(max-width:1100px){.wizard-layout{grid-template-columns:1fr}.live-summary{position:static} }
 @media(max-width:1050px){.recurrence-top{grid-template-columns:minmax(230px,1fr) auto auto}.recurrence-top .recurrence-field:last-child{grid-column:auto.location-court-grid{grid-template-columns:1fr 1fr}.session-setup-card{grid-template-columns:70px 130px 1fr auto}.session-setup-card .courts-col{grid-column:3}.day-detail-grid{grid-template-columns:1fr 1fr}.schedule-pattern{grid-template-columns:60px 1fr 1.4fr}.schedule-copy{grid-column:2/-1;grid-template-columns:auto auto;justify-content:start}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.three{grid-template-columns:1fr}.session{grid-template-columns:110px 1fr 100px auto}.session .capacity{display:none}.weekdays{grid-template-columns:repeat(4,1fr)}}
 @media(max-width:780px){.basics-details{grid-template-columns:1fr}.tryout-context{align-items:stretch;flex-direction:column}.tryout-context .season-select{min-width:0;max-width:none;width:100%}.mode-cards{grid-template-columns:1fr}.recurrence-top{grid-template-columns:1fr}.recurrence-top .recurrence-field:last-child{grid-column:auto}.recurrence-days{align-items:flex-start;flex-direction:column}.one-date-form,.location-court-grid{grid-template-columns:1fr}.session-setup-card{grid-template-columns:1fr auto}.session-setup-card .time-col,.session-setup-card .place-col,.session-setup-card .courts-col{grid-column:1/-1}.recurrence-row{grid-template-columns:1fr}.day-detail-grid{grid-template-columns:1fr}.schedule-pattern{grid-template-columns:1fr}.schedule-day-name,.schedule-copy{grid-column:auto}.schedule-copy{display:flex;flex-wrap:wrap}.app{display:block}.sidebar{display:none}.topbar{padding:0 14px}.page{padding:18px 14px 86px}.page-head{display:block}.page-head .actions{margin-top:12px}.cards,.two,.coach-grid,.vol-grid,.form-grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.toolbar{align-items:stretch;display:grid}.toolbar-left,.toolbar-right{flex-wrap:wrap}.search{min-width:0;width:100%}.session{grid-template-columns:1fr auto}.session>div:nth-child(2){grid-column:1/-1}.session .capacity{display:none}.session>div:nth-child(4){display:none}.workspace-main{display:block}.workspace-main .actions{margin-top:12px}.tabs{padding:0 6px}.weekdays{grid-template-columns:repeat(2,1fr)}.radio-cards{grid-template-columns:1fr}.preview-row{grid-template-columns:80px 100px 1fr}.preview-row>div:last-child{display:none}.persona{display:none}.mobile-nav{position:fixed;z-index:20;bottom:0;left:0;right:0;background:white;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding:6px}.mobile-nav button{border:0;background:transparent;padding:8px 2px;font-size:10px;font-weight:800;color:#667085}.mobile-nav button.active{color:#c2411a}.roll-row{grid-template-columns:1fr}.roll-actions{overflow:auto}}
 </style>
@@ -216,7 +218,9 @@ function startWizard(){
    "WPVC North Gym":[],
    "Lake Brantley High School":[]
   },
-  schedule:"repeat",repeatEvery:1,weeks:4,startDate:"2026-10-06",endMode:"after",endDate:"2026-10-29",activeScheduleDay:"Tue",showSessionPreview:false,parallelSession:false,
+  oneOffsiteEnabled:false,oneOffsiteVenue:"",oneOffsiteAddress:"",
+  monthlyStart:"17:00",monthlyEnd:"19:00",monthlyLocationCourts:{"WPVC South Gym":["Court 1","Court 2"],"WPVC North Gym":[],"Lake Brantley High School":[]},monthlyOffsiteEnabled:false,monthlyOffsiteVenue:"",monthlyOffsiteAddress:"",
+  schedule:"repeat",repeatEvery:1,repeatUnit:"week",weeks:4,startDate:"2026-10-06",endMode:"after",endDate:"2026-10-29",activeScheduleDay:"Tue",previewMode:"calendar",parallelSession:false,
   oneDate:"2026-10-12",oneStart:"18:00",oneEnd:"20:00",
   oneDateCourts:{
    "WPVC South Gym":["Court 1","Court 2"],
@@ -284,14 +288,24 @@ function setTryoutMode(isTryout){
 function wizardView(){
  var d=state.draft||{},labels=["Basics","Schedule","Registration","Pricing","Review"];
  var steps='<div class="stepper">'+labels.map(function(l,i){var n=i+1;return '<div class="step '+(state.wizardStep===n?"active":state.wizardStep>n?"done":"")+'"><span class="num">'+n+'</span>'+l+'</div>'}).join("")+'</div>';
- var context=false?'<div class="tryout-context"><div><strong>Tryout</strong><div class="tiny">'+esc(d.season)+'</div></div><div class="season-select"><label class="tiny strong">Season</label><select class="input" onchange="state.draft.season=this.value;render()"><option '+(d.season==="2026-2027 Club Season"?"selected":"")+'>2026-2027 Club Season</option><option '+(d.season==="Summer 2027"?"selected":"")+'>Summer 2027</option></select></div></div>':"";
  var body=state.wizardStep===1?wizardBasics(d):state.wizardStep===2?wizardSchedule(d):state.wizardStep===3?wizardRegistration(d):state.wizardStep===4?wizardPricing(d):wizardReview(d);
- return '<main class="page"><div class="page-head"><div><h1 style="margin-top:0">Create Event</h1></div><button class="btn" onclick="state.screen=\'list\';render()">Exit setup</button></div><div class="form-card">'+steps+context+body+wizardActions()+'</div></main>'
+ return '<main class="page"><div class="page-head"><div><h1 style="margin-top:0">Create Event</h1></div><button class="btn" onclick="state.screen=\'list\';render()">Exit setup</button></div><div class="wizard-layout"><div class="form-card">'+steps+body+wizardActions()+'</div>'+liveSummary(d)+'</div></main>'
+}
+function liveSummary(d){
+ var p=generatedPreview(d),locations=[];
+ p.forEach(function(x){var name=x.location+(x.address?" · "+x.address:"");if(locations.indexOf(name)<0)locations.push(name)});
+ var first=p[0],last=p[p.length-1],price=d.free?"Free":"$"+((d.priceTiers&&d.priceTiers[0])?d.priceTiers[0].ach:0)+" ACH";
+ return '<aside class="live-summary"><div style="display:flex;justify-content:space-between;gap:8px;align-items:center"><div><h3>Live summary</h3><div class="tiny">Draft Event</div></div><span class="badge">Draft</span></div>'+
+ '<div style="margin-top:10px"><div class="sum-row"><span class="sum-label">Name</span><span class="sum-value">'+esc(d.name||"New Event")+'</span></div><div class="sum-row"><span class="sum-label">Activity</span><span class="sum-value">'+esc(d.kind)+'</span></div><div class="sum-row"><span class="sum-label">Sessions</span><span class="sum-value">'+p.length+'</span></div>'+
+ (first?'<div class="sum-row"><span class="sum-label">Dates</span><span class="sum-value">'+esc(shortDate(first.dateKey))+(last&&last.dateKey!==first.dateKey?" – "+esc(shortDate(last.dateKey)):"")+'</span></div>':'')+
+ '<div class="sum-row"><span class="sum-label">Locations</span><span class="sum-value">'+(locations.length||0)+'</span></div><div class="sum-row"><span class="sum-label">Registration</span><span class="sum-value">'+esc(shortDateTime(d.registrationOpens))+' – '+esc(shortDateTime(d.registrationCloses))+'</span></div><div class="sum-row"><span class="sum-label">Price</span><span class="sum-value">'+esc(price)+'</span></div></div>'+
+ (d.description?'<div style="margin-top:12px"><div class="tiny strong">Public description</div><div class="tiny" style="margin-top:3px;line-height:1.45">'+esc(d.description.slice(0,150))+(d.description.length>150?"…":"")+'</div></div>':'')+
+ '</aside>'
 }
 function wizardBasics(d){
  return '<div class="basics-stack">'+
  '<section class="basics-section"><label class="basics-section-title">Name</label><input class="input" style="font-size:16px;padding:12px" value="'+esc(d.name)+'" placeholder="Winter Skills Clinic" oninput="state.draft.name=this.value"></section>'+
- '<section class="basics-section"><label class="basics-section-title">Parent description</label><textarea class="input parent-description" rows="3" placeholder="What should families know?" oninput="state.draft.description=this.value">'+esc(d.description)+'</textarea></section>'+
+ '<section class="basics-section"><label class="basics-section-title">Public description</label><textarea class="input parent-description" rows="3" placeholder="What should families know?" oninput="state.draft.description=this.value">'+esc(d.description)+'</textarea></section>'+
  '<section class="basics-details"><div class="basics-section"><label class="basics-section-title">Activity</label><select class="input" onchange="setDraftKind(this.value)"><option '+(d.kind==="Clinic"?"selected":"")+'>Clinic</option><option '+(d.kind==="Camp"?"selected":"")+'>Camp</option><option '+(d.kind==="Meeting"?"selected":"")+'>Meeting</option><option '+(d.kind==="Tournament"?"selected":"")+'>Tournament</option><option '+(d.kind==="Training"?"selected":"")+'>Training</option></select></div><div class="basics-section"><label class="basics-section-title">Max participants per Session</label><input class="input" type="number" min="1" value="'+esc(d.capacity)+'" oninput="state.draft.capacity=Number(this.value)||24"></div></section>'+
  '</div>'
 }
@@ -329,64 +343,42 @@ function toggleEventCourt(loc,court){
 function scheduleResourcePicker(d){return ""}
 function wizardSchedule(d){
  var allDays=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],ds=d.days||{};
- var selected=allDays.filter(function(day){return ds[day]&&ds[day].on});
  return '<div>'+
- '<div class="radio-cards"><div class="radio-card '+(d.schedule==="one"?"selected":"")+'" onclick="state.draft.schedule=\'one\';render()"><b>One Session</b><span>One date and time, using one or more locations.</span></div><div class="radio-card '+(d.schedule==="repeat"?"selected":"")+'" onclick="state.draft.schedule=\'repeat\';render()"><b>Multiple Sessions</b><span>Create a finite weekly schedule, then adjust only the days that differ.</span></div></div>'+
+ '<div class="radio-cards"><div class="radio-card '+(d.schedule==="one"?"selected":"")+'" onclick="state.draft.schedule=\'one\';render()"><b>One Session</b><span>One date and time, using one or more locations.</span></div><div class="radio-card '+(d.schedule==="repeat"?"selected":"")+'" onclick="state.draft.schedule=\'repeat\';render()"><b>Multiple Sessions</b><span>Create a finite schedule, then review the generated dates.</span></div></div>'+
  (d.schedule==="repeat"?
- '<div class="recurrence-box">'+
- '<div class="recurrence-top">'+
+ '<div class="recurrence-box"><div class="recurrence-top">'+
  '<div class="recurrence-field"><div class="recurrence-label">Starts</div><input class="input" type="date" value="'+esc(d.startDate)+'" onchange="state.draft.startDate=this.value;render()"></div>'+
- '<div class="recurrence-field"><div class="recurrence-label">Repeats every</div><div class="repeat-inline"><input class="input" style="width:72px" type="number" min="1" max="12" value="'+d.repeatEvery+'" oninput="state.draft.repeatEvery=Number(this.value)||1;render()"><select class="input" disabled><option>Week</option></select></div></div>'+
+ '<div class="recurrence-field"><div class="recurrence-label">Repeats every</div><div class="repeat-inline"><input class="input" style="width:72px" type="number" min="1" max="12" value="'+d.repeatEvery+'" oninput="state.draft.repeatEvery=Number(this.value)||1;render()"><select class="input" onchange="state.draft.repeatUnit=this.value;render()"><option value="week" '+(d.repeatUnit==="week"?"selected":"")+'>Week</option><option value="month" '+(d.repeatUnit==="month"?"selected":"")+'>Month</option></select></div></div>'+
  '<div class="recurrence-field"><div class="recurrence-label">Ends</div><div class="repeat-inline"><select class="input" onchange="state.draft.endMode=this.value;render()"><option value="after" '+(d.endMode==="after"?"selected":"")+'>After</option><option value="on" '+(d.endMode==="on"?"selected":"")+'>On date</option></select>'+
- (d.endMode==="after"?'<input class="input" style="width:82px" type="number" min="1" max="52" value="'+d.weeks+'" oninput="state.draft.weeks=Number(this.value)||1;render()"><span class="tiny">weeks</span>':'<input class="input" type="date" value="'+esc(d.endDate)+'" onchange="state.draft.endDate=this.value;render()">')+
- '</div></div>'+
- '</div>'+
- '</div>'+
- '<div style="margin-top:16px"><div class="strong">Weekly Sessions</div><div class="tiny">Add Sessions directly to the days they occur.</div>'+
- '<div class="week-board-wrap"><div class="week-board">'+allDays.map(function(day){return weekDayCard(day,d)}).join("")+'</div></div></div>'+
- collapsedSessionPreview(d)
+ (d.endMode==="after"?'<input class="input" style="width:82px" type="number" min="1" max="52" value="'+d.weeks+'" oninput="state.draft.weeks=Number(this.value)||1;render()"><span class="tiny">'+(d.repeatUnit==="month"?"months":"weeks")+'</span>':'<input class="input" type="date" value="'+esc(d.endDate)+'" onchange="state.draft.endDate=this.value;render()">')+
+ '</div></div></div></div>'+
+ (d.repeatUnit==="week"?
+ '<div style="margin-top:16px"><div class="strong">Weekly Sessions</div><div class="tiny">Add Sessions directly to the days they occur.</div><div class="week-board-wrap"><div class="week-board">'+allDays.map(function(day){return weekDayCard(day,d)}).join("")+'</div></div></div>'
+ :monthlySessionSetup(d))+
+ sessionPreviewPanel(d)
  :
  oneDateSchedule(d)
  )+
  '</div>'
 }
-function weekDayCard(day,d){
- var x=d.days[day],active=x&&x.on,extras=(d.additionalDaySessions&&d.additionalDaySessions[day])||[];
- if(!active){
-  return '<div class="week-day-card inactive"><div class="week-day-head"><div class="week-day-name">'+day+'</div></div><div class="tiny">No Sessions</div><div class="week-day-actions"><button class="btn small" onclick="activateScheduleDay(\''+day+'\')">+ Add Session</button></div></div>'
- }
- var configs=[x].concat(extras);
- return '<div class="week-day-card active"><div class="week-day-head"><div><div class="week-day-name">'+day+'</div><div class="tiny">'+configs.length+' Session'+(configs.length===1?"":"s")+'</div></div><button class="btn ghost small" title="Remove all '+day+' Sessions" onclick="deactivateScheduleDay(\''+day+'\')">×</button></div>'+
- configs.map(function(cfg,index){return weekSessionMini(day,index,cfg)}).join("")+
- '<div class="week-day-actions"><button class="btn small" onclick="addDaySession(\''+day+'\')">+ Add Session</button></div></div>'
+function monthlySessionSetup(d){
+ return '<div style="margin-top:16px"><div class="strong">Monthly Session</div><div class="tiny">Repeats on the same day-of-month as the Start date.</div><div class="one-date-form" style="grid-template-columns:1fr 1fr"><div class="field"><label>Start</label><input class="input" type="time" value="'+esc(d.monthlyStart)+'" onchange="state.draft.monthlyStart=this.value;render()"></div><div class="field"><label>End</label><input class="input" type="time" value="'+esc(d.monthlyEnd)+'" onchange="state.draft.monthlyEnd=this.value;render()"></div></div><div style="margin-top:14px"><div class="strong">Locations & courts</div><div class="location-court-grid">'+allLocations().map(function(loc){return monthlyLocationCard(loc,d)}).join("")+monthlyOffsiteCard(d)+'</div></div></div>'
 }
-function weekSessionMini(day,index,x){
- var selections=sessionLocationSelections(x),locations=Object.keys(selections).filter(function(loc){return (selections[loc]||[]).length}),courtCount=locations.reduce(function(n,loc){return n+selections[loc].length},0);
- return '<div class="week-session-mini"><div class="time">'+esc(x.start)+' – '+esc(x.end)+'</div><div class="meta">'+esc(locations.length?locations.join(", "):"No location")+'</div><div class="meta">'+courtCount+' court'+(courtCount===1?"":"s")+'</div><div class="actions"><button class="btn small" onclick="openSessionSetup(\''+day+'\','+index+')">Edit</button>'+(index>0?'<button class="btn ghost small" onclick="removeDaySession(\''+day+'\','+index+')">Remove</button>':'')+'</div></div>'
+function monthlyLocationCard(loc,d){
+ var selected=d.monthlyLocationCourts[loc]||[],all=allFacilityCourts(loc);
+ return '<div class="location-court-card '+(selected.length?"active":"")+'"><div class="location-court-head"><div><div class="strong">'+esc(loc)+'</div><div class="tiny">'+(selected.length?selected.length+" court"+(selected.length===1?"":"s")+" selected":"No courts selected")+'</div></div>'+(selected.length?badge("Included","blue"):"")+'</div><div class="court-buttons">'+all.map(function(c){var on=selected.indexOf(c)>=0;return '<button type="button" class="btn small '+(on?"primary":"")+'" onclick="toggleMonthlyCourt(\''+loc.replace(/'/g,"\\'")+'\',\''+c.replace(/'/g,"\\'")+'\')">'+esc(c)+'</button>'}).join("")+'</div></div>'
 }
-function activateScheduleDay(day){
- if(!state.draft.days[day]){
-  state.draft.days[day]={on:true,start:"17:00",end:"19:00",location:"WPVC South Gym",courts:["Court 1","Court 2"]}
- } else state.draft.days[day].on=true;
- if(!state.draft.additionalDaySessions[day])state.draft.additionalDaySessions[day]=[];
- render()
-}
-function deactivateScheduleDay(day){
- if(state.draft.days[day])state.draft.days[day].on=false;
- state.draft.additionalDaySessions[day]=[];
- render()
+function toggleMonthlyCourt(loc,court){var a=state.draft.monthlyLocationCourts[loc]||[],i=a.indexOf(court);if(i>=0)a.splice(i,1);else a.push(court);state.draft.monthlyLocationCourts[loc]=a;render()}
+function monthlyOffsiteCard(d){
+ return '<div class="location-court-card offsite-card '+(d.monthlyOffsiteEnabled?"active":"")+'"><div class="location-court-head"><div><div class="strong">Off-site</div><div class="tiny">'+(d.monthlyOffsiteEnabled?"Address required":"Use another venue")+'</div></div><button class="btn small '+(d.monthlyOffsiteEnabled?"primary":"")+'" onclick="state.draft.monthlyOffsiteEnabled=!state.draft.monthlyOffsiteEnabled;render()">'+(d.monthlyOffsiteEnabled?"Included":"Use")+'</button></div>'+(d.monthlyOffsiteEnabled?'<div class="offsite-fields"><input class="input" placeholder="Venue name" value="'+esc(d.monthlyOffsiteVenue)+'" oninput="state.draft.monthlyOffsiteVenue=this.value"><input class="input" placeholder="Street address, city, state ZIP" value="'+esc(d.monthlyOffsiteAddress)+'" oninput="state.draft.monthlyOffsiteAddress=this.value"></div>':'')+'</div>'
 }
 function oneDateSchedule(d){
  var locations=allLocations();
- return '<div>'+
- '<div class="one-date-form">'+
- '<div class="field"><label>Event date</label><input class="input" type="date" value="'+esc(d.oneDate)+'" onchange="state.draft.oneDate=this.value;render()"></div>'+
- '<div class="field"><label>Start</label><input class="input" type="time" value="'+esc(d.oneStart)+'" onchange="state.draft.oneStart=this.value;render()"></div>'+
- '<div class="field"><label>End</label><input class="input" type="time" value="'+esc(d.oneEnd)+'" onchange="state.draft.oneEnd=this.value;render()"></div>'+
- '</div>'+
- '<div style="margin-top:18px"><div class="strong">Locations & courts</div><div class="tiny">Select the courts this Event needs. Choosing a court automatically includes that location.</div>'+
- '<div class="location-court-grid">'+locations.map(function(loc){return oneDateLocationCard(loc,d)}).join("")+'</div></div>'+
- '</div>'
+ return '<div><div class="one-date-form"><div class="field"><label>Event date</label><input class="input" type="date" value="'+esc(d.oneDate)+'" onchange="state.draft.oneDate=this.value;render()"></div><div class="field"><label>Start</label><input class="input" type="time" value="'+esc(d.oneStart)+'" onchange="state.draft.oneStart=this.value;render()"></div><div class="field"><label>End</label><input class="input" type="time" value="'+esc(d.oneEnd)+'" onchange="state.draft.oneEnd=this.value;render()"></div></div>'+
+ '<div style="margin-top:18px"><div class="strong">Locations & courts</div><div class="tiny">Select courts or use an off-site address.</div><div class="location-court-grid">'+locations.map(function(loc){return oneDateLocationCard(loc,d)}).join("")+oneDateOffsiteCard(d)+'</div></div></div>'
+}
+function oneDateOffsiteCard(d){
+ return '<div class="location-court-card offsite-card '+(d.oneOffsiteEnabled?"active":"")+'"><div class="location-court-head"><div><div class="strong">Off-site</div><div class="tiny">'+(d.oneOffsiteEnabled?"Address required":"Use another venue")+'</div></div><button class="btn small '+(d.oneOffsiteEnabled?"primary":"")+'" onclick="state.draft.oneOffsiteEnabled=!state.draft.oneOffsiteEnabled;render()">'+(d.oneOffsiteEnabled?"Included":"Use")+'</button></div>'+(d.oneOffsiteEnabled?'<div class="offsite-fields"><input class="input" placeholder="Venue name" value="'+esc(d.oneOffsiteVenue)+'" oninput="state.draft.oneOffsiteVenue=this.value"><input class="input" placeholder="Street address, city, state ZIP" value="'+esc(d.oneOffsiteAddress)+'" oninput="state.draft.oneOffsiteAddress=this.value"></div>':'')+'</div>'
 }
 function oneDateLocationCard(loc,d){
  var selected=(d.oneDateCourts[loc]||[]),all=allFacilityCourts(loc);
@@ -412,7 +404,7 @@ function sessionDayGroup(day,d){
 }
 function sessionSetupCard(day,index,x){
  var selections=sessionLocationSelections(x);
- var locationNames=Object.keys(selections).filter(function(loc){return selections[loc].length});
+ var locationNames=Object.keys(selections).filter(function(loc){return selections[loc].length});if(x.offsiteEnabled&&x.offsiteAddress)locationNames.push(x.offsiteVenue||"Off-site");
  var courtCount=locationNames.reduce(function(total,loc){return total+selections[loc].length},0);
  return '<div class="session-setup-card">'+
  '<div class="time-col"><div class="label">Time</div><div class="value">'+esc(x.start)+' – '+esc(x.end)+'</div></div>'+
@@ -466,15 +458,17 @@ function openSessionSetup(day,index){
   title:day+" · Session "+(index+1),
   body:'<div class="form-grid"><div class="field"><label>Start</label><select class="input" onchange="sessionRef(\''+day+'\','+index+').start=this.value">'+timeOptions(x.start)+'</select></div><div class="field"><label>End</label><select class="input" onchange="sessionRef(\''+day+'\','+index+').end=this.value">'+timeOptions(x.end)+'</select></div></div>'+
    '<div style="margin-top:16px"><div class="strong">Locations & courts</div><div class="tiny">Select the courts this Session uses. Choosing a court automatically includes that location.</div>'+
-   '<div class="location-court-grid">'+allLocations().map(function(loc){return multiSessionLocationCard(day,index,loc,selections)}).join("")+'</div></div>',
+   '<div class="location-court-grid">'+allLocations().map(function(loc){return multiSessionLocationCard(day,index,loc,selections)}).join("")+multiSessionOffsiteCard(day,index,x)+'</div></div>',
   actions:'<button class="btn" onclick="copyDayToRemaining(\''+day+'\');closeModal()">Copy entire '+day+' setup to other days</button><button class="btn primary" onclick="closeModal();render()">Done</button>'
  };
  renderModal()
 }
 function multiSessionLocationCard(day,index,loc,selections){
  var selected=selections[loc]||[],all=allFacilityCourts(loc);
- return '<div class="location-court-card '+(selected.length?"active":"")+'"><div class="location-court-head"><div><div class="strong">'+esc(loc)+'</div><div class="tiny">'+(selected.length?selected.length+" court"+(selected.length===1?"":"s")+" selected":"No courts selected")+'</div></div>'+(selected.length?badge("Included","blue"):"")+'</div>'+
- '<div class="court-buttons">'+all.map(function(c){var on=selected.indexOf(c)>=0;return '<button type="button" class="btn small '+(on?"primary":"")+'" onclick="toggleMultiSessionCourt(\''+day+'\','+index+',\''+loc.replace(/'/g,"\\'")+'\',\''+c.replace(/'/g,"\\'")+'\')">'+esc(c)+'</button>'}).join("")+'</div></div>'
+ return '<div class="location-court-card '+(selected.length?"active":"")+'"><div class="location-court-head"><div><div class="strong">'+esc(loc)+'</div><div class="tiny">'+(selected.length?selected.length+" court"+(selected.length===1?"":"s")+" selected":"No courts selected")+'</div></div>'+(selected.length?badge("Included","blue"):"")+'</div><div class="court-buttons">'+all.map(function(c){var on=selected.indexOf(c)>=0;return '<button type="button" class="btn small '+(on?"primary":"")+'" onclick="toggleMultiSessionCourt(\''+day+'\','+index+',\''+loc.replace(/'/g,"\\'")+'\',\''+c.replace(/'/g,"\\'")+'\')">'+esc(c)+'</button>'}).join("")+'</div></div>'
+}
+function multiSessionOffsiteCard(day,index,x){
+ return '<div class="location-court-card offsite-card '+(x.offsiteEnabled?"active":"")+'"><div class="location-court-head"><div><div class="strong">Off-site</div><div class="tiny">'+(x.offsiteEnabled?"Address required":"Use another venue")+'</div></div><button class="btn small '+(x.offsiteEnabled?"primary":"")+'" onclick="sessionRef(\''+day+'\','+index+').offsiteEnabled=!sessionRef(\''+day+'\','+index+').offsiteEnabled;openSessionSetup(\''+day+'\','+index+')">'+(x.offsiteEnabled?"Included":"Use")+'</button></div>'+(x.offsiteEnabled?'<div class="offsite-fields"><input class="input" placeholder="Venue name" value="'+esc(x.offsiteVenue||"")+'" oninput="sessionRef(\''+day+'\','+index+').offsiteVenue=this.value"><input class="input" placeholder="Street address, city, state ZIP" value="'+esc(x.offsiteAddress||"")+'" oninput="sessionRef(\''+day+'\','+index+').offsiteAddress=this.value"></div>':'')+'</div>'
 }
 function toggleMultiSessionCourt(day,index,loc,court){
  var x=sessionRef(day,index),selections=sessionLocationSelections(x),a=selections[loc]||[],i=a.indexOf(court);
@@ -494,35 +488,22 @@ function oneSessionCard(d){
  var loc=(d.oneLocation||"WPVC South Gym"),courts=d.oneCourts||["Court 1","Court 2"];
  return '<div style="margin-top:16px"><div class="session-setup-card"><div><div class="day-name">Session</div></div><div class="time-col"><div class="label">Date & time</div><div class="value">Oct 12 · 18:00 – 20:00</div></div><div class="place-col"><div class="label">Location</div><div class="value">'+esc(loc)+'</div></div><div class="courts-col"><div class="label">Courts</div><div class="value">'+esc(courts.join(", "))+'</div></div><div><button class="btn small" onclick="toast(\'One-session editor uses the same pattern\')">Edit</button></div></div></div>'
 }
-function collapsedSessionPreview(d){
+function collapsedSessionPreview(d){return sessionPreviewPanel(d)}
+function sessionPreviewPanel(d){
  var p=generatedPreview(d);
- var label=p.length+" Session"+(p.length===1?"":"s");
- return '<div class="generated-summary"><div><div class="strong">'+label+'</div><div class="tiny">'+esc(recurrenceSummary(d,["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].filter(function(day){return d.days[day]&&d.days[day].on})))+'</div></div><button class="btn small" onclick="state.draft.showSessionPreview=!state.draft.showSessionPreview;render()">'+(d.showSessionPreview?"Hide Sessions":"View Sessions")+'</button></div>'+
- (d.showSessionPreview?schedulePreview(d):"")
+ return '<div class="generated-summary" style="display:block"><div style="display:flex;justify-content:space-between;gap:12px;align-items:center"><div><div class="strong">Session preview</div><div class="tiny">'+p.length+' generated Session'+(p.length===1?"":"s")+'</div></div><div class="preview-switch"><button class="'+(d.previewMode==="calendar"?"active":"")+'" onclick="state.draft.previewMode=\'calendar\';render()">A · Calendar</button><button class="'+(d.previewMode==="list"?"active":"")+'" onclick="state.draft.previewMode=\'list\';render()">B · List</button></div></div>'+(d.previewMode==="calendar"?calendarPreview(p):schedulePreview(d))+'</div>'
 }
 function recurrenceSummary(d,selected){
+ if(d.repeatUnit==="month"){
+  var repeat=d.repeatEvery===1?"every month":"every "+d.repeatEvery+" months";
+  var ending=d.endMode==="on"?"through "+shortDate(d.endDate):"for "+d.weeks+" month"+(d.weeks===1?"":"s");
+  return "Repeats "+repeat+" on day "+Number(d.startDate.slice(8,10))+" "+ending+"."
+ }
  var names={Mon:"Monday",Tue:"Tuesday",Wed:"Wednesday",Thu:"Thursday",Fri:"Friday",Sat:"Saturday",Sun:"Sunday"};
  var days=selected.map(function(x){return names[x]}).join(", ");
  var repeat=d.repeatEvery===1?"every week":"every "+d.repeatEvery+" weeks";
- var ending=d.endMode==="on"?"through "+d.endDate:"for "+d.weeks+" week"+(d.weeks===1?"":"s");
+ var ending=d.endMode==="on"?"through "+shortDate(d.endDate):"for "+d.weeks+" week"+(d.weeks===1?"":"s");
  return "Repeats "+repeat+(days?" on "+days:"")+" "+ending+"."
-}
-function dayDetailEditor(day,x,d){
- if(!day||!x)return "";
- var courts=normalizeDayCourts(x.courts),courtText=courts.length?courts.join(", "):"Choose courts";
- return '<div class="day-detail"><div class="day-detail-grid">'+
- '<div class="schedule-field"><div class="tiny">Start</div><select class="input" onchange="setDayTime(\''+day+'\',\'start\',this.value)">'+timeOptions(x.start)+'</select></div>'+
- '<div class="schedule-field"><div class="tiny">End</div><select class="input" onchange="setDayTime(\''+day+'\',\'end\',this.value)">'+timeOptions(x.end)+'</select></div>'+
- '<div class="schedule-field"><div class="tiny">Location</div><select class="input" onchange="setScheduleLocation(\''+day+'\',this.value)">'+d.reservedLocations.map(function(loc){return '<option value="'+esc(loc)+'" '+(x.location===loc?"selected":"")+'>'+esc(loc)+'</option>'}).join("")+'</select></div>'+
- '<div class="schedule-field"><div class="tiny">Courts</div><button type="button" class="btn" style="width:100%;min-width:0" title="'+esc(courtText)+'" onclick="openCourtPicker(\''+day+'\')"><span class="court-value">'+esc(courtText)+'</span></button></div>'+
- '</div>'+
- '<div style="display:flex;justify-content:flex-end;margin-top:12px"><button class="btn small" onclick="copyDayToRemaining(\''+day+'\')">Copy this setup to remaining selected days</button></div>'+
- '</div>'
-}
-function schedulePatternRow(day,x,d){return ""}
-function oneDaySchedule(d){
- var loc=d.reservedLocations[0],courts=d.reservedCourts[loc]||[],courtText=courts.length?courts.join(", "):"Choose courts";
- return '<div class="panel" style="margin-top:16px"><div class="form-grid"><div class="field"><label>Date</label><input class="input" type="date" value="2026-10-12"></div><div class="field"><label>Time</label><div style="display:flex;gap:8px"><input class="input" type="time" value="18:00"><input class="input" type="time" value="20:00"></div></div></div><div class="field" style="margin-top:12px"><label>Location</label><div class="location-buttons">'+d.reservedLocations.map(function(x){return '<button class="btn small '+(x===loc?"primary":"")+'">'+esc(x)+'</button>'}).join("")+'</div></div><div class="field" style="margin-top:10px"><label>Courts</label><button class="btn" style="width:100%;min-width:0" title="'+esc(courtText)+'" onclick="openOneDayCourtPicker()"><span class="court-value">'+esc(courtText)+'</span></button></div></div>'
 }
 function timeOptions(selected){var arr=["08:00","09:00","10:00","12:00","15:00","16:00","17:00","18:00","19:00","20:00","20:30","21:00"];return arr.map(function(t){return '<option value="'+t+'" '+(selected===t?"selected":"")+'>'+t+'</option>'}).join("")}
 function toggleDay(day){
@@ -579,7 +560,7 @@ function openOneDayCourtPicker(){toast("One-day court picker uses the same check
 function cloneSessionConfig(src){
  var selections=sessionLocationSelections(src),copy={};
  Object.keys(selections).forEach(function(loc){copy[loc]=(selections[loc]||[]).slice()});
- return {start:src.start,end:src.end,locationCourts:copy}
+ return {start:src.start,end:src.end,locationCourts:copy,offsiteEnabled:!!src.offsiteEnabled,offsiteVenue:src.offsiteVenue||"",offsiteAddress:src.offsiteAddress||""}
 }
 function copyDayToRemaining(day){
  var primary=state.draft.days[day],extras=(state.draft.additionalDaySessions[day]||[]),count=0;
@@ -598,84 +579,60 @@ function copyDayToRemaining(day){
  render()
 }
 function toggleParallelSession(){state.draft.parallelSession=!state.draft.parallelSession;render()}
+function parseDateKey(key){var p=String(key||"").split("-").map(Number);return new Date(p[0],(p[1]||1)-1,p[2]||1)}
+function dateKey(dt){return dt.getFullYear()+"-"+String(dt.getMonth()+1).padStart(2,"0")+"-"+String(dt.getDate()).padStart(2,"0")}
+function addDays(dt,n){var x=new Date(dt.getFullYear(),dt.getMonth(),dt.getDate());x.setDate(x.getDate()+n);return x}
+function addMonths(dt,n){var day=dt.getDate(),x=new Date(dt.getFullYear(),dt.getMonth()+n,1),last=new Date(x.getFullYear(),x.getMonth()+1,0).getDate();x.setDate(Math.min(day,last));return x}
+function shortDate(key){if(!key)return "—";var d=parseDateKey(key);return d.toLocaleDateString("en-US",{month:"short",day:"numeric",year:d.getFullYear()!==2026?"numeric":undefined})}
+function longSessionDate(key){var d=parseDateKey(key);return d.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"})}
+function shortDateTime(value){if(!value)return "—";var parts=value.split("T");return shortDate(parts[0])}
+function pushConfigSessions(out,key,timeStart,timeEnd,selections,offsiteEnabled,offsiteVenue,offsiteAddress){
+ Object.keys(selections||{}).forEach(function(loc){var courts=selections[loc]||[];if(courts.length)out.push({dateKey:key,date:longSessionDate(key),time:timeStart+" - "+timeEnd,location:loc,courts:courts.join(", "),address:""})});
+ if(offsiteEnabled&&offsiteAddress)out.push({dateKey:key,date:longSessionDate(key),time:timeStart+" - "+timeEnd,location:offsiteVenue||"Off-site",courts:"",address:offsiteAddress})
+}
 function generatedPreview(d){
+ var out=[];
  if(d.schedule==="one"){
-  var used=allLocations().filter(function(loc){return (d.oneDateCourts[loc]||[]).length});
-  return used.map(function(loc){
-   return {date:d.oneDate,time:d.oneStart+" - "+d.oneEnd,location:loc,courts:d.oneDateCourts[loc].join(", ")}
-  })
+  pushConfigSessions(out,d.oneDate,d.oneStart,d.oneEnd,d.oneDateCourts,d.oneOffsiteEnabled,d.oneOffsiteVenue,d.oneOffsiteAddress);
+  return out
  }
- var days=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],on=days.filter(function(x){return d.days[x]&&d.days[x].on}),out=[];
- var repetitions=d.endMode==="after"?Math.min(d.weeks,8):Math.min(d.weeks||4,8);
- for(var w=1;w<=repetitions;w++){
+ if(d.repeatUnit==="month"){
+  var start=parseDateKey(d.startDate),limit=d.endMode==="on"?parseDateKey(d.endDate):addMonths(start,d.weeks),i=0;
+  while(i<60){
+   var dt=addMonths(start,i*d.repeatEvery);
+   if(dt<start||dt>limit||(d.endMode==="after"&&i*d.repeatEvery>=d.weeks))break;
+   pushConfigSessions(out,dateKey(dt),d.monthlyStart,d.monthlyEnd,d.monthlyLocationCourts,d.monthlyOffsiteEnabled,d.monthlyOffsiteVenue,d.monthlyOffsiteAddress);
+   i++
+  }
+  return out
+ }
+ var on=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].filter(function(x){return d.days[x]&&d.days[x].on});
+ var offsets={Mon:0,Tue:1,Wed:2,Thu:3,Fri:4,Sat:5,Sun:6},start=parseDateKey(d.startDate);
+ var dow=(start.getDay()+6)%7,anchor=addDays(start,-dow);
+ var end=d.endMode==="on"?parseDateKey(d.endDate):addDays(start,d.weeks*7-1);
+ for(var cycle=0;cycle<60;cycle++){
+  var weekStart=addDays(anchor,cycle*d.repeatEvery*7);
+  if(weekStart>end)break;
   on.forEach(function(day){
+   var dt=addDays(weekStart,offsets[day]);
+   if(dt<start||dt>end)return;
    var configs=[d.days[day]].concat((d.additionalDaySessions&&d.additionalDaySessions[day])||[]);
-   configs.forEach(function(x){
-    var selections=sessionLocationSelections(x);
-    Object.keys(selections).forEach(function(loc){
-     var courts=selections[loc]||[];
-     if(!courts.length)return;
-     out.push({date:day+", occurrence "+w,time:x.start+" - "+x.end,location:loc,courts:courts.join(", ")})
-    })
-   })
+   configs.forEach(function(x){pushConfigSessions(out,dateKey(dt),x.start,x.end,sessionLocationSelections(x),x.offsiteEnabled,x.offsiteVenue,x.offsiteAddress)})
   })
  }
- return out
+ return out.sort(function(a,b){return a.dateKey.localeCompare(b.dateKey)||a.time.localeCompare(b.time)})
+}
+function calendarPreview(p){
+ var byMonth={};p.forEach(function(x){var m=x.dateKey.slice(0,7);if(!byMonth[m])byMonth[m]=[];byMonth[m].push(x)});
+ var months=Object.keys(byMonth).sort().slice(0,3);
+ if(!months.length)return '<div class="empty">Add at least one location or off-site address to preview Sessions.</div>';
+ return '<div class="calendar-preview">'+months.map(function(m){var parts=m.split("-").map(Number),first=new Date(parts[0],parts[1]-1,1),days=new Date(parts[0],parts[1],0).getDate(),pad=(first.getDay()+6)%7,cells=[],counts={};byMonth[m].forEach(function(x){counts[x.dateKey]=(counts[x.dateKey]||0)+1});for(var i=0;i<pad;i++)cells.push('<div></div>');for(var day=1;day<=days;day++){var key=m+"-"+String(day).padStart(2,"0"),count=counts[key]||0;cells.push('<div class="mini-cal-day '+(count?"active":"")+'">'+day+(count?'<span class="mini-cal-count">'+count+' Session'+(count===1?"":"s")+'</span>':'')+'</div>')}return '<div class="mini-month"><div class="mini-month-head">'+first.toLocaleDateString("en-US",{month:"long",year:"numeric"})+'</div><div class="mini-cal-grid">'+["M","T","W","T","F","S","S"].map(function(x){return '<div class="mini-cal-dow">'+x+'</div>'}).join("")+cells.join("")+'</div></div>'}).join("")+'</div>'
 }
 function schedulePreview(d){
  var p=generatedPreview(d);
- return '<div class="preview"><div class="preview-head"><span>Session preview</span><span>'+p.length+' finite Session'+(p.length===1?"":"s")+'</span></div>'+
- p.slice(0,12).map(function(x){return '<div class="preview-row"><div>'+esc(x.date)+(x.parallel?' '+badge("Parallel","violet"):'')+'</div><div>'+esc(x.time)+'</div><div>'+esc(x.location)+' · '+esc(x.courts)+'</div><div>'+d.capacity+' spots</div></div>'}).join("")+
- (p.length>12?'<div class="preview-row"><div>…</div><div>'+(p.length-12)+' more</div><div></div><div></div></div>':"")+'</div>'
-}
-function wizardRegistration(d){
- var tryout=false;
- return '<div class="grid '+(tryout?"two":"")+'"><div class="grid">'+
- '<section class="panel"><h2>Registration window</h2><div class="form-grid"><div class="field"><label>Opens</label><input class="input" type="datetime-local" value="'+esc(d.registrationOpens)+'" onchange="state.draft.registrationOpens=this.value"></div><div class="field"><label>Closes</label><input class="input" type="datetime-local" value="'+esc(d.registrationCloses)+'" onchange="state.draft.registrationCloses=this.value"></div></div></section>'+
- '<section class="panel"><h2>Participant eligibility</h2><div class="form-grid"><div class="field"><label>Participant</label><select class="input" onchange="state.draft.audience=this.value"><option '+(d.audience==="Public"?"selected":"")+'>Public</option><option '+(d.audience==="Club participants"?"selected":"")+'>Club participants</option><option '+(d.audience==="Selected Teams"?"selected":"")+'>Selected Teams</option><option '+(d.audience==="Invited people"?"selected":"")+'>Invited people</option></select></div><div class="field"><label>Gender</label><select class="input" onchange="state.draft.gender=this.value;render()"><option '+(d.gender==="Any gender"?"selected":"")+'>Any gender</option><option '+(d.gender==="Female"?"selected":"")+'>Girls / Female</option><option '+(d.gender==="Male"?"selected":"")+'>Boys / Male</option><option '+(d.gender==="Coed"?"selected":"")+'>Coed</option></select></div>'+
- '<div class="field"><label>Age eligibility</label><select class="input" onchange="state.draft.ageRule=this.value;render()"><option value="none" '+(d.ageRule==="none"?"selected":"")+'>No age restriction</option><option value="min" '+(d.ageRule==="min"?"selected":"")+'>No younger than</option><option value="max" '+(d.ageRule==="max"?"selected":"")+'>No older than</option><option value="range" '+(d.ageRule==="range"?"selected":"")+'>Between ages</option></select></div>'+
- (d.ageRule==="none"?"":'<div class="field"><label>As of</label><input class="input" type="date" value="'+esc(d.ageAsOf)+'" onchange="state.draft.ageAsOf=this.value;render()"></div>')+
- (d.ageRule==="min"||d.ageRule==="range"?'<div class="field"><label>No younger than</label><input class="input" type="number" min="1" value="'+d.minAge+'" oninput="state.draft.minAge=Number(this.value)||1;render()"></div>':'')+
- (d.ageRule==="max"||d.ageRule==="range"?'<div class="field"><label>No older than</label><input class="input" type="number" min="1" value="'+d.maxAge+'" oninput="state.draft.maxAge=Number(this.value)||1;render()"></div>':'')+
- '</div>'+ageRuleSummary(d)+'</section>'+
- '<section class="panel"><h2>Legal documents</h2><div class="field"><label>Search published documents</label><input class="input" placeholder="Search waivers, consents, agreements..." value="'+esc(d.legalDocSearch||"")+'" oninput="state.draft.legalDocSearch=this.value;render()"></div><div class="legal-search-results">'+filteredLegalDocuments(d).map(function(doc){var selected=d.selectedLegalDocs.indexOf(doc.id)>=0;return '<div class="legal-result '+(selected?"selected":"")+'"><div><div class="strong">'+esc(doc.name)+'</div><div class="tiny">'+esc(doc.meta)+'</div></div><button class="btn small '+(selected?"primary":"")+'" onclick="toggleLegalDocument(\''+doc.id+'\')">'+(selected?"Attached":"Attach")+'</button></div>'}).join("")+'</div></section>'+
- '</div>'+
- (tryout?'<aside class="grid"><section class="panel"><h2>Tryout registration</h2>'+
- '<label class="participant-card"><div><div class="strong">Collect Team Program preferences</div><div class="tiny">Rank the Player’s program choices.</div></div><input type="checkbox" '+(d.collectPrograms?"checked":"")+' onchange="state.draft.collectPrograms=this.checked;render()"></label>'+
- (d.collectPrograms?'<div class="form-grid"><div class="field"><label>Minimum required</label><select class="input" onchange="state.draft.programRequired=Number(this.value)"><option>1</option><option '+(d.programRequired===2?"selected":"")+'>2</option><option>3</option></select></div><div class="field"><label>Allow up to</label><select class="input" onchange="state.draft.programMax=Number(this.value)"><option>2</option><option '+(d.programMax===3?"selected":"")+'>3</option><option>4</option></select></div></div>':'')+
- '<label class="participant-card"><div><div class="strong">Collect positional preferences</div><div class="tiny">Rank the Player’s preferred positions.</div></div><input type="checkbox" '+(d.collectPositions?"checked":"")+' onchange="state.draft.collectPositions=this.checked;render()"></label>'+
- (d.collectPositions?'<div class="form-grid"><div class="field"><label>Minimum required</label><select class="input" onchange="state.draft.positionRequired=Number(this.value)"><option>1</option><option '+(d.positionRequired===2?"selected":"")+'>2</option><option>3</option></select></div><div class="field"><label>Allow up to</label><select class="input" onchange="state.draft.positionMax=Number(this.value)"><option>2</option><option '+(d.positionMax===3?"selected":"")+'>3</option><option>4</option></select></div></div>':'')+
- '<div class="field" style="margin-top:12px"><label>Offer response window</label><div class="repeat-inline"><input class="input" style="width:100px" type="number" min="1" value="'+d.offerResponseHours+'" oninput="state.draft.offerResponseHours=Number(this.value)||1"><span class="tiny">hours</span></div><small>Staff can extend an individual Offer later.</small></div>'+
- '</section></aside>':'')+
- '</div>'
-}
-function ageRuleSummary(d){
- if(d.ageRule==="none")return '<div class="tiny" style="margin-top:10px">No age restriction.</div>';
- var text=d.ageRule==="min"?"Participants must be at least "+d.minAge:
-          d.ageRule==="max"?"Participants must be no older than "+d.maxAge:
-          "Participants must be between "+d.minAge+" and "+d.maxAge;
- return '<div class="attention blue" style="margin-top:10px"><div class="icon">✓</div><div><b>'+esc(text)+'</b><span>Age is measured as of '+esc(d.ageAsOf)+'. Play-up exceptions are handled manually.</span></div></div>'
-}
-function legalDocumentOptions(){
- return [
-  {id:"liability-2027",name:"Liability Waiver 2026-2027",meta:"Published Aug 4, 2026 · Waiver"},
-  {id:"participant-2027",name:"Participant Agreement",meta:"Published Aug 4, 2026 · Agreement"},
-  {id:"media-2027",name:"Photo & Media Consent",meta:"Published Aug 4, 2026 · Consent"},
-  {id:"medical-2027",name:"Medical Treatment Authorization",meta:"Published Aug 9, 2026 · Consent"},
-  {id:"concussion-2027",name:"Concussion & Safety Acknowledgment",meta:"Published Aug 12, 2026 · Acknowledgment"},
-  {id:"facility-2027",name:"Facility Rules Agreement",meta:"Published Aug 20, 2026 · Agreement"},
-  {id:"travel-2027",name:"Travel Event Waiver",meta:"Published Sep 1, 2026 · Waiver"},
-  {id:"tryout-2027",name:"Tryout Participation Waiver",meta:"Published Sep 10, 2026 · Waiver"}
- ]
-}
-function filteredLegalDocuments(d){
- var q=(d.legalDocSearch||"").trim().toLowerCase();
- return legalDocumentOptions().filter(function(doc){return !q||doc.name.toLowerCase().indexOf(q)>=0||doc.meta.toLowerCase().indexOf(q)>=0})
-}
-function toggleLegalDocument(id){
- var a=state.draft.selectedLegalDocs,i=a.indexOf(id);
- if(i>=0)a.splice(i,1);else a.push(id);
- render()
+ if(!p.length)return '<div class="empty">Add at least one location or off-site address to preview Sessions.</div>';
+ return '<div class="preview" style="margin-top:10px"><div class="preview-head"><span>Date</span><span>'+p.length+' Sessions</span></div>'+
+ p.map(function(x){return '<div class="preview-row" style="grid-template-columns:130px 120px 1fr"><div><b>'+esc(x.date)+'</b></div><div>'+esc(x.time)+'</div><div>'+esc(x.location)+(x.courts?' · '+esc(x.courts):'')+(x.address?' · '+esc(x.address):'')+'</div></div>'}).join("")+'</div>'
 }
 function wizardPricing(d){
  if(d.free){
