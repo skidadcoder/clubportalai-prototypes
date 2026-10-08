@@ -230,6 +230,3 @@ function openSuccess(){
 }
 function reset(){reviewChoice=null;if(modalOpen)closeModal();draft=fresh();dirtyDues.clear();step=0;choice='monthly';errors=[];message='';familyStep=0;familyRail='ach';familyChoice=options()[0];optional=false;signed=false;authorized=false;sent=null;history=[];enrolled=null;document.getElementById('failure').value='ok';staff();openModal()}
 document.getElementById('reset').onclick=reset;document.getElementById('fixture').onchange=e=>{fixture=e.target.value;reset()};document.getElementById('review-dialog').addEventListener('cancel',e=>{e.preventDefault();flushDues();closeModal()});staff();openModal();
-
-
-
