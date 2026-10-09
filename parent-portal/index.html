@@ -325,6 +325,23 @@ body:not(.staff-preview):not(.mobile-preview) .screen .pad{max-width:none}
 
 .updatessearch{display:flex;align-items:end;gap:12px;flex-wrap:wrap;margin:24px 0}.updatessearch label{display:grid;gap:8px;flex:1;min-width:180px}.updatessearch input,.updatessearch select{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:8px;background:white;color:#172033}.historynote{padding:16px;margin:16px 0;border:1px solid #fed7aa;border-left:4px solid #ed5a20;background:#fff7ed;color:#70300e;border-radius:8px;line-height:1.5}.deliveryscroll{overflow:auto}.deliverytable{border-collapse:collapse;width:100%;background:white}.deliverytable th,.deliverytable td{text-align:left;padding:14px;border-bottom:1px solid #dce3ed;font-size:14px}.deliverytable th{white-space:nowrap}.noticerow .nmeta{line-height:1.6}
 .updatespage{gap:16px}.updatespage header .h1{margin:8px 0}.updatespage header p{margin:8px 0 0}.updatessearch{display:grid;grid-template-columns:minmax(0,1fr) auto;margin:0;gap:10px}.updatessearch label{min-width:0}.updatessearch label:last-child{grid-column:1/-1}.updatessearch input,.updatessearch select{box-sizing:border-box;min-width:0}.updatespage .filterbar{gap:6px}.updatespage .filterbar button{padding:8px 12px}
+/* Home and Updates use the same dark surfaces as the existing Team cards. */
+:root[data-theme=dark] .screen:not(.staff-shell) :is(.noticerow,.noticepaper){background:#202024;color:#f4f4f5;border-color:#36363d}
+:root[data-theme=dark] .screen:not(.staff-shell) .noticerow:hover{background:#29292e}
+:root[data-theme=dark] .screen:not(.staff-shell) .noticerow .t{color:#f4f4f5}
+:root[data-theme=dark] .screen:not(.staff-shell) :is(.nmeta,.emptypro,.updatessearch label){color:#b7b7c0}
+:root[data-theme=dark] .screen:not(.staff-shell) .noticeglyph{background:#3a2418;color:#ffad80}
+:root[data-theme=dark] .screen:not(.staff-shell) .noticeglyph.read{background:#303036;color:#b7b7c0}
+:root[data-theme=dark] .screen:not(.staff-shell) .filterbar button{background:#202024;color:#d4d4d8;border-color:#414148}
+:root[data-theme=dark] .screen:not(.staff-shell) .filterbar button:hover{background:#29292e}
+:root[data-theme=dark] .screen:not(.staff-shell) .filterbar button.selected{background:#f4f4f5;color:#17171b;border-color:#f4f4f5}
+:root[data-theme=dark] .screen:not(.staff-shell) .updatessearch :is(input,select){background:#19191d;color:#f4f4f5;border-color:#45454d;color-scheme:dark}
+:root[data-theme=dark] .screen:not(.staff-shell) .updatessearch input::placeholder{color:#a3a3ac;opacity:1}
+:root[data-theme=dark] .screen:not(.staff-shell) .historynote{background:#302319;color:#ffd0af;border-color:#62442f;border-left-color:#ff8a4c}
+:root[data-theme=dark] .screen:not(.staff-shell) :is(.historynote .link,.noticecopy a,.homegrid .link){color:#ffad80!important}
+:root[data-theme=dark] .screen:not(.staff-shell) .byline{border-color:#36363d}
+:root[data-theme=dark] .screen:not(.staff-shell) .unreaddot{background:#ff8a4c}
+:root[data-theme=dark] .screen:not(.staff-shell) .tabs .tab{color:#b7b7c0}:root[data-theme=dark] .screen:not(.staff-shell) .tabs .tab.on{color:#ffad80}
 </style></head><body><div class="labbar"><span><b>WPVC</b> / PARENT PORTAL PREVIEW <em>Interactive prototype · synthetic data</em></span><div><button id="labMode">Explore scenarios</button></div></div>
 <div class="wrap">
   <section class="guide" aria-label="Prototype guide">
