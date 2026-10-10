@@ -9,3 +9,5 @@ Owner-final October 10, 2026 decisions govern this version: Official announcemen
 The 750ms viewing delay is a synthetic approximation, not a prescribed production threshold. Delivery labels and retries are synthetic demonstrations. No alert is sent. The host device switch is review tooling, not production architecture.
 
 Requirements and remaining release/persistence approvals: https://github.com/skidadcoder/club-ops/issues/523
+
+Parent refinement: superseded announcements are hidden from parent conversations, search and previews. Current corrections show Updated. Authorized Staff/Coach history and moderator audit remain available; replacement removal never restores old text.
