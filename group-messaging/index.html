@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<link rel="icon" href="data:,">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Group Messaging · Responsive prototype #523</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden}body{font:13px/1.4 system-ui,-apple-system,Segoe UI,sans-serif;color:#152033;background:#e7e9ed;display:flex;flex-direction:column}
+.preview-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:6px 14px;min-height:46px;background:#fff;border-bottom:1px solid #cbd0d8;flex-shrink:0}
+.preview-label{font-size:12px;color:#566174}.preview-label strong{color:#152033;font-weight:650}.device-switch{display:flex;gap:2px;padding:3px;background:#eef0f3;border:1px solid #dce0e6;border-radius:7px}
+.device-switch button{font:inherit;font-size:12px;font-weight:600;display:flex;gap:6px;align-items:center;justify-content:center;background:transparent;color:#566174;border:0;border-radius:4px;padding:5px 12px;cursor:pointer;min-height:30px}
+.device-switch button[aria-pressed=true]{background:#fff;color:#152033;box-shadow:0 1px 3px #15203325}.device-switch button:hover{color:#152033;background:#ffffff99}.device-switch button:focus-visible{outline:2px solid #64748b;outline-offset:2px}
+.device-switch svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}
+#viewport-size{min-width:115px;text-align:right;color:#566174;font-size:11px;font-variant-numeric:tabular-nums}
+.preview-stage{flex:1;min-height:0;overflow:auto;width:100%;background:#e7e9ed}
+#prototype-frame{display:block;width:100%;min-width:1024px;height:100%;border:0;background:#faf9f8;margin:0 auto}
+body[data-device=mobile] .preview-stage{padding:10px 0}
+body[data-device=mobile] #prototype-frame{width:390px;min-width:0;max-width:100%;border:0;border-radius:8px;box-shadow:0 0 0 1px #cbd0d8,0 4px 24px #15203312}
+@media(max-width:600px){.preview-toolbar{padding:6px 8px;gap:7px}.preview-label{font-size:11px}.preview-label span{display:none}#viewport-size{min-width:0;font-size:10px}.device-switch button{padding:5px 8px}}
+</style>
+</head>
+<body data-device="desktop">
+<header class="preview-toolbar" aria-label="Prototype preview controls">
+<div class="preview-label"><strong>Preview</strong><span> · screen size</span></div>
+<div class="device-switch" role="group" aria-label="Preview screen size">
+<button type="button" id="preview-desktop" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="13" rx="2"/><path d="M12 16v5M8 21h8"/></svg>Desktop</button>
+<button type="button" id="preview-mobile" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M10 18h4"/></svg>Mobile</button>
+</div>
+<output id="viewport-size" aria-label="Preview dimensions"></output>
+</header>
+<main class="preview-stage" aria-label="Interactive prototype">
+<iframe id="prototype-frame" title="ClubPortalAI Group Messaging prototype"></iframe>
+</main>
+<script>
+const frame=document.querySelector('#prototype-frame');
+const query=new URLSearchParams(location.search);
+const initialDevice=query.get('device')==='mobile'?'mobile':'desktop';
+query.delete('device');
+frame.src='messaging.html'+(query.size?'?'+query.toString():'')+location.hash;
+function showDimensions(){document.querySelector('#viewport-size').textContent=Math.round(frame.clientWidth)+' × '+Math.round(frame.clientHeight);}
+function setDevice(device){
+ document.body.dataset.device=device;
+ document.querySelector('#preview-desktop').setAttribute('aria-pressed',String(device==='desktop'));
+ document.querySelector('#preview-mobile').setAttribute('aria-pressed',String(device==='mobile'));
+ const url=new URL(location.href);if(device==='mobile')url.searchParams.set('device','mobile');else url.searchParams.delete('device');
+ try{history.replaceState(null,'',url);}catch{}
+ requestAnimationFrame(showDimensions);
+}
+document.querySelector('#preview-desktop').onclick=()=>setDevice('desktop');
+document.querySelector('#preview-mobile').onclick=()=>setDevice('mobile');
+new ResizeObserver(showDimensions).observe(frame);
+setDevice(initialDevice);
+</script>
+</body>
+</html>
