@@ -1,6 +1,6 @@
 "use strict";
 
-const storageKey = "clubportal-prototype-account-billing-752";
+const storageKey = "clubportal-prototype-account-billing-752-v2";
 const money = value => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(value / 100);
 const date = value => new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" }).format(new Date(`${value}T12:00:00Z`));
 const esc = value => String(value ?? "").replace(/[&<>"']/g, character => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[character]);
@@ -26,11 +26,12 @@ const paths = {
 const icon = name => `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths[name] || paths.file}</svg>`;
 const badge = (label, tone = "neutral") => `<span class="badge ${tone}">${esc(label)}</span>`;
 const button = (label, action, id = "", style = "", disabled = false) => `<button type="button" class="button ${style}" data-action="${action}" data-id="${esc(id)}"${disabled ? " disabled" : ""}>${label}</button>`;
-const freshState = (scene = "failed", access = "finance") => ({ scene, access, extraPaid: {}, collections: [], request: null, checked: false, reviewReason: "" });
+const scenes = ["failed", "unknown", "healthy", "split", "returned", "noncash", "empty", "error"];
+const freshState = (scene = "failed", access = "finance") => ({ scene, access, extraPaid: {}, collections: [], requests: {}, checked: false, reviewReason: "" });
 let state = freshState();
 try {
   const saved = JSON.parse(sessionStorage.getItem(storageKey));
-  if (saved && ["failed", "unknown", "healthy", "empty", "error"].includes(saved.scene)) {
+  if (saved && scenes.includes(saved.scene)) {
     state = { ...freshState(saved.scene, saved.access === "readonly" ? "readonly" : "finance"), ...saved };
   }
 } catch { /* The demo remains usable when browser storage is unavailable. */ }
@@ -41,7 +42,8 @@ let submittingPayment = false;
 let lastTrigger = null;
 let lastActionFocus = null;
 let inspectorReturnFocus = null;
-let draft = { date: "", reason: "", dirty: false };
+const freshDraft = () => ({ chargeId: null, date: "", reason: "", dirty: false });
+let draft = freshDraft();
 const content = document.querySelector("#page-content");
 const inspector = document.querySelector("#inspector");
 const actionDialog = document.querySelector("#action-dialog");
@@ -50,6 +52,18 @@ function save() { try { sessionStorage.setItem(storageKey, JSON.stringify(state)
 function announce(message) { document.querySelector("#announcement").textContent = message; }
 function finance() { return state.access === "finance"; }
 function protectedPayment() { return state.scene === "unknown"; }
+function payerFraction() { return state.scene === "split" ? 0.7 : 1; }
+function installmentAmount() { return Math.round(27500 * payerFraction()); }
+function canAdjust(row) { return finance() && Boolean(row?.remaining > 0); }
+function adjustmentCharge() { return location.hash.split("/")[1] || "clinic"; }
+function requestFor(id) { return state.requests[id]; }
+function canCollect(row, recharge = false) {
+  if (!finance() || !row?.remaining || (row.id === "tuition" && protectedPayment())) return false;
+  if (row.share < 1 && !recharge) return false;
+  return !recharge || (row.id === "tuition" && row.due === installmentAmount());
+}
+function paymentOptions() { return ["Visa ending 4242", "Mastercard ending 5454"]; }
+function paymentStatus(payment) { return payment.status === "paid" ? "Received" : payment.status === "failed" ? "Declined" : payment.status === "returned" ? "Returned" : payment.status === "noncash" ? "Noncash reduction" : "Needs review"; }
 function charges() {
   if (state.scene === "empty") return [];
   const healthy = state.scene === "healthy";
@@ -60,21 +74,28 @@ function charges() {
     { id: "clinic", title: "Fall skills clinic", player: "Leo Morgan", playerKey: "leo", context: "Events · Fall skills clinic", total: 24000, paid: healthy ? 24000 : 0, due: 0, dueDate: "2026-10-30" },
   ];
   return rows.map(row => {
+    const share = row.playerKey === "ava" ? payerFraction() : 1;
+    const originalTotal = row.total;
+    const reduction = state.scene === "noncash" && row.id === "warmup" ? row.total : 0;
+    row = { ...row, total: Math.round(row.total * share), paid: reduction ? 0 : Math.round(row.paid * share) };
     const added = Number(state.extraPaid[row.id]) || 0;
-    const remaining = Math.max(0, row.total - row.paid - added);
-    const due = row.id === "tuition" && !healthy ? Math.min(remaining, Math.max(0, 27500 - added)) : 0;
-    return { ...row, paid: row.paid + added, remaining, due, dueDate: row.id === "tuition" && remaining && !due ? "2026-11-15" : row.dueDate };
+    const remaining = Math.max(0, row.total - row.paid - added - reduction);
+    const due = row.id === "tuition" && !healthy ? Math.min(remaining, Math.max(0, installmentAmount() - added)) : 0;
+    return { ...row, originalTotal, share, reduction, paid: row.paid + added, remaining, due, dueDate: row.id === "tuition" && remaining && !due ? "2026-11-15" : row.dueDate };
   });
 }
 function totals() {
   const rows = charges();
   const sum = key => rows.reduce((total, row) => total + row[key], 0);
-  return { total: sum("total"), paid: sum("paid"), balance: sum("remaining"), due: sum("due"), next: rows.find(row => row.id === "tuition")?.remaining > 0 && !protectedPayment() ? 27500 : 0 };
+  return { total: sum("total"), paid: sum("paid"), reduction: sum("reduction"), balance: sum("remaining"), due: sum("due"), next: rows.find(row => row.id === "tuition")?.remaining > 0 && !protectedPayment() && state.scene !== "returned" ? installmentAmount() : 0 };
 }
 function chargeStatus(row) {
+  if (row.reduction && !row.remaining) return badge("Financial aid applied", "neutral");
   if (!row.remaining) return badge("Paid", "success");
   if (row.id === "clinic") return badge("Needs setup", "warning");
   if (protectedPayment()) return badge("Finance review", "warning");
+  if (state.scene === "returned" && row.due) return badge("ACH returned", "danger");
+  if (state.scene === "returned") return badge("Autopay needs setup", "warning");
   if (row.due) return badge("Payment failed", "danger");
   return "";
 }
@@ -88,14 +109,17 @@ function transactions() {
     { id: "enrollment", date: "2026-07-01", title: "Parent payment received", amount: 140000, status: "paid", method: "Visa ending 4242", allocations: [{ title: "Season tuition · Ava Morgan", amount: 90000 }, { title: "Enrollment deposit · Ava Morgan", amount: 50000 }] },
   ];
   if (state.scene === "healthy") rows.unshift({ id: "clinic-paid", date: "2026-10-20", title: "Parent payment received", amount: 24000, status: "paid", method: "Mastercard ending 5454", allocations: [{ title: "Fall skills clinic · Leo Morgan", amount: 24000 }] });
-  rows.unshift({ id: "oct-attempt", date: "2026-10-15", title: state.scene === "healthy" ? "Automatic payment received" : protectedPayment() ? "Automatic payment · outcome unknown" : "Automatic payment failed", amount: 27500, status: state.scene === "healthy" ? "paid" : protectedPayment() ? "unknown" : "failed", method: "Visa ending 4242", allocations: [{ title: "Season tuition · Ava Morgan", amount: 27500 }] });
-  return [...state.collections, ...rows].sort((a, b) => b.date.localeCompare(a.date));
+  rows.unshift({ id: "oct-attempt", date: "2026-10-15", title: state.scene === "healthy" || state.scene === "returned" ? "Automatic payment received" : protectedPayment() ? "Automatic payment · outcome unknown" : "Automatic payment failed", amount: 27500, status: state.scene === "healthy" || state.scene === "returned" ? "paid" : protectedPayment() ? "unknown" : "failed", method: state.scene === "returned" ? "ACH ending 6789" : "Visa ending 4242", allocations: [{ title: "Season tuition · Ava Morgan", amount: 27500 }] });
+  if (state.scene === "returned") rows.unshift({ id: "ach-return", date: "2026-10-20", title: "ACH payment returned", amount: 27500, status: "returned", method: "ACH ending 6789", originalId: "oct-attempt", allocations: [{ title: "Season tuition · Ava Morgan", amount: 27500 }] });
+  const scopedRows = rows.filter(payment => !(state.scene === "noncash" && payment.id === "warmup-paid")).map(payment => ({ ...payment, amount: Math.round(payment.amount * (payment.id === "clinic-paid" ? 1 : payerFraction())), allocations: payment.allocations.map(allocation => ({ ...allocation, amount: Math.round(allocation.amount * payerFraction()) })) }));
+  if (state.scene === "noncash") scopedRows.unshift({ id: "aid-credit", date: "2026-08-10", title: "Financial aid credit applied", amount: 8000, status: "noncash", method: "No money received", allocations: [{ title: "Warm-up top · Ava Morgan", amount: 8000 }] });
+  return [...state.collections, ...scopedRows].sort((a, b) => b.date.localeCompare(a.date));
 }
-function route() { const value = location.hash.slice(1); return ["overview", "billing", "history", "adjustment"].includes(value) ? value : "billing"; }
+function route() { const value = location.hash.slice(1).split("/")[0]; return ["overview", "billing", "history", "adjustment"].includes(value) ? value : "billing"; }
 function go(tab) {
-  if (draft.dirty && tab !== "adjustment") { confirmDiscard(() => { draft = { date: "", reason: "", dirty: false }; go(tab); }); return; }
+  if (draft.dirty && tab !== `adjustment/${draft.chargeId}`) { confirmDiscard(() => { draft = freshDraft(); go(tab); }); return; }
   closeDialogs();
-  if (route() === tab) render(); else location.hash = tab;
+  if (location.hash.slice(1) === tab) render(); else location.hash = tab;
 }
 function render() {
   document.querySelector("#scenario").value = state.scene;
@@ -119,20 +143,21 @@ function renderBilling() {
   const tuition = charges().find(row => row.id === "tuition");
   const clinic = charges().find(row => row.id === "clinic");
   const needsPayment = tuition?.due > 0;
+  const returnSetup = state.scene === "returned" && tuition?.remaining > 0;
   const needsSetup = clinic?.remaining > 0;
-  const attentionCount = Number(needsPayment) + Number(needsSetup);
-  content.innerHTML = `<div class="section-heading"><div><h2>Billing</h2><p>Understand the balance. Find the next step.</p></div><div class="button-row">${button(`${icon("card")}Saved methods`, "methods")}${button(`${icon("history")}View history`, "history")}</div></div>
+  const attentionCount = Number(needsPayment || returnSetup) + Number(needsSetup);
+  content.innerHTML = `<div class="section-heading"><div><h2>Billing</h2><p>Understand the balance. Find the next step.</p></div><div class="button-row">${state.scene === "split" ? button("Payer responsibility", "payers") : ""}${button(`${icon("card")}Saved methods`, "methods")}${button(`${icon("history")}View history`, "history")}</div></div>
     <div class="facts" aria-label="Account billing summary">
       <div class="fact"><div class="fact-label">Balance</div><div class="fact-value" data-metric="balance">${money(total.balance)}</div><span class="fact-detail">All unpaid charges, including future payments</span></div>
       <div class="fact"><div class="fact-label">Due now</div><div class="fact-value" data-metric="due">${money(total.due)}</div><span class="fact-detail">Unpaid amounts due today or earlier</span></div>
-      <div class="fact"><div class="fact-label">Next automatic charge</div><div class="fact-value ${protectedPayment() || !total.next ? "text-value" : ""}" data-metric="next">${protectedPayment() ? "Awaiting review" : total.next ? money(total.next) : "None scheduled"}</div><span class="fact-detail">${protectedPayment() ? "Collection is protected while the payment is verified" : total.next ? "Nov 15 · Ava’s tuition · Visa ending 4242" : "No eligible automatic payment is scheduled"}</span></div>
+      <div class="fact"><div class="fact-label">Next automatic charge</div><div class="fact-value ${protectedPayment() || !total.next ? "text-value" : ""}" data-metric="next">${protectedPayment() ? "Awaiting review" : returnSetup ? "Needs setup" : total.next ? money(total.next) : "None scheduled"}</div><span class="fact-detail">${protectedPayment() ? "Collection is protected while the payment is verified" : returnSetup ? "Original dates retained · closed bank account is ineligible" : total.next ? "Nov 15 · Ava’s tuition · Visa ending 4242" : "No eligible automatic payment is scheduled"}</span></div>
     </div>
-    <div class="facts-foot"><span>Tuition &amp; fees <strong>${money(total.total)}</strong></span><span>Paid <strong>${money(total.paid)}</strong></span><span>Account totals · All players</span></div>
+    <div class="facts-foot"><span>Tuition &amp; fees <strong>${money(total.total)}</strong></span><span>Paid <strong>${money(total.paid)}</strong></span>${total.reduction ? `<span>Noncash reductions <strong>${money(total.reduction)}</strong></span>` : ""}<span>${state.scene === "split" ? "Jamie’s responsibility only · Ava’s billing is split 70 / 30" : "Account totals · All players"}</span></div>
     ${attentionCount ? `<section class="section" aria-labelledby="attention-title"><div class="section-title"><h3 id="attention-title">Needs attention</h3><span class="count">${attentionCount}</span></div><div class="attention-list">
-      ${needsPayment ? `<div class="attention-row"><span class="attention-icon">${icon("warning")}</span><div class="attention-copy"><strong>${protectedPayment() ? "Confirm a payment before collecting again" : "Ava’s $275 payment was declined"}</strong><p>${protectedPayment() ? "The Oct 15 payment may have been processed. The amount stays protected until Finance verifies the result." : "The Oct 15 automatic payment failed. Review the original attempt before choosing what to do next."}</p></div>${button("Review payment", "payment", "oct-attempt", "small-button")}</div>` : ""}
+      ${needsPayment || returnSetup ? `<div class="attention-row"><span class="attention-icon">${icon("warning")}</span><div class="attention-copy"><strong>${returnSetup ? needsPayment ? `Ava’s ${money(installmentAmount())} ACH payment was returned` : "Ava’s future autopay needs a new method" : protectedPayment() ? "Confirm a payment before collecting again" : `Ava’s ${money(installmentAmount())} payment was declined`}</strong><p>${returnSetup ? "R02 · Account closed. The original payment and completed return are retained. The closed bank account cannot collect future payments." : protectedPayment() ? "The Oct 15 payment may have been processed. The amount stays protected until Finance verifies the result." : "The Oct 15 automatic payment failed. Review the original attempt before choosing what to do next."}</p></div>${button(returnSetup ? "Review return" : "Review payment", "payment", returnSetup ? "ach-return" : "oct-attempt", "small-button")}</div>` : ""}
       ${needsSetup ? `<div class="attention-row"><span class="attention-icon">${icon("card")}</span><div class="attention-copy"><strong>Leo’s clinic payment needs setup</strong><p>$240 is due Oct 30. A saved payment method alone does not authorize automatic collection.</p></div>${button("View charge", "charge", "clinic", "small-button")}</div>` : ""}
     </div></section>` : charges().length ? `<div class="healthy-line">${icon("check")}No billing items need attention.${total.next ? " Ava’s next automatic payment is scheduled." : ""}</div>` : ""}
-    ${state.request ? `<div class="notice neutral">${icon("file")}<div><strong>Billing adjustment requested</strong><p>The clinic due-date request is awaiting Finance review. The current due date and balance are unchanged.</p></div></div>` : ""}
+    ${Object.entries(state.requests).map(([id, request]) => `<div class="notice neutral">${icon("file")}<div><strong>Billing adjustment requested · ${esc(charges().find(row => row.id === id)?.title)}</strong><p>Requested ${date(request.date)} for ${esc(request.player)}. Finance has not changed the current date or balance.</p>${button("View pending request", "pending-request", id, "subtle")}</div></div>`).join("")}
     <section aria-labelledby="charges-title"><div class="toolbar"><div class="toolbar-title"><h3 id="charges-title">Charges</h3><span class="count">${charges().length}</span></div><div class="filter-controls"><label class="search-field"><span>${icon("search")}</span><span class="sr-only">Search charges or players</span><input id="charge-search" type="search" placeholder="Search charges" value="${esc(search)}" autocomplete="off"></label><label class="sr-only" for="player-filter">Filter charges by player</label><select id="player-filter"><option value="all">All players</option><option value="ava">Ava Morgan</option><option value="leo">Leo Morgan</option></select></div></div><div id="charge-results" aria-live="polite"></div></section>`;
   document.querySelector("#player-filter").value = playerFilter;
   renderCharges();
@@ -153,7 +178,7 @@ function renderCharges() {
 }
 function renderHistory() {
   const rows = transactions();
-  content.innerHTML = `<div class="section-heading"><div><h2>Account history</h2><p>Original payments and their billing applications, kept together.</p></div>${button(`${icon("back")}Back to Billing`, "billing")}</div>${rows.length ? `<table class="history-table"><caption class="sr-only">Jamie Morgan’s payment history</caption><thead><tr><th scope="col">Date</th><th scope="col">Activity</th><th scope="col">Outcome</th><th scope="col">Amount</th></tr></thead><tbody>${rows.map(payment => `<tr><td>${date(payment.date)}</td><td><button type="button" class="row-title" data-action="payment" data-id="payment:${payment.id}">${esc(payment.title)}</button><div class="row-subtitle">${esc(payment.method)}</div></td><td>${badge(payment.status === "paid" ? "Received" : payment.status === "failed" ? "Failed" : "Needs review", payment.status === "paid" ? "success" : payment.status === "failed" ? "danger" : "warning")}</td><td class="money">${money(payment.amount)}</td></tr>`).join("")}</tbody></table>` : `<div class="empty-state"><h3>No payment activity yet</h3><p>Confirmed payments and attempts will appear here once this account has billing activity.</p></div>`}`;
+  content.innerHTML = `<div class="section-heading"><div><h2>Account history</h2><p>Original payments, returns and adjustments keep their own evidence.</p></div>${button(`${icon("back")}Back to Billing`, "billing")}</div>${rows.length ? `<table class="history-table"><caption class="sr-only">Jamie Morgan’s billing history</caption><thead><tr><th scope="col">Date</th><th scope="col">Activity</th><th scope="col">Outcome</th><th scope="col">Amount</th></tr></thead><tbody>${rows.map(payment => `<tr><td>${date(payment.date)}</td><td><button type="button" class="row-title" data-action="payment" data-id="payment:${payment.id}">${esc(payment.title)}</button><div class="row-subtitle">${esc(payment.method)}</div></td><td>${badge(paymentStatus(payment), payment.status === "paid" ? "success" : ["failed", "returned"].includes(payment.status) ? "danger" : payment.status === "noncash" ? "neutral" : "warning")}</td><td class="money">${money(payment.amount)}</td></tr>`).join("")}</tbody></table>` : `<div class="empty-state"><h3>No payment activity yet</h3><p>Confirmed payments and attempts will appear here once this account has billing activity.</p></div>`}`;
 }
 function renderOverview() {
   content.innerHTML = `<div class="section-heading"><div><h2>Account overview</h2><p>Contact and billing context for Jamie Morgan.</p></div></div><div class="form-panel"><dl class="detail-list"><div><dt>Account holder</dt><dd>Jamie Morgan</dd></div><div><dt>Email</dt><dd>jamie.morgan@example.org</dd></div><div><dt>Linked players</dt><dd>Ava Morgan · Leo Morgan</dd></div><div><dt>Billing balance</dt><dd class="money">${money(totals().balance)}</dd></div></dl><div class="button-row detail-action">${button("Open Billing", "billing", "", "primary")}${button("View saved payment methods", "methods")}</div></div>`;
@@ -180,27 +205,41 @@ function showCharge(id) {
   selectedCharge = id;
   renderCharges();
   const isProtected = id === "tuition" && protectedPayment();
-  const adjustment = id === "clinic" && row.remaining > 0;
+  const adjustment = row.remaining > 0;
   let body = `<div class="detail-amount"><div><span class="small muted">Remaining</span><strong class="money">${money(row.remaining)}</strong></div>${chargeStatus(row)}</div><dl class="detail-list"><div><dt>Account</dt><dd>Jamie Morgan<span class="stacked">This account’s responsibility only</span></dd></div><div><dt>Player</dt><dd>${esc(row.player)}</dd></div><div><dt>Total charge</dt><dd class="money">${money(row.total)}</dd></div><div><dt>Payments applied</dt><dd class="money">${money(row.paid)}</dd></div><div><dt>${id === "tuition" ? "Next unpaid installment" : "Due date"}</dt><dd>${row.remaining || id !== "tuition" ? date(row.dueDate) : "Paid in full"}</dd></div></dl>`;
+  if (row.share < 1) body += `<div class="notice neutral"><div><strong>Jamie’s 70% share</strong><p>The full charge is ${money(row.originalTotal)}. This account’s scheduled share is ${money(row.total)}. Casey’s 30% responsibility and payment methods are separate.</p>${button("View payer responsibility", "payers", "", "subtle")}</div></div>`;
+  if (row.reduction) body += `<div class="notice neutral"><div><strong>${money(row.reduction)} financial aid credit applied</strong><p>No money was received. The original ${money(row.total)} charge is retained; the approved reduction settled the balance. This is not a paid receipt.</p>${button("View noncash adjustment", "payment", "aid-credit", "subtle")}</div></div>`;
   if (isProtected) body += `<div class="notice">${icon("warning")}<div><strong>Payment outcome unknown</strong><p>$275 may already have been collected. This charge has a collection hold while Finance reviews the payment. Do not collect it again.</p></div></div>`;
+  else if (state.scene === "returned" && id === "tuition") body += `<div class="notice error">${icon("warning")}<div><strong>ACH account closed · R02</strong><p>The Oct 15 payment was returned on Oct 20. Its original receipt remains historical evidence. The closed bank account is ineligible; a one-time card payment does not authorize future autopay.</p></div></div>`;
   else if (row.due) body += `<div class="notice error">${icon("warning")}<div><strong>The Oct 15 payment failed</strong><p>The recorded processor result was a decline. No money was received for that attempt.</p></div></div>`;
   if (id === "clinic" && row.remaining) body += `<div class="notice neutral">${icon("card")}<div><strong>Payment setup needed</strong><p>The parent has not authorized automatic payment for this charge. Saved cards remain separate from automatic-payment authorization.</p></div></div>`;
   if (id === "tuition") {
     const paidOct = !row.due && !isProtected;
-    body += `<h3>Payment schedule</h3><p class="small-copy">Original dates remain in place. Paid history is retained.</p>${["2026-10-15", "2026-11-15", "2026-12-15", "2027-01-15", "2027-02-15", "2027-03-15"].map((dueDate, index) => `<div class="schedule-row"><div><strong>${date(dueDate)}</strong><span class="small">${index === 0 ? paidOct ? "Paid" : isProtected ? "Awaiting Finance review" : "Payment failed" : row.remaining ? isProtected ? "Collection protected · original date retained" : "Automatic payment · Visa ending 4242" : "Paid"}</span></div><span class="money">${money(27500)}</span></div>`).join("")}`;
-    body += `<div class="detail-action">${button("Review Oct 15 payment", "payment", "oct-attempt", "subtle")}</div>`;
-  } else if (!row.remaining) {
+    body += `<h3>Payment schedule</h3><p class="small-copy">Original dates remain in place. Paid history is retained.${row.share < 1 ? " Amounts below are Jamie’s share only." : ""}</p>${["2026-10-15", "2026-11-15", "2026-12-15", "2027-01-15", "2027-02-15", "2027-03-15"].map((dueDate, index) => `<div class="schedule-row"><div><strong>${date(dueDate)}</strong><span class="small">${index === 0 ? paidOct ? "Paid" : isProtected ? "Awaiting Finance review" : state.scene === "returned" ? "Reopened after ACH return" : "Payment failed" : row.remaining ? isProtected ? "Collection protected · original date retained" : state.scene === "returned" ? "Needs authorized method · original date retained" : "Automatic payment · Visa ending 4242" : "Paid"}</span></div><span class="money">${money(installmentAmount())}</span></div>`).join("")}`;
+    body += `<div class="detail-action">${button(state.scene === "returned" ? "Review ACH return" : "Review Oct 15 payment", "payment", state.scene === "returned" ? "ach-return" : "oct-attempt", "subtle")}</div>`;
+  } else if (!row.remaining && !row.reduction) {
     const sourcePayment = transactions().find(payment => payment.status === "paid" && payment.allocations.some(allocation => allocation.title === `${row.title} · ${row.player}`));
     body += `<h3>Payment activity</h3><div class="activity-row"><div><strong>Payment received</strong><span class="small">${sourcePayment ? `${date(sourcePayment.date)} · ${esc(sourcePayment.method)}` : "Confirmed payment history"}</span></div><span class="money">${money(row.total)}</span></div>${sourcePayment ? button("View original payment", "payment", `payment:${sourcePayment.id}`, "subtle detail-action") : ""}`;
   }
-  if (state.request && id === "clinic") body += `<div class="notice neutral"><div><strong>Due-date request pending</strong><p>Requested ${date(state.request.date)}. The current date and amount remain unchanged until an authorized Finance decision.</p></div></div>`;
+  if (requestFor(id)) body += `<div class="notice neutral"><div><strong>Due-date request pending</strong><p>Requested ${date(requestFor(id).date)}. The current date and amount remain unchanged until an authorized Finance decision.</p></div></div>`;
   if (!finance()) body += `<div class="notice neutral">You have view-only access. Payment and adjustment actions require the relevant Finance permission.</div>`;
-  openInspector(`${row.player} · ${row.context}`, row.title, body, `${adjustment ? state.request ? button("View pending request", "pending-request") : button("Request billing adjustment", "adjust", id, "", !finance()) : ""}${row.remaining ? button("Charge saved method", "collect", id, "primary", !finance() || isProtected) : button("Close", "close-inspector")}`);
+  if (row.remaining && row.share < 1) body += `<div class="notice neutral">Obligation-wide collection is unavailable for split billing. Review the original failed payment to recover only this account’s exact payment group.</div>`;
+  if (row.remaining && id === "tuition") body += `<p class="small-copy detail-action">Collect remaining balance includes future installments. Recovering the original payment collects only its unpaid ${money(installmentAmount())}.</p>`;
+  openInspector(`${row.player} · ${row.context}`, row.title, body, `${adjustment ? requestFor(id) ? button("View pending request", "pending-request", id) : button("Request billing adjustment", "adjust", id, "", !canAdjust(row)) : ""}${row.remaining ? button(`Collect remaining ${money(row.remaining)}`, "collect", id, "primary", !canCollect(row)) : button("Close", "close-inspector")}`);
 }
 function findPayment(id) { return transactions().find(payment => payment.id === id.replace(/^payment:/, "")); }
 function showPayment(id) {
   const payment = findPayment(id);
   if (!payment) return;
+  if (payment.status === "noncash") {
+    openInspector("Warm-up top · Ava Morgan", "Financial aid credit applied", `<div class="detail-amount"><div><span class="small muted">Noncash reduction</span><strong class="money">${money(payment.amount)}</strong></div>${badge("Applied", "neutral")}</div><dl class="detail-list"><div><dt>Original charge</dt><dd>${money(8000)}</dd></div><div><dt>Money received</dt><dd>${money(0)}</dd></div><div><dt>Remaining</dt><dd>${money(0)}</dd></div><div><dt>Approved and applied</dt><dd>Aug 10, 2026 · Alex Lee, Finance</dd></div><div><dt>Audit reference</dt><dd>DEMO-AID-001</dd></div></dl><div class="notice neutral">Approved financial aid reduced what Jamie owes. The original charge and approval evidence remain visible. No payment or payment receipt was created.</div>`, button("View original charge", "charge", "warmup"));
+    return;
+  }
+  if (payment.status === "returned") {
+    const tuition = charges().find(row => row.id === "tuition");
+    openInspector("Account history · Jamie Morgan", "ACH payment returned", `<div class="detail-amount"><div><span class="small muted">Balance reopened</span><strong class="money">${money(payment.amount)}</strong></div>${badge("Completed return", "danger")}</div><dl class="detail-list"><div><dt>Original payment</dt><dd>Oct 15, 2026 · DEMO-OCT-ATTEMPT</dd></div><div><dt>Return received</dt><dd>Oct 20, 2026 · DEMO-ACH-RETURN</dd></div><div><dt>Bank result</dt><dd>R02 · Account closed</dd></div><div><dt>Original method</dt><dd>ACH ending 6789</dd></div><div><dt>Billing affected</dt><dd>Ava Morgan · Season tuition</dd></div></dl><div class="notice error">This completed return reopened the original ${money(payment.amount)} balance. The original receipt is historical evidence, not confirmation that this amount is still paid.</div><div class="notice neutral">The closed bank account is unavailable for collection. A consented one-time card payment leaves future autopay unchanged; the parent must authorize an eligible future method separately. No return fee has been added in this example.</div>${button("View original payment", "payment", "oct-attempt", "subtle")}${tuition.due ? "" : `<div class="notice success">A separate replacement payment is recorded in Account history. The return and original payment remain unchanged.</div>`}`, `${button("Close", "close-inspector")}${tuition.due ? button(`Recharge returned ${money(tuition.due)}`, "recharge", "tuition", "primary", !canCollect(tuition, true)) : button("View account history", "history")}`);
+    return;
+  }
   if (payment.id === "oct-attempt") { selectedCharge = "tuition"; renderCharges(); }
   const unknown = payment.status === "unknown";
   const failed = payment.status === "failed";
@@ -213,18 +252,28 @@ function showPayment(id) {
     if (state.checked) body += `<div class="notice" role="status"><div><strong>Amount remains protected</strong><p>This demo’s verification returned no conclusive result. An empty search cannot release protection. No balance or schedule was changed.</p></div></div>`;
   }
   if (payment.status === "paid") body += `<p class="small-copy detail-action">This receipt represents the original payment once, including every application above.</p>`;
+  if (state.scene === "returned" && payment.id === "oct-attempt") body += `<div class="notice error"><div><strong>Returned on Oct 20 · R02</strong><p>This is the original receipt. A separate completed return reopened its amount.</p>${button("View linked ACH return", "payment", "ach-return", "subtle")}</div></div>`;
   if (!finance() && failed) body += `<div class="notice neutral">You have view-only access. Collection requires the relevant Finance permission.</div>`;
   const alreadyRecharged = payment.id === "oct-attempt" && failed && charges().find(row => row.id === "tuition")?.due === 0;
   if (alreadyRecharged) body += `<div class="notice success"><div><strong>A replacement payment was received</strong><p>The original decline is retained. View Account history for the separate successful staff payment.</p></div></div>`;
-  const action = unknown ? button("Verify and resolve", "verify", "", "primary", !finance()) : failed && !alreadyRecharged ? button("Recharge original payment", "recharge", "tuition", "primary", !finance()) : payment.status === "paid" ? button("View receipt", "receipt", payment.id, "primary") : button("View account history", "history");
+  const action = unknown ? button("Verify and resolve", "verify", "", "primary", !finance()) : failed && !alreadyRecharged ? button(`Recharge original ${money(payment.amount)}`, "recharge", "tuition", "primary", !finance()) : payment.status === "paid" ? button("View receipt", "receipt", payment.id, "primary") : button("View account history", "history");
   openInspector("Account history · Jamie Morgan", payment.title, body, `${button("Close", "close-inspector")}${action}`);
 }
 function showMethods() {
-  openInspector("Jamie Morgan · Account-wide", "Saved payment methods", `<p class="small-copy">A saved method is available for an eligible payment. It does not, by itself, authorize collection.</p><div class="method">${icon("card")}<div><strong>Visa ending 4242</strong><p>Expires 08/2028</p><p>${charges().length ? "Authorized for Ava’s tuition automatic payments." : "Saved only. No current automatic payment authorization."}</p></div></div><div class="method">${icon("card")}<div><strong>Mastercard ending 5454</strong><p>Expires 03/2029</p><p>Saved only. Not selected for automatic payments.</p></div></div><div class="notice neutral">A one-time staff payment does not change the method or authorization for future automatic payments.</div>`);
+  openInspector("Jamie Morgan · Account-wide", "Saved payment methods", `<p class="small-copy">A saved method is available for an eligible payment. It does not, by itself, authorize collection.${state.scene === "split" ? " Only Jamie’s methods are shown; Casey’s methods and authorizations remain separate." : ""}</p><div class="method">${icon("card")}<div><strong>Visa ending 4242</strong><p>Expires 08/2028</p><p>${state.scene === "returned" ? "Available for a consented one-time payment. No new future authorization." : charges().length ? "Authorized for Ava’s tuition automatic payments." : "Saved only. No current automatic payment authorization."}</p></div></div><div class="method">${icon("card")}<div><strong>Mastercard ending 5454</strong><p>Expires 03/2029</p><p>Saved only. Available for an eligible one-time payment or Recharge with exact consent.</p></div></div>${state.scene === "returned" ? `<div class="method">${icon("card")}<div><strong>ACH ending 6789 · Ineligible</strong><p>R02 · Account closed. Not offered for collection.</p></div></div>` : ""}<div class="notice neutral">A one-time staff payment does not change the method or authorization for future automatic payments.${state.scene === "returned" ? " Ask the parent to authorize a replacement method through the existing payment-setup workflow; future dates stay in place." : ""}</div>`);
 }
-function showPendingRequest() {
-  if (!state.request) return;
-  showAction("Pending billing adjustment", `<p class="small-copy">Leo Morgan · Fall skills clinic</p><dl class="detail-list detail-action"><div><dt>Current due date</dt><dd>Oct 30, 2026</dd></div><div><dt>Requested due date</dt><dd>${date(state.request.date)}</dd></div><div><dt>Decision</dt><dd>Awaiting Finance review</dd></div></dl><h3>Reason</h3><p>${esc(state.request.reason)}</p><div class="notice neutral">This request has not changed the balance or payment schedule. The existing request remains part of the review history.</div>`, button("Close request", "close-action"));
+function showPayers() {
+  if (state.scene !== "split") return;
+  const tuition = charges().find(row => row.id === "tuition");
+  openInspector("Ava Morgan · Season tuition", "Payer responsibility", `<p class="small-copy">The original tuition is ${money(360000)}. Each account owns its scheduled share, payment history and authorization.</p><dl class="detail-list"><div><dt>Jamie Morgan · current account</dt><dd>70% · ${money(252000)}</dd></div><div><dt>Jamie’s remaining tuition</dt><dd>${money(tuition.remaining)}</dd></div><div><dt>Casey Morgan · separate account</dt><dd>30% · ${money(108000)}</dd></div></dl><div class="notice neutral">Account totals above include Jamie’s scheduled shares only. Casey’s amounts are not collectible from Jamie’s account, and their payment methods are not shown here. Player access and financial responsibility remain separate.</div>`, button("View Jamie’s tuition", "charge", "tuition"));
+}
+function adjustmentSummary(request) {
+  return `<p class="small-copy">${esc(request.player)} · ${esc(request.title)} · Jamie Morgan${request.share < 1 ? " · this account’s share only" : ""}</p><dl class="detail-list detail-action"><div><dt>Payment affected</dt><dd>${money(request.paymentAmount)}</dd></div><div><dt>Current due date</dt><dd>${date(request.currentDate)}</dd></div><div><dt>Requested due date</dt><dd>${date(request.date)}</dd></div><div><dt>Decision</dt><dd>Awaiting Finance review</dd></div></dl><h3>Reason</h3><p>${esc(request.reason)}</p><div class="notice neutral">This request has not changed the balance, total owed, or payment schedule. The selected charge and original terms remain part of the review history.</div>`;
+}
+function showPendingRequest(id) {
+  const request = requestFor(id);
+  if (!request) return;
+  showAction("Pending billing adjustment", adjustmentSummary(request), button("Close request", "close-action"));
 }
 function showAction(title, body, footer) {
   document.querySelector("#action-title").textContent = title;
@@ -234,11 +283,11 @@ function showAction(title, body, footer) {
 }
 function collect(id, recharge = false) {
   const row = charges().find(item => item.id === id);
-  if (!finance() || !row?.remaining || (id === "tuition" && protectedPayment())) return;
-  const amount = recharge ? Math.min(row.due, 27500) : row.remaining;
-  if (!amount) return;
-  const title = recharge ? "Recharge original payment" : "Charge saved payment method";
-  showAction(title, `<form id="collect-form" data-charge="${id}" data-amount="${amount}" data-recharge="${recharge}" novalidate><p class="small-copy">${esc(row.player)} · ${esc(row.title)}</p><dl class="detail-list detail-action"><div><dt>One-time amount</dt><dd class="money">${money(amount)}</dd></div><div><dt>Account holder</dt><dd>Jamie Morgan</dd></div></dl><div class="form-field"><label for="payment-method">Saved payment method</label><select id="payment-method" name="method"><option>Visa ending 4242</option>${recharge ? "" : "<option>Mastercard ending 5454</option>"}</select></div><label class="checkbox-label" for="consent"><input type="checkbox" id="consent" name="consent" aria-describedby="consent-error"><span id="consent-copy">I confirm Jamie Morgan authorized a one-time charge of <strong>${money(amount)}</strong> to <span id="consent-method">Visa ending 4242</span>. This does not change future autopay.</span></label><div id="consent-error" class="field-error" role="alert"></div><div class="notice neutral">This is a simulated payment. No real payment method or provider service will be used.</div></form>`, `${button("Cancel", "close-action")}<button class="button primary" type="submit" form="collect-form">Charge ${money(amount)}</button>`);
+  if (!canCollect(row, recharge)) return;
+  const amount = recharge ? installmentAmount() : row.remaining;
+  const title = recharge ? `Recharge original ${money(amount)}` : `Collect remaining ${money(amount)}`;
+  const scope = recharge ? "Only the complete original payment group for this account is collected. The original result stays in history." : id === "tuition" ? "This collects the full remaining tuition balance, including future installments. It is not limited to the amount due now." : "This collects this charge’s complete remaining balance.";
+  showAction(title, `<form id="collect-form" data-charge="${id}" data-amount="${amount}" data-recharge="${recharge}" novalidate><p class="small-copy">${esc(row.player)} · ${esc(row.title)}${row.share < 1 ? " · Jamie’s 70% share" : ""}</p><div class="notice neutral">${scope}</div><dl class="detail-list detail-action"><div><dt>One-time amount</dt><dd class="money">${money(amount)}</dd></div><div><dt>Account holder</dt><dd>Jamie Morgan</dd></div></dl><div class="form-field"><label for="payment-method">Saved payment method</label><select id="payment-method" name="method">${paymentOptions().map(method => `<option>${method}</option>`).join("")}</select></div><label class="checkbox-label" for="consent"><input type="checkbox" id="consent" name="consent" aria-describedby="consent-error"><span id="consent-copy">I confirm Jamie Morgan authorized a one-time charge of <strong>${money(amount)}</strong> to <span id="consent-method">Visa ending 4242</span>. This does not change future autopay.</span></label><div id="consent-error" class="field-error" role="alert"></div><div class="notice neutral">This is a simulated payment. No real payment method or provider service will be used.</div></form>`, `${button("Cancel", "close-action")}<button class="button primary" type="submit" form="collect-form">${recharge ? "Recharge" : "Collect"} ${money(amount)}</button>`);
 }
 function completeCollection(form) {
   if (submittingPayment) return;
@@ -246,7 +295,10 @@ function completeCollection(form) {
   const row = charges().find(item => item.id === id);
   const amount = Number(form.dataset.amount);
   const recharge = form.dataset.recharge === "true";
-  if (!finance() || !row || !Number.isInteger(amount) || amount <= 0 || amount > row.remaining || (id === "tuition" && protectedPayment())) return;
+  if (!canCollect(row, recharge) || amount !== (recharge ? installmentAmount() : row.remaining) || !paymentOptions().includes(form.elements.method.value)) {
+    document.querySelector("#consent-error").textContent = "Billing or payment eligibility changed. Close this dialog and review the current charge.";
+    return;
+  }
   const consent = form.elements.consent;
   if (!consent.checked) {
     document.querySelector("#consent-error").textContent = "Confirm the account holder approved this exact amount and payment method.";
@@ -283,19 +335,31 @@ function verifyPayment() {
 function receipt(id) {
   const payment = findPayment(id);
   if (payment?.status !== "paid") return;
-  showAction("Payment receipt", `<p class="small-copy">North Valley Volleyball · Synthetic receipt</p><div class="detail-amount detail-action"><div><span class="small muted">Payment received</span><strong class="money">${money(payment.amount)}</strong></div>${badge("Paid", "success")}</div><dl class="detail-list"><div><dt>Account</dt><dd>Jamie Morgan</dd></div><div><dt>Date</dt><dd>${date(payment.date)}</dd></div><div><dt>Original method</dt><dd>${esc(payment.method)}</dd></div></dl><h3>Payment applications</h3>${payment.allocations.map(allocation => `<div class="allocation"><span>${esc(allocation.title)}</span><strong class="money">${money(allocation.amount)}</strong></div>`).join("")}<p class="small-copy detail-action">One payment, shown once. The original method and applications remain part of its history.</p>`, button("Close receipt", "close-action"));
+  showAction("Payment receipt", `<p class="small-copy">North Valley Volleyball · Synthetic receipt</p><div class="detail-amount detail-action"><div><span class="small muted">Original payment received</span><strong class="money">${money(payment.amount)}</strong></div>${badge("Received", "success")}</div>${state.scene === "returned" && payment.id === "oct-attempt" ? `<div class="notice error">This original payment was returned on Oct 20. This receipt preserves the original collection; it does not confirm a current paid balance.</div>` : ""}<dl class="detail-list"><div><dt>Account</dt><dd>Jamie Morgan</dd></div><div><dt>Date</dt><dd>${date(payment.date)}</dd></div><div><dt>Original method</dt><dd>${esc(payment.method)}</dd></div></dl><h3>Payment applications</h3>${payment.allocations.map(allocation => `<div class="allocation"><span>${esc(allocation.title)}</span><strong class="money">${money(allocation.amount)}</strong></div>`).join("")}<p class="small-copy detail-action">One payment, shown once. The original method and applications remain part of its history.</p>`, button("Close receipt", "close-action"));
 }
 function renderAdjustment() {
-  const row = charges().find(item => item.id === "clinic");
+  const id = adjustmentCharge();
+  const row = charges().find(item => item.id === id);
   if (!row || !finance()) { go("billing"); return; }
-  if (state.request) {
-    content.innerHTML = `<div class="form-page">${button(`${icon("back")}Back to Billing`, "billing", "", "subtle")}<div class="section-heading"><div><h2>Billing adjustment pending</h2><p>Leo Morgan · Fall skills clinic</p></div></div><div class="form-panel"><dl class="detail-list"><div><dt>Current due date</dt><dd>Oct 30, 2026</dd></div><div><dt>Requested due date</dt><dd>${date(state.request.date)}</dd></div><div><dt>Decision</dt><dd>Awaiting Finance review</dd></div></dl><h3 class="detail-action">Reason</h3><p>${esc(state.request.reason)}</p><div class="notice neutral">The existing request is awaiting a Finance decision. The balance and current due date have not changed.</div></div></div>`;
+  const request = requestFor(id);
+  if (request) {
+    content.innerHTML = `<div class="form-page">${button(`${icon("back")}Back to Billing`, "billing", "", "subtle")}<div class="section-heading"><h2>Billing adjustment pending</h2></div><div class="form-panel">${adjustmentSummary(request)}</div></div>`;
     return;
   }
-  content.innerHTML = `<div class="form-page">${button(`${icon("back")}Back to Billing`, "billing", "", "subtle")}<div class="section-heading"><div><h2>Request a billing adjustment</h2><p>Leo Morgan · Fall skills clinic</p></div></div><div class="form-panel"><dl class="detail-list"><div><dt>Change requested</dt><dd>Change payment due date</dd></div><div><dt>Remaining balance</dt><dd class="money">${money(row.remaining)}</dd></div><div><dt>Current due date</dt><dd>${date(row.dueDate)}</dd></div></dl><form id="adjustment-form" novalidate><div id="adjustment-error" class="field-error" role="alert"></div><div class="form-field"><label for="requested-date">Requested due date <span class="muted">(required)</span></label><input type="date" id="requested-date" name="date" value="${esc(draft.date)}" aria-describedby="requested-date-error" required><p id="requested-date-error" class="field-error"></p></div><div class="form-field"><label for="adjustment-reason">Reason for the request <span class="muted">(required)</span></label><textarea id="adjustment-reason" name="reason" aria-describedby="adjustment-reason-error" required>${esc(draft.reason)}</textarea><p id="adjustment-reason-error" class="field-error"></p></div><div class="notice neutral">Finance reviews this request before any change is applied. Submitting it does not move the due date, reduce the balance, or record a payment.</div><div class="form-actions">${button("Cancel", "billing")}<button class="button primary" type="submit">Submit request</button></div></form></div></div>`;
+  if (!canAdjust(row)) {
+    content.innerHTML = `<div class="form-page">${button(`${icon("back")}Back to Billing`, "billing", "", "subtle")}<h2>No unpaid payment to reschedule</h2><p>${esc(row.player)} · ${esc(row.title)}</p><div class="notice neutral">This charge has no remaining unpaid balance. A due-date request is unavailable. Its payment and adjustment history remain unchanged.</div></div>`;
+    return;
+  }
+  if (draft.chargeId !== id) draft = { ...freshDraft(), chargeId: id };
+  const paymentAmount = row.id === "tuition" ? Math.min(installmentAmount(), row.remaining) : row.remaining;
+  content.innerHTML = `<div class="form-page">${button(`${icon("back")}Back to Billing`, "billing", "", "subtle")}<div class="section-heading"><div><h2>Request a billing adjustment</h2><p>${esc(row.player)} · ${esc(row.title)} · Jamie Morgan${row.share < 1 ? " · 70% share" : ""}</p></div></div><div class="form-panel"><dl class="detail-list"><div><dt>Change requested</dt><dd>Change payment due date</dd></div><div><dt>Payment affected</dt><dd class="money">${money(paymentAmount)}${row.id === "tuition" ? " · next unpaid installment only" : ""}</dd></div><div><dt>Remaining charge balance</dt><dd class="money">${money(row.remaining)}</dd></div><div><dt>Current due date</dt><dd>${date(row.dueDate)}</dd></div></dl><form id="adjustment-form" data-charge="${row.id}" data-current-date="${row.dueDate}" novalidate><div id="adjustment-error" class="field-error" role="alert"></div><div class="form-field"><label for="requested-date">Requested due date <span class="muted">(required)</span></label><input type="date" id="requested-date" name="date" value="${esc(draft.date)}" aria-describedby="requested-date-error" required><p id="requested-date-error" class="field-error"></p></div><div class="form-field"><label for="adjustment-reason">Reason for the request <span class="muted">(required)</span></label><textarea id="adjustment-reason" name="reason" aria-describedby="adjustment-reason-error" required>${esc(draft.reason)}</textarea><p id="adjustment-reason-error" class="field-error"></p></div><div class="notice neutral">Finance reviews this request before any change is applied. Submitting it does not move a due date, change the total owed, or record a payment. Other charges and installments retain their dates.</div><div class="form-actions">${button("Cancel", "billing")}<button class="button primary" type="submit">Submit request</button></div></form></div></div>`;
 }
 function submitAdjustment(form) {
-  if (!finance() || state.request) return;
+  const row = charges().find(item => item.id === form.dataset.charge);
+  if (!canAdjust(row) || requestFor(row?.id) || form.dataset.charge !== adjustmentCharge() || form.dataset.currentDate !== row?.dueDate) {
+    document.querySelector("#adjustment-error").textContent = "This payment is no longer eligible for this request. Return to Billing and review the current charge.";
+    return;
+  }
   const fields = [form.elements.date, form.elements.reason];
   fields.forEach(field => { field.removeAttribute("aria-invalid"); document.getElementById(`${field.id}-error`).textContent = ""; });
   const invalid = fields.filter(field => !field.value.trim() || (field.name === "date" && !field.validity.valid));
@@ -303,8 +367,8 @@ function submitAdjustment(form) {
     document.querySelector("#adjustment-error").textContent = "Choose a valid requested date and explain the request.";
     invalid.forEach(field => { field.setAttribute("aria-invalid", "true"); document.getElementById(`${field.id}-error`).textContent = field.name === "date" ? "Choose a valid requested payment due date." : "Explain why the due date should change."; }); invalid[0].focus(); return;
   }
-  state.request = { date: form.elements.date.value, reason: form.elements.reason.value.trim() };
-  draft = { date: "", reason: "", dirty: false }; save(); go("billing"); announce("Billing adjustment request submitted for Finance review. Balance and due date unchanged.");
+  state.requests[row.id] = { chargeId: row.id, player: row.player, title: row.title, share: row.share, currentDate: row.dueDate, paymentAmount: row.id === "tuition" ? Math.min(installmentAmount(), row.remaining) : row.remaining, date: form.elements.date.value, reason: form.elements.reason.value.trim() };
+  draft = freshDraft(); save(); go("billing"); announce("Billing adjustment request submitted for Finance review. Balance and due date unchanged.");
 }
 function confirmDiscard(proceed) {
   if (actionDialog.open) return;
@@ -323,8 +387,9 @@ function handleAction(action, id) {
     case "recharge": collect(id, true); break;
     case "verify": verifyPayment(); break;
     case "receipt": receipt(id); break;
-    case "adjust": closeDialogs(); go("adjustment"); break;
-    case "pending-request": showPendingRequest(); break;
+    case "adjust": closeDialogs(); go(`adjustment/${id}`); break;
+    case "pending-request": showPendingRequest(id); break;
+    case "payers": showPayers(); break;
     case "close-inspector": inspector.close(); break;
     case "close-action": if (!submittingPayment) actionDialog.close(); break;
     case "finish-payment": closeDialogs(); showPayment(id); break;
@@ -350,7 +415,7 @@ document.addEventListener("submit", event => {
 document.addEventListener("input", event => {
   if (event.target.id === "charge-search") { search = event.target.value; renderCharges(); }
   if (["requested-date", "adjustment-reason"].includes(event.target.id)) {
-    draft = { date: document.querySelector("#requested-date").value, reason: document.querySelector("#adjustment-reason").value, dirty: true };
+    draft = { chargeId: document.querySelector("#adjustment-form").dataset.charge, date: document.querySelector("#requested-date").value, reason: document.querySelector("#adjustment-reason").value, dirty: true };
     event.target.removeAttribute("aria-invalid");
     document.getElementById(`${event.target.id}-error`).textContent = "";
     if (draft.date && draft.reason.trim() && document.querySelector("#requested-date").validity.valid) document.querySelector("#adjustment-error").textContent = "";
@@ -379,7 +444,7 @@ actionDialog.addEventListener("close", () => { if (!inspector.open) lastTrigger?
 actionDialog.addEventListener("cancel", event => { if (submittingPayment) event.preventDefault(); });
 for (const dialog of [inspector, actionDialog]) dialog.addEventListener("click", event => { if (dialog === actionDialog && submittingPayment) return; if (event.target === dialog) { const box = dialog.getBoundingClientRect(); if (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom) dialog.close(); } });
 window.addEventListener("hashchange", () => {
-  if (draft.dirty && route() !== "adjustment") { const target = route(); history.replaceState(null, "", "#adjustment"); confirmDiscard(() => { draft = { date: "", reason: "", dirty: false }; go(target); }); return; }
+  if (draft.dirty && (route() !== "adjustment" || adjustmentCharge() !== draft.chargeId)) { const target = location.hash.slice(1); history.replaceState(null, "", `#adjustment/${draft.chargeId}`); confirmDiscard(() => { draft = freshDraft(); go(target); }); return; }
   closeDialogs(); render(); const heading = content.querySelector("h2"); if (heading) { heading.tabIndex = -1; heading.focus(); }
 });
 window.addEventListener("beforeunload", event => { if (draft.dirty) { event.preventDefault(); event.returnValue = ""; } });
