@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Interactive Account Billing prototype using synthetic data.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Account Billing · ClubPortalAI prototype</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to Billing</a>
+  <div class="demo-bar" aria-label="Prototype controls">
+    <span class="demo-label"><span class="demo-dot"></span>Interactive prototype <span class="demo-muted">· Synthetic data</span></span>
+    <div class="demo-controls">
+      <label for="scenario">Scenario</label>
+      <select id="scenario" aria-label="Scenario">
+        <option value="failed">Payment failed</option>
+        <option value="unknown">Payment outcome unknown</option>
+        <option value="healthy">Payments on track</option>
+        <option value="empty">No billing yet</option>
+        <option value="error">Loading error</option>
+      </select>
+      <label class="sr-only" for="access">Demo access</label>
+      <select id="access" aria-label="Demo access"><option value="finance">Finance staff</option><option value="readonly">View only</option></select>
+      <button id="reset" class="demo-reset" type="button"><span data-icon="reset"></span>Reset demo</button>
+    </div>
+  </div>
+
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="Club navigation">
+      <div class="brand"><span class="brand-mark">C</span><span>ClubPortal<span class="brand-ai">AI</span></span></div>
+      <div class="club-name"><span class="club-avatar">NV</span><div>North Valley Volleyball<span class="muted small">Club workspace</span></div></div>
+      <div class="nav-items">
+        <span class="nav-item"><span data-icon="grid"></span>Home</span>
+        <span class="nav-item"><span data-icon="calendar"></span>Season planning</span>
+        <span class="nav-item"><span data-icon="player"></span>Players</span>
+        <span class="nav-item selected" aria-current="page"><span data-icon="users"></span>Accounts</span>
+        <span class="nav-item"><span data-icon="card"></span>Finance</span>
+        <span class="nav-item"><span data-icon="message"></span>Communications</span>
+      </div>
+      <div class="sidebar-bottom"><span class="staff-avatar">AL</span><div>Alex Lee<span class="muted small" id="sidebar-role">Finance staff</span></div></div>
+    </aside>
+
+    <div class="workspace">
+      <header class="topbar">
+        <button id="nav-toggle" class="icon-button mobile-only" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar"><span data-icon="menu"></span></button>
+        <div class="breadcrumbs"><span>Manage</span><span data-icon="chevron"></span><span>Accounts</span><span data-icon="chevron"></span><strong>Jamie Morgan</strong></div>
+        <span class="topbar-context">Account workspace</span>
+      </header>
+      <main id="main" tabindex="-1">
+        <header class="account-header">
+          <div class="account-identity"><span class="account-avatar">JM</span><div><h1>Jamie Morgan</h1><p>jamie.morgan@example.org <span class="contact-separator">·</span> Ava &amp; Leo Morgan</p></div></div>
+          <span class="as-of">As of October 23, 2026</span>
+        </header>
+        <nav class="account-tabs" aria-label="Account workspace">
+          <button type="button" data-tab="overview">Overview</button>
+          <span>Players <span class="tab-count">2</span></span>
+          <button type="button" data-tab="billing" class="active" aria-current="page">Billing</button>
+          <button type="button" data-tab="history">History</button>
+          <span>Notes</span>
+        </nav>
+        <div id="page-content" class="page-content" aria-busy="true">
+          <div class="skeleton skeleton-heading"></div><div class="skeleton skeleton-summary"></div><div class="skeleton skeleton-row"></div><div class="skeleton skeleton-row"></div>
+        </div>
+        <noscript><p class="notice">Enable JavaScript to explore this interactive prototype. It contains synthetic data only.</p></noscript>
+        <footer class="page-footer">North Valley Volleyball <span>All names, amounts, and actions in this prototype are synthetic.</span></footer>
+      </main>
+    </div>
+  </div>
+
+  <dialog id="inspector" class="drawer" aria-labelledby="drawer-title">
+    <header class="drawer-header"><div><p class="drawer-context" id="drawer-context"></p><h2 id="drawer-title"></h2></div><button type="button" class="icon-button" data-close="inspector" aria-label="Close details"><span data-icon="close"></span></button></header>
+    <div class="drawer-body" id="drawer-body"></div>
+    <footer class="drawer-footer" id="drawer-footer"></footer>
+  </dialog>
+  <dialog id="action-dialog" class="modal" aria-labelledby="action-title">
+    <header class="drawer-header"><h2 id="action-title"></h2><button type="button" class="icon-button" data-close="action-dialog" aria-label="Close action"><span data-icon="close"></span></button></header>
+    <div class="drawer-body" id="action-body"></div>
+    <footer class="drawer-footer" id="action-footer"></footer>
+  </dialog>
+  <div id="announcement" class="sr-only" role="status" aria-live="polite"></div>
+</body>
+</html>
