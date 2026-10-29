@@ -1,0 +1,88 @@
+Bundled license information:
+
+react/cjs/react.production.min.js:
+  /**
+   * @license React
+   * react.production.min.js
+   *
+   * Copyright (c) Facebook, Inc. and its affiliates.
+   *
+   * This source code is licensed under the MIT license found in the
+   * LICENSE file in the root directory of this source tree.
+   */
+
+scheduler/cjs/scheduler.production.min.js:
+  /**
+   * @license React
+   * scheduler.production.min.js
+   *
+   * Copyright (c) Facebook, Inc. and its affiliates.
+   *
+   * This source code is licensed under the MIT license found in the
+   * LICENSE file in the root directory of this source tree.
+   */
+
+react-dom/cjs/react-dom.production.min.js:
+  /**
+   * @license React
+   * react-dom.production.min.js
+   *
+   * Copyright (c) Facebook, Inc. and its affiliates.
+   *
+   * This source code is licensed under the MIT license found in the
+   * LICENSE file in the root directory of this source tree.
+   */
+
+react/cjs/react-jsx-runtime.production.min.js:
+  /**
+   * @license React
+   * react-jsx-runtime.production.min.js
+   *
+   * Copyright (c) Facebook, Inc. and its affiliates.
+   *
+   * This source code is licensed under the MIT license found in the
+   * LICENSE file in the root directory of this source tree.
+   */
+
+lucide-react/dist/esm/shared/src/utils.js:
+lucide-react/dist/esm/defaultAttributes.js:
+lucide-react/dist/esm/Icon.js:
+lucide-react/dist/esm/createLucideIcon.js:
+lucide-react/dist/esm/icons/arrow-left.js:
+lucide-react/dist/esm/icons/bell.js:
+lucide-react/dist/esm/icons/check.js:
+lucide-react/dist/esm/icons/chevron-down.js:
+lucide-react/dist/esm/icons/chevron-right.js:
+lucide-react/dist/esm/icons/chevron-up.js:
+lucide-react/dist/esm/icons/circle-alert.js:
+lucide-react/dist/esm/icons/circle-check.js:
+lucide-react/dist/esm/icons/circle-help.js:
+lucide-react/dist/esm/icons/clock-3.js:
+lucide-react/dist/esm/icons/columns-2.js:
+lucide-react/dist/esm/icons/contact-round.js:
+lucide-react/dist/esm/icons/credit-card.js:
+lucide-react/dist/esm/icons/history.js:
+lucide-react/dist/esm/icons/layout-dashboard.js:
+lucide-react/dist/esm/icons/list-filter.js:
+lucide-react/dist/esm/icons/list-tree.js:
+lucide-react/dist/esm/icons/list.js:
+lucide-react/dist/esm/icons/menu.js:
+lucide-react/dist/esm/icons/message-square-plus.js:
+lucide-react/dist/esm/icons/message-square.js:
+lucide-react/dist/esm/icons/plus.js:
+lucide-react/dist/esm/icons/rotate-ccw.js:
+lucide-react/dist/esm/icons/search-x.js:
+lucide-react/dist/esm/icons/search.js:
+lucide-react/dist/esm/icons/settings-2.js:
+lucide-react/dist/esm/icons/shield-alert.js:
+lucide-react/dist/esm/icons/sun.js:
+lucide-react/dist/esm/icons/users-round.js:
+lucide-react/dist/esm/icons/volleyball.js:
+lucide-react/dist/esm/icons/x.js:
+lucide-react/dist/esm/lucide-react.js:
+  /**
+   * @license lucide-react v0.462.0 - ISC
+   *
+   * This source code is licensed under the ISC license.
+   * See the LICENSE file in the root directory of this source tree.
+   */
