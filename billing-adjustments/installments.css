@@ -1,0 +1,321 @@
+.installment-summary {
+  background: var(--bg);
+  border-top: 1px solid var(--soft);
+}
+.installment-summary dl {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px 18px;
+  font-variant-numeric: tabular-nums;
+}
+.installment-summary dt {
+  color: var(--muted);
+  font-size: 12px;
+}
+.installment-summary dd {
+  margin-top: 3px;
+  font-size: 16px;
+  font-weight: 650;
+}
+.summary-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+}
+.summary-actions {
+  margin-top: 8px;
+  align-items: center;
+}
+#edit-obligation {
+  padding-inline: 0;
+}
+.obligation-editor {
+  display: grid;
+  grid-template-columns: minmax(0, 200px) auto auto;
+  justify-content: start;
+  align-items: end;
+  gap: 6px 8px;
+  margin-top: 8px;
+}
+.obligation-editor button {
+  min-height: 36px;
+}
+.obligation-editor p {
+  grid-column: 1 / -1;
+}
+.obligation-editor p:empty {
+  display: none;
+}
+.reason-choice {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+}
+.reason-editor {
+  grid-template-columns: minmax(0, 300px) auto auto;
+}
+.difference-panel {
+  background: var(--accent-bg);
+}
+.ledger .difference-row > td {
+  padding: 0;
+  text-align: left;
+}
+#difference-message {
+  font-weight: 650;
+}
+.difference-choices {
+  display: grid;
+  justify-items: start;
+  gap: 8px;
+  min-width: 0;
+  margin: 10px 0 0;
+  padding: 0;
+  border: 0;
+}
+.choice {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px 10px;
+  width: 100%;
+}
+.choice input[type="radio"] {
+  display: inline-block;
+  flex: none;
+  width: 16px;
+  height: 16px;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  accent-color: var(--accent-ink);
+  cursor: pointer;
+}
+.choice label {
+  display: inline;
+  margin: 0;
+  font-weight: 600;
+  cursor: pointer;
+}
+.choice select {
+  width: auto;
+  min-height: 32px;
+  padding-block: 4px;
+}
+.choice .hint, #no-later-payment {
+  font-size: 12px;
+  color: #6a4636;
+}
+.choice .hint {
+  flex-basis: calc(100% - 26px);
+  margin-left: 26px;
+}
+.difference-actions {
+  display: flex;
+  gap: 8px;
+  justify-self: end;
+}
+.difference-actions button {
+  min-height: 36px;
+}
+#apply-difference {
+  padding-inline: 18px;
+}
+/* Wide panels: options side by side so the choice takes one short band, not a tall list. */
+.difference-panel {
+  container-type: inline-size;
+}
+@container (min-width: 760px) {
+  .difference-choices {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
+    column-gap: 16px;
+    align-items: start;
+  }
+  .difference-choices > #no-later-payment {
+    grid-column: 1 / -1;
+  }
+  .difference-choices .choice {
+    display: grid;
+    grid-template-columns: 16px minmax(0, 1fr);
+    gap: 3px 10px;
+  }
+  .choice > select {
+    max-width: 100%;
+  }
+  .choice > select, .choice > .hint {
+    grid-column: 2;
+    margin-left: 0;
+  }
+  .difference-actions {
+    grid-column: -2 / -1;
+    align-self: end;
+  }
+}
+#difference-message:focus {
+  outline: none;
+}
+#difference-message:focus-visible {
+  outline: 2px solid var(--accent-ink);
+  outline-offset: 3px;
+}
+#summary-note.is-changed {
+  color: var(--accent-ink);
+  font-weight: 600;
+}
+#save-status {
+  color: var(--muted);
+}
+#save-status.saved {
+  color: var(--good);
+}
+#add {
+  display: block;
+  margin: 12px 19px 0;
+}
+.schedule-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+.installment-tools {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+}
+.date-tools {
+  display: grid;
+  width: min(100%, 400px);
+  gap: 4px;
+}
+.frequency-controls {
+  display: grid;
+  grid-template-columns: minmax(0, 160px) max-content;
+  align-items: end;
+  gap: 4px 8px;
+}
+.date-tools button {
+  justify-self: start;
+  min-height: 36px;
+}
+.amount-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+}
+.row-menu-trigger {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+}
+.row-menu-trigger::before {
+  content: "";
+  display: block;
+  width: 3px;
+  height: 3px;
+  margin: auto;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 -5px currentColor, 0 5px currentColor;
+}
+.row-menu {
+  inset: auto;
+  position-area: block-end span-inline-start;
+  position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+  align-self: start;
+  justify-self: end;
+  margin: 0;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--card);
+  color: var(--ink);
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.12);
+}
+.row-menu button {
+  display: block;
+  width: 100%;
+  text-align: left;
+}
+.save-bar .save-totals {
+  flex: 0 1 auto;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+}
+.partial-status {
+  background: var(--soft);
+  color: var(--muted);
+}
+.partial-caption {
+  display: block;
+  margin-bottom: 3px;
+}
+.partial-payment td:nth-child(2) {
+  vertical-align: bottom;
+  align-self: end;
+}
+.ledger .empty-row td {
+  text-align: left;
+  color: var(--muted);
+  padding-block: 12px;
+}
+#notes textarea {
+  max-width: 540px;
+}
+#undo:disabled {
+  color: var(--muted);
+  opacity: .65;
+}
+@media (max-width: 400px) {
+  .frequency-controls {
+    grid-template-columns: minmax(0, 1fr) max-content;
+  }
+  .date-tools select {
+    max-width: none;
+  }
+  .amount-tools p {
+    flex-basis: 100%;
+  }
+  .amount-tools button {
+    padding-inline: 0;
+  }
+  .save-bar .actions {
+    flex-wrap: nowrap;
+  }
+  #undo {
+    padding-inline: 6px;
+  }
+}
+@media (max-width: 360px) {
+  .frequency-controls {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 575px) {
+  #add {
+    margin-inline: 12px;
+  }
+  .installment-summary dl {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .obligation-editor {
+    grid-template-columns: auto auto;
+  }
+  .obligation-editor > div {
+    grid-column: 1 / -1;
+  }
+  .ledger .empty-row td {
+    padding: 0;
+  }
+  .ledger .difference-row,
+  .ledger .difference-row > td {
+    display: block;
+    padding: 0;
+  }
+  .choice select {
+    flex-basis: calc(100% - 26px);
+    max-width: none;
+    margin-left: 26px;
+  }
+}

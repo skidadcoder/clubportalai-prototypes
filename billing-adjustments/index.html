@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Adjust installments · ClubPortalAI prototype</title>
+<link rel="stylesheet" href="ledger.css">
+<link rel="stylesheet" href="installments.css">
+<script src="installments.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to adjustment</a>
+<div class="demo"><span><b>Installment-first prototype</b><span class="demo-detail"> · Sample data</span></span><button id="reset" class="quiet">Reset demo</button></div>
+<div class="shell">
+  <aside aria-label="ClubPortalAI staff workspace">
+    <div class="brand"><span class="brand-mark">C</span> ClubPortalAI</div>
+    <div class="club">Sample Volleyball Club</div>
+    <div class="nav-item selected" aria-current="page">Accounts</div>
+  </aside>
+  <div class="workspace">
+    <header class="topbar"><span>Accounts</span><span aria-hidden="true">/</span><span>Jordan Rivera</span><span aria-hidden="true">/</span><strong>Billing</strong></header>
+    <main id="main">
+      <header class="page-heading"><h1>Adjust installments</h1></header>
+      <section class="panel" aria-labelledby="bill-label">
+        <div class="pad">
+          <label id="bill-label" for="bill">Bill</label>
+          <select id="bill">
+            <option value="tuition">Season tuition · Ava Rivera</option>
+            <option value="clinic">Winter skills clinic · Ava Rivera</option>
+            <option value="travel">Travel fee · Ava Rivera</option>
+            <option value="paid">Uniform · Ava Rivera (paid)</option>
+          </select>
+        </div>
+        <div class="installment-summary pad">
+          <dl aria-live="polite" aria-atomic="true">
+            <div><dt>Bill total</dt><dd id="obligation-total"></dd></div>
+            <div><dt>Already paid</dt><dd id="paid"></dd></div>
+            <div><dt>Amount owed</dt><dd id="owed"></dd></div>
+            <div><dt>Next payment date</dt><dd id="next"></dd></div>
+            <div><dt>Final payment date</dt><dd id="final"></dd></div>
+          </dl>
+          <div class="summary-actions">
+            <button id="edit-obligation" class="ghost" aria-controls="obligation-editor" aria-expanded="false">Change bill total</button>
+            <p id="summary-note" class="small muted"></p>
+          </div>
+          <form id="obligation-editor" class="obligation-editor" hidden>
+            <div>
+              <label for="obligation-input">New bill total</label>
+              <div class="money-input"><span aria-hidden="true">$</span><input id="obligation-input" inputmode="decimal" autocomplete="off" aria-describedby="obligation-help"></div>
+            </div>
+            <button type="submit">Apply total</button>
+            <button type="button" class="ghost" id="cancel-obligation">Cancel</button>
+            <p class="small muted" id="obligation-help">Splits the new amount owed evenly across the unpaid payment dates.</p>
+            <p class="error small" id="obligation-error" role="status"></p>
+          </form>
+        </div>
+        <section id="schedule" aria-labelledby="schedule-title">
+          <header class="section-bar schedule-header">
+            <div><h2 id="schedule-title">Payment schedule</h2><p id="schedule-help" class="small muted"></p></div>
+            <div id="helpers" class="installment-tools">
+              <div class="date-tools">
+                <div class="frequency-controls">
+                  <div><label for="interval">Payment frequency</label><select id="interval" aria-describedby="repeat-help">
+                    <option value="month">Monthly</option><option value="14">Every two weeks</option><option value="7">Weekly</option>
+                  </select></div>
+                  <button id="repeat" aria-describedby="repeat-help">Rebuild schedule</button>
+                </div>
+                <p class="small muted" id="repeat-help">Keeps the first and final unpaid dates and splits the balance evenly.</p>
+              </div>
+              <div class="amount-tools">
+                <button id="split" class="ghost" aria-describedby="split-help">Split amounts evenly</button>
+                <p class="small muted" id="split-help">Keeps every unpaid date and the bill total.</p>
+              </div>
+            </div>
+          </header>
+          <table class="ledger">
+            <thead><tr><th scope="col">Installment</th><th scope="col">Due date</th><th scope="col">Amount</th><th scope="col"><span class="sr-only">Row actions</span></th></tr></thead>
+            <tbody id="rows">
+              <tr id="difference-panel" class="difference-row" hidden>
+                <td colspan="4">
+                  <div class="pad difference-panel">
+                    <p id="difference-message" role="status" tabindex="-1" aria-describedby="difference-review-note"></p>
+                    <p id="difference-review-note" class="small muted" role="status"></p>
+                    <fieldset class="difference-choices" aria-labelledby="difference-message">
+                      <div class="choice" id="move-choice">
+                        <input type="radio" name="resolve" id="resolve-move" value="move" aria-describedby="move-note">
+                        <label for="resolve-move" id="move-label"></label>
+                        <select id="later-payment" aria-label="Later payment"></select>
+                        <span class="hint" id="move-note"></span>
+                      </div>
+                      <div class="choice" id="spread-choice">
+                        <input type="radio" name="resolve" id="resolve-spread" value="spread" aria-describedby="spread-note">
+                        <label for="resolve-spread" id="spread-label"></label>
+                        <span class="hint" id="spread-note"></span>
+                      </div>
+                      <p id="no-later-payment" class="small muted" hidden></p>
+                      <div class="choice" id="total-choice">
+                        <input type="radio" name="resolve" id="resolve-total" value="total" aria-describedby="new-obligation">
+                        <label for="resolve-total" id="total-label"></label>
+                        <span class="hint" id="new-obligation"></span>
+                      </div>
+                      <div class="difference-actions">
+                        <button type="button" class="ghost" id="cancel-difference">Cancel</button>
+                        <button type="button" id="apply-difference">Apply</button>
+                      </div>
+                    </fieldset>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <button id="add" hidden>Add installment</button>
+        </section>
+        <div class="pad reason-area" id="notes">
+          <div id="treatment-field">
+            <label for="treatment">Reason for change</label>
+            <div class="reason-choice">
+              <select id="treatment"></select>
+              <button type="button" id="add-reason" class="ghost" aria-controls="reason-editor" aria-expanded="false">Add a reason</button>
+            </div>
+            <form id="reason-editor" class="obligation-editor reason-editor" hidden>
+              <div>
+                <label for="reason-input">New reason</label>
+                <input id="reason-input" maxlength="80" autocomplete="off" aria-describedby="reason-help reason-error">
+              </div>
+              <button type="submit">Add reason</button>
+              <button type="button" class="ghost" id="cancel-reason">Cancel</button>
+              <p id="reason-help" class="small muted">Available for future adjustments in this browser.</p>
+              <p id="reason-error" class="error small" role="status"></p>
+            </form>
+          </div>
+          <label for="comment">Comment (optional)</label>
+          <textarea id="comment" rows="2"></textarea>
+        </div>
+        <div id="save-bar" class="save-bar">
+          <p id="save-totals" class="save-totals small"></p>
+          <p id="error" class="error small" role="status"></p>
+          <p id="save-status" class="small" role="status" tabindex="-1"></p>
+          <div class="actions">
+            <button id="undo" class="ghost" title="Restore this bill to its last saved values" disabled>Reset all changes</button>
+            <button id="save" class="primary">Save adjustment</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+</body>
+</html>
