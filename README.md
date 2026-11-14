@@ -6,7 +6,6 @@ Public, clickable prototypes used for product review and staff feedback.
 
 - `/` — prototype gallery
 - `/parent-portal/` — current Parent Portal prototype for staff review
-- `/parent-portal/homepage-concepts/` — three homepage concepts, starting with Family overview
 - `/parent-portal/validation/` — edge-case validation prototype
 
 Add one folder per capability as prototypes are created, for example:
